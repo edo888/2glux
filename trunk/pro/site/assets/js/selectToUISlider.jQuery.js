@@ -13,7 +13,7 @@
  *  
  * --------------------------------------------------------------------
  */
-
+(function(jQuery) {
 
 jQuery.fn.selectToUISlider = function(settings){
 	var selects = jQuery(this);
@@ -237,4 +237,4 @@ jQuery.fn.selectToUISlider = function(settings){
 	return this;
 }
 
-
+})(sexyJ);

@@ -5,7 +5,7 @@
     <author>Simon Poghosyan</author>
     <creationDate>05/04/2012</creationDate>
     <license>GNU/GPL</license>
-    <version>0.9.5</version>
+    <version>0.9.7</version>
     <description><![CDATA[<a href="http://2glux.com/projects/sexypolling" target="_blank">Sexy Polling</a> by <a href="http://2glux.com" target="_blank">2GLux</a> ]]></description>
 
   	<installfile>install/install.package.php</installfile>

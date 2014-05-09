@@ -53,7 +53,7 @@ if(JRequest::getString("option") != 'com_sexypolling') {
 	if($loadJquery == 1) {
 		$jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/jquery-1.7.2.min.js';
 		$document->addScript($jsFile);
-		$document->addScriptDeclaration ( 'jQuery.noConflict();' );
+		//$document->addScriptDeclaration ( 'jQuery.noConflict();' );
 	}
 	
 	if($loadJqueryUi == 1) {

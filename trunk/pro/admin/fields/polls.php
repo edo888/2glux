@@ -24,7 +24,7 @@ class JFormFieldPolls extends JFormField
 
 		$db = &JFactory::getDBO();
 
-		$query = "SELECT name text,id value FROM #__sexy_categories";
+		$query = "SELECT name text,id value FROM #__sexy_categories WHERE published = '1'";
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 

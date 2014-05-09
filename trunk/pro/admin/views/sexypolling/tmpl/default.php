@@ -88,22 +88,6 @@ JToolBarHelper::preferences('com_sexypolling','500');
 	</div>
 </div>
 
-
-<div id="cpanel">
-	<div class="icon" style="float: right;">
-		<a href="http://2glux.com/projects/sexypolling" target="_blank" title="Buy Version without copyright and limits">
-			<table style="width: 100%;height: 100%;text-decoration: none;">
-				<tr>
-					<td align="center" valign="middle">
-						<img src="components/com_sexypolling/assets/images/shopping_cart.png" /><br />
-						Buy Pro Version
-					</td>
-				</tr>
-			</table>
-		</a>
-	</div>
-</div>
-
 <table class="adminlist" style="width: 100%;margin-top: 12px;"><tr><td align="center"><a href="http://2glux.com/projects/sexypolling" target="_blank">Sexy Polling</a> developed and designed by <a href="http://2glux.com" target="_blank">2GLux.com</a></td></tr></table>
 </div>
 
