@@ -95,6 +95,7 @@ if(is_array($adittional_answers)) {
 
 if ($mode != 'view' && $mode != 'view_by_date' && is_array($answer_id_array)) {
 		foreach ($answer_id_array as $answer_id) {
+			$answer_id = (int)$answer_id;
 			mysql_query("INSERT INTO `".$config->dbprefix."sexy_votes` (`id_answer`,`ip`,`date`,`country`,`city`,`region`,`countrycode`) VALUES ('$answer_id','$ip','$datenow','$countryname','$cityname','$regionname','$countrycode')");
 		}
 		
