@@ -38,7 +38,7 @@ class com_sexypollingInstallerScript {
         // $parent is the class calling this method
         //echo '<p>' . JText::_('COM_HELLOWORLD_UNINSTALL_TEXT') . '</p>';
 
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
         
         
         

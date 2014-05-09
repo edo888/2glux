@@ -47,18 +47,37 @@ Joomla.submitbutton = function(task) {
 </script>
 <?php if(JV == 'j2') {//////////////////////////////////////////////////////////////////////////////////////Joomla2.x/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////?>
 <form action="<?php echo JRoute::_('index.php?option=com_sexypolling&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm">
+	<?php //if(($this->max_id < 2) || ($this->item->id != 0)) {?>
+	<?php if(true) {?>
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'COM_SEXYPOLLING_DETAILS' ); ?></legend>
 		<ul class="adminformlist">
-<?php foreach($this->form->getFieldset() as $field): ?>
+			<?php foreach($this->form->getFieldset() as $field): ?>
 			<li><?php echo $field->label;echo $field->input;?></li>
-<?php endforeach; ?>
+			<?php endforeach; ?>
 		</ul>
 	</fieldset>
 	<div>
 		<input type="hidden" name="task" value="sexypoll.edit" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
+	<?php } else { ?>
+		<div style="color: rgb(235, 9, 9);font-size: 16px;font-weight: bold;"><?php echo JText::_('COM_SEXYPOLLING_PLEASE_UPGRADE_TO_HAVE_MORE_THAN_TWO_POLLS');?></div>
+			<div id="cpanel" style="float: left;">
+			<div class="icon" style="float: right;">
+			<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_BUY_PRO_VERSION_LINK' ); ?>" target="_blank" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_BUY_PRO_VERSION_DESCRIPTION' ); ?>">
+			<table style="width: 100%;height: 100%;text-decoration: none;">
+			<tr>
+			<td align="center" valign="middle">
+			<img src="components/com_sexypolling/assets/images/shopping_cart.png" /><br />
+									<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_BUY_PRO_VERSION' ); ?>
+								</td>
+							</tr>
+						</table>
+					</a>
+				</div>
+			</div>
+	<?php }?>
 </form>
 <table class="adminlist" style="width: 100%;margin-top: 12px;clear: both;"><tr><td align="center" valign="middle" id="twoglux_ext_td" style="position: relative;">
 	<div id="twoglux_bottom_link"><a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_LINK' ); ?>" target="_blank"><?php echo JText::_( 'COM_SEXYPOLLING' ); ?></a> <?php echo JText::_( 'COM_SEXYPOLLING_DEVELOPED_BY' ); ?> <a href="http://2glux.com" target="_blank">2GLux.com</a></div>
@@ -78,7 +97,8 @@ JHtml::_('formbehavior.chosen', 'select');
 	<div class="row-fluid">
 		<!-- Begin Newsfeed -->
 		<div class="span10 form-horizontal">
-			<?php if(($this->max_id < 2) || ($this->item->id != 0)) {?>
+			<?php //if(($this->max_id < 2) || ($this->item->id != 0)) {?>
+			<?php if(true) {?>
 			<fieldset>
 				<div class="tab-content">
 					<div class="tab-pane active" id="details">
@@ -123,3 +143,8 @@ JHtml::_('formbehavior.chosen', 'select');
 	</div>
 </td></tr></table>
 <?php }?>
+<style>
+.form-horizontal .controls {
+margin-left: 200px !important;
+}
+</style>

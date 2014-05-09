@@ -23,7 +23,7 @@ $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
-$saveOrder	= $listOrder == 'sp.ordering';
+$saveOrder	= $listOrder == 'sa.ordering';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_sexypolling'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
@@ -66,7 +66,7 @@ $saveOrder	= $listOrder == 'sp.ordering';
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'sa.ordering', $listDirn, $listOrder); ?>
 					<?php if ($saveOrder) :?>
-						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'sexypolls.saveorder'); ?>
+						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'sexyanswers.saveorder'); ?>
 					<?php endif; ?>
 				</th>
 				

@@ -146,11 +146,11 @@ class SexypollingModelSexyStatistics extends JModelList {
 		$query->join('LEFT', '#__sexy_answers AS sa ON sa.id_poll=sp.id');
 	
 		// Join over the categories.
-		$query->select('sc.name AS category_title');
+		$query->select('sc.name AS category_title,sc.id AS category_id');
 		$query->join('LEFT', '#__sexy_categories AS sc ON sc.id=sp.id_category');
 	
 		// Join over the templates.
-		$query->select('st.name AS template_title');
+		$query->select('st.name AS template_title,st.id AS template_id');
 		$query->join('LEFT', '#__sexy_templates AS st ON st.id=sp.id_template');
 	
 		// Join over the language

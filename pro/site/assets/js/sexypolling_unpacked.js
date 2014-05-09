@@ -230,7 +230,7 @@ $(document).ready(function() {
 					displayLabel:true,
 					onFinish:function(){
 						remove_alert_box();
-					};
+					}
 				});
 			};
 	
@@ -246,6 +246,11 @@ $(document).ready(function() {
 				
 				var t_id = $(this).attr("id");
 				var polling_id = $(this).parent('span').parent('div').find('.poll_answer').attr('name');
+				
+				if(votingPermissions[polling_id] != 'allow_voting') {
+					make_alert(votingPermissions[polling_id],'sexy_error');
+					return false;
+				};
 				
 				//check if already voted
 				var onlyVotedIds = new Array();
@@ -378,7 +383,7 @@ $(document).ready(function() {
 						
 						url: sexyPath + 'components/com_sexypolling/vote.php',
 						type: "post",
-						data: 'polling_id=' + polling_id + '&mode=view' + '&dateformat=' + dateFormat + '&module_id=' + module_id,
+						data: 'polling_id=' + polling_id + '&mode=view' + '&dateformat=' + dateFormat[polling_id] + '&module_id=' + module_id,
 						dataType: "json",
 						success: function(data)
 						{
@@ -422,10 +427,10 @@ $(document).ready(function() {
 								$current_width = $current_width == 0 ? '1' : $current_width;
 								$container.find('#answer_navigation_' + answer_id).attr({"rel_width":$current_width_rel,"ab_width":$current_width}).animate({
 									width: $current_width
-								},1000,sexyAnimationTypeBar[module_id]);
+								},1000,sexyAnimationTypeBar[polling_id]);
 								$container.find('#answer_navigation_' + answer_id).next(".ie-shadow").animate({
 									width: $current_width
-								},1000,sexyAnimationTypeBar[module_id]);
+								},1000,sexyAnimationTypeBar[polling_id]);
 			
 								//set the value
 								$container.find('#answer_votes_data_count_' + answer_id).html(response_votes);
@@ -482,7 +487,7 @@ $(document).ready(function() {
 						
 						$container.find("#answer_" + answers_array[b]).stop(true,false).animate({
 							top: curr_top
-						},1200,sexyAnimationTypeContainerMove[module_id]);
+						},1200,sexyAnimationTypeContainerMove[polling_id]);
 						
 						$container.find("#answer_" + answers_array[b] + " .animation_block")
 							.css({'display':'block','opacity' : '0'})
@@ -498,7 +503,7 @@ $(document).ready(function() {
 							    borderTopRightRadius: animation_styles[module_id+"_"+polling_id][4], 
 							    borderBottomLeftRadius: animation_styles[module_id+"_"+polling_id][5], 
 							    borderBottomRightRadius: animation_styles[module_id+"_"+polling_id][6]
-							},1200,sexyAnimationTypeContainer[module_id],function(){
+							},1200,sexyAnimationTypeContainer[polling_id],function(){
 								$(this).animate({
 									opacity: 0,
 									boxShadow: animation_styles[module_id+"_"+polling_id][8] + '0 0 0 0 ' + animation_styles[module_id+"_"+polling_id][7],
@@ -511,7 +516,7 @@ $(document).ready(function() {
 								    borderTopRightRadius: 0, 
 								    borderBottomLeftRadius: 0, 
 								    borderBottomRightRadius: 0
-								},1200,sexyAnimationTypeContainer[module_id],function() {
+								},1200,sexyAnimationTypeContainer[polling_id],function() {
 								$(this).hide();
 							});
 						});
@@ -567,7 +572,7 @@ $(document).ready(function() {
 					$container.find('.scale_icon').animate({height:32},1000);
 				},1700);
 
-				if(autoOpenTimeline == 1) {
+				if(autoOpenTimeline[polling_id] == 1) {
 					setTimeout(function() {
 						$container.find('.timeline_icon').trigger("click");
 					},2700);
@@ -606,7 +611,7 @@ $(document).ready(function() {
 					({
 						url: sexyPath + 'components/com_sexypolling/vote.php',
 						type: "post",
-						data: 'polling_id=' + polling_id + '&mode=view_by_date&min_date=' + min_date + '&max_date=' + max_date + '&dateformat=' + dateFormat + '&curr_date=' + use_current_date,
+						data: 'polling_id=' + polling_id + '&mode=view_by_date&min_date=' + min_date + '&max_date=' + max_date + '&dateformat=' + dateFormat[polling_id] + '&curr_date=' + use_current_date,
 						dataType: "json",
 						success: function(data)
 						{
@@ -669,13 +674,13 @@ $(document).ready(function() {
 									new_w = $current_width;
 								$container.find('#answer_navigation_' + answer_id).attr({"rel_width":$current_width_rel,"ab_width":$current_width}).stop(true,false).animate({
 									width: new_w
-								},1000,sexyAnimationTypeBar[module_id]);
+								},1000,sexyAnimationTypeBar[polling_id]);
 
 								//ie box shadow animation
 								if($container.find('#answer_navigation_' + answer_id).next(".ie-shadow").width() != $current_width + 4*1)
 									$container.find('#answer_navigation_' + answer_id).next(".ie-shadow").stop(true,false).animate({
 										width: new_w
-									},1000,sexyAnimationTypeBar[module_id]);
+									},1000,sexyAnimationTypeBar[polling_id]);
 				
 								//digit animation //remember min_count_of_votes / $steps_count_percent must have influance on tofixed(it's value) ...
 
@@ -844,7 +849,7 @@ $(document).ready(function() {
 											$container.find("#answer_" + answers_array[b]).css({position:'absolute',top:offsets_array[b],'z-index':curr_z_index});
 											$container.find("#answer_" + answers_array[b]).stop(true,false).animate({
 												top: curr_top
-											},1200,sexyAnimationTypeContainerMove[module_id]);
+											},1200,sexyAnimationTypeContainerMove[polling_id]);
 
 											$container.find("#answer_" + answers_array[b] + " .animation_block")
 												.css({'display':'block'})
@@ -861,7 +866,7 @@ $(document).ready(function() {
 												    borderTopRightRadius: animation_styles[module_id+"_"+polling_id][4], 
 												    borderBottomLeftRadius: animation_styles[module_id+"_"+polling_id][5], 
 												    borderBottomRightRadius: animation_styles[module_id+"_"+polling_id][6]
-												},1200,sexyAnimationTypeContainer[module_id],
+												},1200,sexyAnimationTypeContainer[polling_id],
 												function() {
 													$(this).animate( {
 														opacity: 0,
@@ -875,7 +880,7 @@ $(document).ready(function() {
 													    borderTopRightRadius: 0, 
 													    borderBottomLeftRadius: 0, 
 													    borderBottomRightRadius: 0
-													},1200,sexyAnimationTypeContainer[module_id],function() {
+													},1200,sexyAnimationTypeContainer[polling_id],function() {
 													$(this).hide();
 												})
 											});
@@ -968,7 +973,7 @@ $(document).ready(function() {
 					({
 						url: sexyPath + 'components/com_sexypolling/vote.php',
 						type: "post",
-						data: 'polling_id=' + polling_id +ch_data + '&dateformat=' + dateFormat + additionalAnswers  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion + '&voting_period='+voting_period,
+						data: 'polling_id=' + polling_id +ch_data + '&dateformat=' + dateFormat[polling_id] + additionalAnswers  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion + '&voting_period='+voting_period,
 						dataType: "json",
 						success: function(data)
 						{
@@ -1015,11 +1020,11 @@ $(document).ready(function() {
 								$current_width = $current_width == 0 ? '1' : $current_width;
 								$container.find('#answer_navigation_' + answer_id).attr({"rel_width":$current_width_rel,"ab_width":$current_width}).animate({
 									width: $current_width
-								},1000,sexyAnimationTypeBar[module_id]);
+								},1000,sexyAnimationTypeBar[polling_id]);
 								
 								$container.find('#answer_navigation_' + answer_id).next(".ie-shadow").animate({
 									width: $current_width
-								},1000,sexyAnimationTypeBar[module_id]);
+								},1000,sexyAnimationTypeBar[polling_id]);
 
 								//set the value
 								$container.find('#answer_votes_data_count_' + answer_id).html(response_votes);
@@ -1058,7 +1063,7 @@ $(document).ready(function() {
 											
 											$container.find("#answer_" + answers_array[b]).stop(true,false).animate({
 												top: curr_top
-											},1200,sexyAnimationTypeContainerMove[module_id]);
+											},1200,sexyAnimationTypeContainerMove[polling_id]);
 
 											$container.find("#answer_" + answers_array[b] + " .animation_block")
 												.css({'display':'block','opacity' : '0'})
@@ -1074,7 +1079,7 @@ $(document).ready(function() {
 												    borderTopRightRadius: animation_styles[module_id+"_"+polling_id][4], 
 												    borderBottomLeftRadius: animation_styles[module_id+"_"+polling_id][5], 
 												    borderBottomRightRadius: animation_styles[module_id+"_"+polling_id][6]
-												},1200,sexyAnimationTypeContainer[module_id],function(){
+												},1200,sexyAnimationTypeContainer[polling_id],function(){
 													$(this).animate({
 														opacity: 0,
 														boxShadow: animation_styles[module_id+"_"+polling_id][8] + '0 0 0 0 ' + animation_styles[module_id+"_"+polling_id][7],
@@ -1087,7 +1092,7 @@ $(document).ready(function() {
 													    borderTopRightRadius: 0, 
 													    borderBottomLeftRadius: 0, 
 													    borderBottomRightRadius: 0
-													},1200,sexyAnimationTypeContainer[module_id],function() {
+													},1200,sexyAnimationTypeContainer[polling_id],function() {
 													$(this).hide();
 												});
 											});
@@ -1143,7 +1148,7 @@ $(document).ready(function() {
 										$container.find('.scale_icon').animate({height:32},1000);
 									},1700);
 
-									if(autoOpenTimeline == 1) {
+									if(autoOpenTimeline[polling_id] == 1) {
 										setTimeout(function() {
 											$container.find('.timeline_icon').trigger("click");
 										},2700);
@@ -1203,26 +1208,31 @@ $(document).ready(function() {
 			
 			function make_relative($t) {
 				var module_id = $t.parent('div').parent('div').parent('div').attr('roll');
+				var polling_id = $t.parent('div').parent('div').parent('div').find(".poll_answer").attr('name');
 				$t.parent('div').parent('div').find('.answer_navigation').each(function() {
 					var rel_width = $(this).attr("rel_width");
 					$(this).stop(true,false).animate({
 						width: rel_width
-					},1000,sexyAnimationTypeBar[module_id]);
+					},1000,sexyAnimationTypeBar[polling_id]);
 				});
 			};
 			
 			function make_absolute($t) {
 				var module_id = $t.parent('div').parent('div').parent('div').attr('roll');
+				var polling_id = $t.parent('div').parent('div').parent('div').find(".poll_answer").attr('name');
 				$t.parent('div').parent('div').find('.answer_navigation').each(function() {
 					var ab_width = $(this).attr("ab_width");
 					$(this).stop(true,false).animate({
 						width: ab_width
-					},1000,sexyAnimationTypeBar[module_id]);
+					},1000,sexyAnimationTypeBar[polling_id]);
 				});
 			};
 			
 			function animate_back($t) {
 				$container = $t.parents('.polling_container');
+				
+				//show results button
+				$container.find('.polling_result').removeClass('hide_sexy_button');
 				
 				//uncheck all inpust
 				$container.find('.poll_answer').attr("checked",false);
@@ -1501,7 +1511,7 @@ $(document).ready(function() {
 				({
 					url: sexyPath + 'components/com_sexypolling/addanswer.php',
 					type: "post",
-					data: 'polling_id=' + $poll_id + '&answer=' + added_answer + '&autopublish=' + sexyAutoPublish + '&writeinto=' + writeInto  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion + '&voting_period='+voting_period,
+					data: 'polling_id=' + $poll_id + '&answer=' + added_answer + '&autopublish=' + sexyAutoPublish[$poll_id] + '&writeinto=' + writeInto  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion + '&voting_period='+voting_period,
 					dataType: "json",
 					success: function(data)
 					{
@@ -1511,7 +1521,7 @@ $(document).ready(function() {
 						}
 						
 						$this.parent('div').children('.loading_small').fadeOut(400);
-						if(sexyAutoPublish == 1) {
+						if(sexyAutoPublish[$poll_id] == 1) {
 
 							//disable icon clicking
 							$this.parents('.polling_container').find('.add_answer_icon').addClass('disabled');
@@ -1689,7 +1699,7 @@ $(document).ready(function() {
 					    borderTopRightRadius: animation_styles[module_id+"_"+polling_id][4], 
 					    borderBottomLeftRadius: animation_styles[module_id+"_"+polling_id][5], 
 					    borderBottomRightRadius: animation_styles[module_id+"_"+polling_id][6]
-					},1200,sexyAnimationTypeContainer[module_id],function(){
+					},1200,sexyAnimationTypeContainer[polling_id],function(){
 						$(this).animate({
 							opacity: 0,
 							boxShadow: animation_styles[module_id+"_"+polling_id][8] + '0 0 0 0 ' + animation_styles[module_id+"_"+polling_id][7],
@@ -1702,7 +1712,7 @@ $(document).ready(function() {
 						    borderTopRightRadius: 0, 
 						    borderBottomLeftRadius: 0, 
 						    borderBottomRightRadius: 0
-						},1200,sexyAnimationTypeContainer[module_id],function() {
+						},1200,sexyAnimationTypeContainer[polling_id],function() {
 						$(this).hide();
 						})
 					});
@@ -1716,16 +1726,6 @@ $(document).ready(function() {
 
 			});
 			
-			//add box shadow effect for ie
-			/*
-			if($.browser.msie) {
-			    $(".answer_navigation").each(function() {
-			    	var $elm = $(this);
-				    $elm.after("<div class='ie-shadow'></div>");
-				})
-			}
-			*/
-			
 			//slider function
 			s_length = sexyPollingIds.length;
 			for(var i = 0;i <= s_length; i++) {
@@ -1733,37 +1733,35 @@ $(document).ready(function() {
 					var select1 = sexyPollingIds[i][0];
 					var select2 = sexyPollingIds[i][1];
 					$("#" + select1 + ",#" + select2).selectToUISlider(
+					{
+						labels:0,
+						sliderOptions:
+						{	
+							stop: function(e,ui)
 							{
-								labels:0,
-								sliderOptions:
-												{	
-													stop: function(e,ui)
-																		{
-																			show_polling_by_date($(this).parents('.polling_container'));
-																		}
-												}
+								show_polling_by_date($(this).parents('.polling_container'));
 							}
-					);
+						}
+					});
 				}
 				
 			};
 			
-			if(autoAnimate == 1) {
-				v_length = votedIds.length;
-				for(var i = 0;i <= v_length; i++) {
-					if(typeof votedIds[i] !== 'undefined') {
-						var time = (i * 1 + 1) * 10;
-						var t = $("#res_" + votedIds[i][1] + "_" + votedIds[i][0]);
-						animate_poll(t,time);
-					}
-					
-				};
-				
-				function animate_poll(t,time) {
-					setTimeout(function() {
-						show_polling(t);
-					},time)
+			//autoanimate
+			v_length = votedIds.length;
+			for(var i = 0;i <= v_length; i++) {
+				if(typeof votedIds[i] !== 'undefined' && autoAnimate[votedIds[i][0]] == '1') {
+					var time = (i * 1 + 1) * 10;
+					var t = $("#res_" + votedIds[i][1] + "_" + votedIds[i][0]);
+					animate_poll(t,time);
 				}
+				
+			};
+			
+			function animate_poll(t,time) {
+				setTimeout(function() {
+					show_polling(t);
+				},time)
 			}
 ///////////////////////////////////////////////////////////////Sexy Checkboxes/////////////////////////////////////////////////////////////////////////////////
 	$('.twoglux_styled').each(function() {
