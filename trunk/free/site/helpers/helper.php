@@ -20,7 +20,7 @@ class SexypollingHelper
 		//add scripts, styles
 		$document = JFactory::getDocument();
 		
-		$version = '2.0.0';
+		$version = '2.0.1';
 		
 		$cssFile = JURI::base(true).'/components/com_sexypolling/assets/css/main.css?version='.$version;
 		$document->addStyleSheet($cssFile, 'text/css', null, array());
