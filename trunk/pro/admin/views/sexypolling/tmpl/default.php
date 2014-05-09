@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restircted access');
 
-JToolBarHelper::preferences('com_sexypolling','500');
 ?>
 <div id="m_wrapper">
 <div id="cpanel">

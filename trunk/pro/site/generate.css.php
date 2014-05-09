@@ -28,12 +28,9 @@ mysql_connect($config->host, $config->user, $config->password);
 mysql_select_db($config->db);
 mysql_query("SET NAMES utf8");
 
-
-$module_id = isset($_GET['id_module']) ? (int)$_GET['id_module'] : 0;
 $category_id = isset($_GET['id_category']) ? (int)$_GET['id_category'] : 0;
 $poll_id = isset($_GET['id_poll']) ? (int)$_GET['id_poll'] : 0;
-$global_template = isset($_GET['global_template']) ? (int)$_GET['global_template'] : 0;
-$template_id = isset($_GET['id_template']) ? (int)$_GET['id_template'] : 1;
+$module_id = isset($_GET['module_id']) ? (int)$_GET['module_id'] : 0;
 
 $query = 
 						'SELECT '.
@@ -42,11 +39,7 @@ $query =
 					'FROM '.
 						'`'.$config->dbprefix.'sexy_polls` sp '.
 					'LEFT JOIN '.
-						'`'.$config->dbprefix.'sexy_templates` st ON ';
-if($global_template == 1)
-	$query .= 'st.id = sp.id_template ';
-else
-	$query .= 'st.id = '.$template_id.' ';
+						'`'.$config->dbprefix.'sexy_templates` st ON st.id = sp.id_template ';
 $query .=
 					'WHERE sp.published = \'1\' ';
 if($poll_id != 0)

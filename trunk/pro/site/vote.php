@@ -275,7 +275,7 @@ foreach ($poll_array as $data)
 	echo '"min_date": "'.$data["min_date"].'", ';
 	echo '"order": "'.$ord_final_list[$data["answer_id"]].'", ';
 	echo '"order_start": "'.$ans_orders_start[$data["answer_id"]].'", ';
-	echo '"name": "'.htmlspecialchars ($data["name"],ENT_QUOTES).'", ';
+	echo '"name": "'.str_replace('\\','', htmlspecialchars (stripslashes($data["name"]),ENT_QUOTES)).'", ';
 	echo '"max_date": "'.$data["max_date"].'"';
 	
 	if(sizeof($add_answers) > 0 && $a == 0) {

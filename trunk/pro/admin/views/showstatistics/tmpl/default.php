@@ -47,8 +47,8 @@ $query = "
 				sv.date
 			FROM 
 				#__sexy_polls sp 
-			INNER JOIN #__sexy_answers sa ON sa.id_poll = sp.id AND sa.published <> '-2'
-			INNER JOIN #__sexy_votes sv ON sv.id_answer = sa.id
+			LEFT JOIN #__sexy_answers sa ON sa.id_poll = sp.id AND sa.published <> '-2'
+			LEFT JOIN #__sexy_votes sv ON sv.id_answer = sa.id
 			WHERE sp.id = '$poll_id' 
 			GROUP BY 
 				DATE(sv.date)
@@ -338,7 +338,7 @@ if($totalvotes > 0) {
 					            	
 				            		if($val['id'] == $max_ans_id) {
 					            		echo "{
-						                        name: '".$val['name']."',
+						                        name: '".str_replace(array('\'','"',"'"),"",stripslashes(htmlspecialchars_decode($val['name'],ENT_NOQUOTES)))."',
 						                        y: $perc,
 						                        sliced: true,
 						                        selected: true
@@ -346,7 +346,7 @@ if($totalvotes > 0) {
 				            		}
 				            		else {
 					            		//echo "['".str_replace(array('\'','"'),"",htmlspecialchars_decode($val['name']))."',".$perc."]";
-					            		echo "['".$val['name']."',".$perc."]";
+					            		echo "['".str_replace(array('\'','"',"'"),"",stripslashes(htmlspecialchars_decode($val['name'],ENT_NOQUOTES)))."',".$perc."]";
 				            		}
 			            			if($k != sizeof($statanswersdata) - 1)
 			            				echo ',';	

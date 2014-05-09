@@ -52,6 +52,16 @@ class SexypollingModelSexypolls extends JModelLegacy {
 						'sp.multiple_answers multiple_answers, '.
 						'sp.voting_period voting_period, '.
 						'sp.number_answers number_answers, '.
+						'sp.voting_permission voting_permission, '.
+						'sp.answerpermission answerpermission, '.
+						'sp.autopublish autopublish, '.
+						'sp.baranimationtype baranimationtype, '.
+						'sp.coloranimationtype coloranimationtype, '.
+						'sp.reorderinganimationtype reorderinganimationtype, '.
+						'sp.dateformat dateformat, '.
+						'sp.autoopentimeline autoopentimeline, '.
+						'sp.autoanimate autoanimate, '.
+						'sp.showresultbutton showresultbutton, '.
 						'st.styles styles, '.
 						'sp.name polling_name, '.
 						'sp.question polling_question, '.

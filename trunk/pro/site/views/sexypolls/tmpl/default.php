@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restircted access');
 
-
 //get ip
 $REMOTE_ADDR = null;
 if(isset($_SERVER['REMOTE_ADDR'])) { $REMOTE_ADDR = $_SERVER['REMOTE_ADDR']; }
@@ -23,37 +22,31 @@ elseif(isset($_SERVER['HTTP_VIA'])) { $REMOTE_ADDR = $_SERVER['HTTP_VIA']; }
 else { $REMOTE_ADDR = 'Unknown'; }
 $sexyip = $REMOTE_ADDR;
 
-$userRegistered = (JFactory::getUser()->id == 0) ? false : true;
-
 $comparams = JComponentHelper::getParams( 'com_sexypolling' );
-$answerPermission = $comparams->get( 'answerPermission',1 );
-$autoPublish = $comparams->get( 'autoPublish',1 );
-$autoOpenTimeline = $comparams->get( 'autoOpenTimeline',1 );
-$dateFormat = $comparams->get( 'dateFormat',1 );
-$autoAnimate = $comparams->get( 'autoAnimate',0 );
-$sexyAnimationTypeBar = $comparams->get( 'barAnimationType','linear' );
-$sexyAnimationTypeContainer = $comparams->get( 'colorAnimationType','linear' );
-$sexyAnimationTypeContainerMove = $comparams->get( 'reorderingAnimationType','linear' );
-$version = '1.0.5-pro';
+$version = '1.0.6-pro';
 
+//get user groups
+$user = JFactory::getUser();
+$user_id = $user->get('id');
+jimport( 'joomla.access.access' );
+$groups = JAccess::getGroupsByUser($user_id);
+
+//add scripts, styles
 $document = JFactory::getDocument();
 
 $cssFile = JURI::base(true).'/components/com_sexypolling/assets/css/main.css?version='.$version;
 $document->addStyleSheet($cssFile, 'text/css', null, array());
 
-$cssFile = JURI::base(true).'/components/com_sexypolling/assets/css/ui.slider.extras.css';
-$document->addStyleSheet($cssFile, 'text/css', null, array());
-
-$cssFile = JURI::base(true).'/components/com_sexypolling/assets/css/jquery-ui-1.7.1.custom.css';
+$cssFile = JURI::base(true).'/components/com_sexypolling/assets/css/sexycss-ui.css';
 $document->addStyleSheet($cssFile, 'text/css', null, array());
 
 $cssFile = JURI::base(true).'/components/com_sexypolling/assets/css/countdown.css';
 $document->addStyleSheet($cssFile, 'text/css', null, array());
 
-$jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/jquery-1.7.2.min.js';
+$jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/sexylib.js';
 $document->addScript($jsFile);
 
-$jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/jquery-ui-1.8.19.custom.min.js';
+$jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/sexylib-ui.js';
 $document->addScript($jsFile);
 
 $jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/selectToUISlider.jQuery.js';
@@ -69,17 +62,15 @@ $jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/sexypolling.js
 $document->addScript($jsFile);
 
 $id_category = isset($_REQUEST['category']) ? (int)$_REQUEST['category'] : 0;
-$cssFile = JURI::base(true).'/components/com_sexypolling/generate.css.php?id_category='.$id_category.'&id_module=0&id_template=0&global_template=1';
+$cssFile = JURI::base(true).'/components/com_sexypolling/generate.css.php?id_category='.$id_category.'&module_id=0';
 $document->addStyleSheet($cssFile, 'text/css', null, array());
 
 
 // get a parameter from the module's configuration
 $module_id = 0;
-
 $db = JFactory::getDBO();
 
-
-$polling_words = array(JText::_("COM_SEXYPOLLING_WORD_1"),JText::_("COM_SEXYPOLLING_WORD_2"),JText::_("COM_SEXYPOLLING_WORD_3"),JText::_("COM_SEXYPOLLING_WORD_4"),JText::_("COM_SEXYPOLLING_WORD_5"),JText::_("COM_SEXYPOLLING_WORD_6"),JText::_("COM_SEXYPOLLING_WORD_7"),JText::_("COM_SEXYPOLLING_WORD_8"),JText::_("COM_SEXYPOLLING_WORD_9"),JText::_("COM_SEXYPOLLING_WORD_10"),JText::_("COM_SEXYPOLLING_WORD_11"),JText::_("COM_SEXYPOLLING_WORD_12"),JText::_("COM_SEXYPOLLING_WORD_13"),JText::_("COM_SEXYPOLLING_WORD_14"),JText::_("COM_SEXYPOLLING_WORD_15"),JText::_("COM_SEXYPOLLING_WORD_16"),JText::_("COM_SEXYPOLLING_WORD_17"),JText::_("COM_SEXYPOLLING_WORD_18"),JText::_("COM_SEXYPOLLING_WORD_19"),JText::_("COM_SEXYPOLLING_WORD_20"),JText::_("COM_SEXYPOLLING_WORD_21"),JText::_("COM_SEXYPOLLING_WORD_22"),JText::_("COM_SEXYPOLLING_WORD_23"),JText::_("COM_SEXYPOLLING_WORD_24"));
+$polling_words = array(JText::_("COM_SEXYPOLLING_WORD_1"),JText::_("COM_SEXYPOLLING_WORD_2"),JText::_("COM_SEXYPOLLING_WORD_3"),JText::_("COM_SEXYPOLLING_WORD_4"),JText::_("COM_SEXYPOLLING_WORD_5"),JText::_("COM_SEXYPOLLING_WORD_6"),JText::_("COM_SEXYPOLLING_WORD_7"),JText::_("COM_SEXYPOLLING_WORD_8"),JText::_("COM_SEXYPOLLING_WORD_9"),JText::_("COM_SEXYPOLLING_WORD_10"),JText::_("COM_SEXYPOLLING_WORD_11"),JText::_("COM_SEXYPOLLING_WORD_12"),JText::_("COM_SEXYPOLLING_WORD_13"),JText::_("COM_SEXYPOLLING_WORD_14"),JText::_("COM_SEXYPOLLING_WORD_15"),JText::_("COM_SEXYPOLLING_WORD_16"),JText::_("COM_SEXYPOLLING_WORD_17"),JText::_("COM_SEXYPOLLING_WORD_18"),JText::_("COM_SEXYPOLLING_WORD_19"),JText::_("COM_SEXYPOLLING_WORD_20"),JText::_("COM_SEXYPOLLING_WORD_21"),JText::_("COM_SEXYPOLLING_WORD_22"),JText::_("COM_SEXYPOLLING_WORD_23"),JText::_("COM_SEXYPOLLING_WORD_24"),JText::_("COM_SEXYPOLLING_WORD_25"));
 
 if($this->items === false)
 	$pollings = array();
@@ -93,20 +84,65 @@ $custom_styles = array();
 $voted_ids = array();
 $start_disabled_ids = array();
 $end_disabled_ids = array();
-$date_format = $dateFormat == 1 ? 'str' : 'digits';
 $date_now = strtotime("now");
-//new version added
 $voting_periods = array();
+$voting_permissions = array();
 $number_answers_array = array();
+$answerPermission = array();
+$autoPublish = array();
+$autoOpenTimeline = array();
+$dateFormat = array();
+$autoAnimate = array();
+$sexyAnimationTypeBar = array();
+$sexyAnimationTypeContainer = array();
+$sexyAnimationTypeContainerMove = array();
+
+//function to check if array2 contain an element from array1
+if(!function_exists('if_contain')) {
+	function if_contain($array1,$array2) {
+		if(is_array($array2))
+			foreach($array1 as $val) {
+				if(in_array($val,$array2))
+					return true;
+			}
+		return false;
+	}
+}
 
 if(sizeof($pollings) > 0) {
 	foreach ($pollings as $poll_index => $polling_array) {
+		
+		//create parameters array
+		$autoPublish[$poll_index] = $polling_array[0]->autopublish;
+		$autoOpenTimeline[$poll_index] = $polling_array[0]->autoopentimeline;
+		$dateFormat[$poll_index] = $polling_array[0]->dateformat == 1 ? 'str' : 'digits';
+		$autoAnimate[$poll_index] = $polling_array[0]->autoanimate;
+		$sexyAnimationTypeBar[$poll_index] = $polling_array[0]->baranimationtype;
+		$sexyAnimationTypeContainer[$poll_index] = $polling_array[0]->coloranimationtype;
+		$sexyAnimationTypeContainerMove[$poll_index] = $polling_array[0]->reorderinganimationtype;
+		$showresultbutton = $polling_array[0]->showresultbutton;
 		
 		$number_answers = $polling_array[0]->number_answers;
 		$number_answers_array[$poll_index] = $number_answers;
 		$voting_period = $polling_array[0]->voting_period;
 		$voting_periods[$poll_index] = $voting_period;
-	
+		
+		//check ACL to add answer
+		$add_answer_permissions_id = $polling_array[0]->answerpermission;
+		$query = "SELECT `rules` FROM #__viewlevels WHERE id = '$add_answer_permissions_id'";
+		$db->setQuery($query);
+		$db->query();
+		$levels = explode(',',str_replace(array('[',']'),'',$db->loadResult()));
+		$permission_to_show_add_answer_block = if_contain($levels,$groups);
+		
+		//check ACL to vote
+		$voting_permission_id = $polling_array[0]->voting_permission;
+		$query = "SELECT `rules` FROM #__viewlevels WHERE id = '$voting_permission_id'";
+		$db->setQuery($query);
+		$db->query();
+		$levels = explode(',',str_replace(array('[',']'),'',$db->loadResult()));
+		$voting_permissions[$poll_index] = if_contain($levels,$groups);
+		
 		//check start,end dates
 		if($polling_array[0]->date_start != '0000-00-00' &&  $date_now < strtotime($polling_array[0]->date_start)) {
 			$datevoted = strtotime($polling_array[0]->date_start);
@@ -140,11 +176,13 @@ if(sizeof($pollings) > 0) {
 			if(!in_array($poll_index,array_keys($voted_ids)))
 				$voted_ids[$poll_index] = $voting_period - $hours_diff;
 		}
+		
+		$est_time = isset($voted_ids[$poll_index]) ? (float)$voted_ids[$poll_index] : -1;
 	
 		//set styles
 		$custom_styles[$poll_index] = $polling_array[0]->styles;
 		echo '<div class="polling_container_wrapper" id="mod_'.$module_id.'_'.$poll_index.'" roll="'.$module_id.'"><div class="polling_container" id="poll_'.$poll_index.'">';
-		echo '<div class="polling_name">'.$polling_array[0]->polling_question.'</div>';
+		echo '<div class="polling_name">'.stripslashes($polling_array[0]->polling_question).'</div>';
 	
 		$multiple_answers = $polling_array[0]->multiple_answers;
 		$multiple_answers_info_array[$poll_index] = $multiple_answers;
@@ -155,7 +193,7 @@ if(sizeof($pollings) > 0) {
 			$color_index = $k % 20 + 1;
 			$data_color_index = $k % 9;
 			echo '<li id="answer_'.$poll_data->answer_id.'" class="polling_li"><div class="animation_block"></div>';
-			echo '<div class="answer_name"><label uniq_index="'.$module_id.'_'.$poll_data->answer_id.'" class="twoglux_label">'.$poll_data->answer_name.'</label></div>';
+			echo '<div class="answer_name"><label uniq_index="'.$module_id.'_'.$poll_data->answer_id.'" class="twoglux_label">'.stripslashes($poll_data->answer_name).'</label></div>';
 			echo '<div class="answer_input">';
 	
 			if($multiple_answers == 0)
@@ -174,23 +212,20 @@ if(sizeof($pollings) > 0) {
 		echo '</ul>';
 	
 		//check perrmision, to show add answer option
-		if($answerPermission == 1 || ($answerPermission == 0 && $userRegistered)) {
-			if(!in_array($poll_index,$voted_ids)) {
-				echo '<div class="answer_wrapper opened" ><div style="padding:6px">';
-				echo '<div class="add_answer"><input name="answer_name" class="add_ans_name" value="'.$polling_words[11].'" />
-				<input type="button" value="'.$polling_words[12].'" class="add_ans_submit" /><input type="hidden" value="'.$poll_index.'" class="poll_id" /><img class="loading_small" src="'.JURI::base(true).'/components/com_sexypolling/assets/images/loading_small.gif" /></div>';
-				echo '</div></div>';
-			}
+		if($permission_to_show_add_answer_block) {
+			echo '<div class="answer_wrapper opened" ><div style="padding:6px">';
+			echo '<div class="add_answer"><input name="answer_name" class="add_ans_name" value="'.$polling_words[11].'" />
+			<input type="button" value="'.$polling_words[12].'" class="add_ans_submit" /><input type="hidden" value="'.$poll_index.'" class="poll_id" /><img class="loading_small" src="'.JURI::base(true).'/components/com_sexypolling/assets/images/loading_small.gif" /></div>';
+			echo '</div></div>';
 		}
 	
 		$new_answer_bar_index = ($k + 1) % 20 + 1;
 	
-	
 		echo '<span class="polling_bottom_wrapper1"><img src="components/com_sexypolling/assets/images/loading_polling.gif" class="polling_loading" />';
 		echo '<input type="button" value="'.$polling_words[6].'" class="polling_submit" id="poll_'.$module_id.'_'.$poll_index.'" />';
-		echo '<input type="button" value="'.$polling_words[7].'" class="polling_result" id="res_'.$module_id.'_'.$poll_index.'" /></span>';
+		$result_button_class = (($showresultbutton == 0) && ($est_time < 0)) ? 'hide_sexy_button' : '';
+		echo '<input type="button" value="'.$polling_words[7].'" class="polling_result '.$result_button_class.'" id="res_'.$module_id.'_'.$poll_index.'" /></span>';
 		echo '<div class="polling_info"><table cellpadding="0" cellspacing="0" border="0"><tr><td class="left_col">'.$polling_words[1].':<span class="total_votes_val" style="display:none"></span> </td><td class="total_votes right_col"></td></tr><tr><td class="left_col">'.$polling_words[2].': </td><td class="first_vote right_col"></td></tr><tr><td class="left_col">'.$polling_words[3].': </td><td class="last_vote right_col"></td></tr></table></div>';
-	
 	
 		//timeline
 		$polling_select_id[$poll_index]['select1'] = 'polling_select_'.$module_id.'_'.$poll_index.'_1';
@@ -208,9 +243,7 @@ if(sizeof($pollings) > 0) {
 			$min_date = $max_date = strtotime("now");
 		}
 	
-	
 		$timeline_array = array();
-	
 	
 		for($current = $min_date; $current <= $max_date; $current += 86400) {
 			$timeline_array[] = $current;
@@ -220,11 +253,10 @@ if(sizeof($pollings) > 0) {
 		if(date('F j, Y', $max_date) !== date('F j, Y', $timeline_array[sizeof($timeline_array) - 1]))
 			$timeline_array[] = $max_date;
 	
-	
 		echo '<div class="timeline_wrapper">';
 		echo '<div class="timeline_icon" title="'.$polling_words[4].'"></div>';
 		echo '<div class="sexyback_icon" title="'.$polling_words[19].'"></div>';
-		if($answerPermission == 1 || ($answerPermission == 0 && $userRegistered)) {
+		if($permission_to_show_add_answer_block) {
 			if(!in_array($poll_index,$voted_ids)) {
 				$add_ans_txt = $polling_words[10];
 				$o_class = 'opened';
@@ -255,7 +287,7 @@ if(sizeof($pollings) > 0) {
 			$first_label = 0;
 			$selected = $k == $first_label ? 'selected="selected"' : '';
 	
-			$date_item = $date_format == 'str' ? date('F j, Y', $curr_time) : date('d/m/Y', $curr_time);
+			$date_item = $dateFormat[$poll_index] == 'str' ? date('F j, Y', $curr_time) : date('d/m/Y', $curr_time);
 	
 			echo '<option '.$selected.' value="'.date('Y-m-d', $curr_time).'">'.$date_item.'</option>';
 		}
@@ -274,7 +306,7 @@ if(sizeof($pollings) > 0) {
 			}
 			$selected = $k == sizeof($timeline_array) - 1 ? 'selected="selected"' : '';
 	
-			$date_item = $date_format == 'str' ? date('F j, Y', $curr_time) : date('d/m/Y', $curr_time);
+			$date_item = $dateFormat[$poll_index] == 'str' ? date('F j, Y', $curr_time) : date('d/m/Y', $curr_time);
 	
 			echo '<option '.$selected.' value="'.date('Y-m-d', $curr_time).'">'.$date_item.'</option>';
 		}
@@ -332,10 +364,6 @@ if(sizeof($pollings) > 0) {
 	}
 	$jsInclude .= 'var newAnswerBarIndex = "'.$new_answer_bar_index.'";';
 	$jsInclude .= 'var sexyIp = "'.$sexyip.'";';
-	$jsInclude .= 'var autoOpenTimeline = "'.$autoOpenTimeline.'";';
-	$jsInclude .= 'var autoAnimate = "'.$autoAnimate.'";';
-	$jsInclude .= 'var sexyAutoPublish = "'.$autoPublish.'";';
-	$jsInclude .= 'var dateFormat = "'.$date_format.'";';
 	$jsInclude .= 'var sexyPath = "'.JURI::base(true).'/";';
 	
 	$jsInclude .= 'if (typeof sexyPollingIds === \'undefined\') { var sexyPollingIds = new Array();};';
@@ -343,6 +371,12 @@ if(sizeof($pollings) > 0) {
 	foreach ($polling_select_id as $poll_id) {
 		$jsInclude .= 'sexyPollingIds.push(Array("'.$poll_id["select1"].'","'.$poll_id["select2"].'"));';
 		$k ++;
+	}
+	$jsInclude .= 'if (typeof votingPermissions === \'undefined\') { var votingPermissions = new Array();};';
+	foreach ($voting_permissions as $key => $voting_permission) {
+		$message = $voting_permission ? 'allow_voting' : $polling_words['24'];
+		$jsInclude .= 'votingPermissions.push("'.$key.'");';
+		$jsInclude .= 'votingPermissions["'.$key.'"]="'.$message.'";';
 	}
 	$jsInclude .= 'if (typeof votedIds === \'undefined\') { var votedIds = new Array();};';
 	foreach (array_keys($voted_ids) as $voted_id) {
@@ -370,14 +404,50 @@ if(sizeof($pollings) > 0) {
 	foreach ($number_answers_array as $poll_id => $number_answers_data) {
 		$jsInclude .= 'allowedNumberAnswers.push("'.$poll_id.'");';
 		$jsInclude .= 'allowedNumberAnswers["'.$poll_id.'"]="'.$number_answers_data.'";';
-		//$jsInclude .= 'allowedNumberAnswers.push(Array("'.$poll_id.'","'.$number_answers_data.'"));';
 	}
+	
+	$jsInclude .= 'if (typeof autoOpenTimeline === \'undefined\') { var autoOpenTimeline = new Array();};';
+	foreach ($autoOpenTimeline as $poll_id => $v) {
+		$jsInclude .= 'autoOpenTimeline.push("'.$poll_id.'");';
+		$jsInclude .= 'autoOpenTimeline["'.$poll_id.'"]="'.$v.'";';
+	}
+
+	$jsInclude .= 'if (typeof autoAnimate === \'undefined\') { var autoAnimate = new Array();};';
+	foreach ($autoAnimate as $poll_id => $v) {
+		$jsInclude .= 'autoAnimate.push("'.$poll_id.'");';
+		$jsInclude .= 'autoAnimate["'.$poll_id.'"]="'.$v.'";';
+	}
+
+	$jsInclude .= 'if (typeof sexyAutoPublish === \'undefined\') { var sexyAutoPublish = new Array();};';
+	foreach ($autoPublish as $poll_id => $v) {
+		$jsInclude .= 'sexyAutoPublish.push("'.$poll_id.'");';
+		$jsInclude .= 'sexyAutoPublish["'.$poll_id.'"]="'.$v.'";';
+	}
+
+	$jsInclude .= 'if (typeof dateFormat === \'undefined\') { var dateFormat = new Array();};';
+	foreach ($dateFormat as $poll_id => $v) {
+		$jsInclude .= 'dateFormat.push("'.$poll_id.'");';
+		$jsInclude .= 'dateFormat["'.$poll_id.'"]="'.$v.'";';
+	}
+
 	$jsInclude .= 'if (typeof sexyAnimationTypeBar === \'undefined\') { var sexyAnimationTypeBar = new Array();};';
-	$jsInclude .= 'sexyAnimationTypeBar["'.$module_id.'"] = "'.$sexyAnimationTypeBar.'";';
+	foreach ($sexyAnimationTypeBar as $poll_id => $v) {
+		$jsInclude .= 'sexyAnimationTypeBar.push("'.$poll_id.'");';
+		$jsInclude .= 'sexyAnimationTypeBar["'.$poll_id.'"]="'.$v.'";';
+	}
+
 	$jsInclude .= 'if (typeof sexyAnimationTypeContainer === \'undefined\') { var sexyAnimationTypeContainer = new Array();};';
-	$jsInclude .= 'sexyAnimationTypeContainer["'.$module_id.'"] = "'.$sexyAnimationTypeContainer.'";';
+	foreach ($sexyAnimationTypeContainer as $poll_id => $v) {
+		$jsInclude .= 'sexyAnimationTypeContainer.push("'.$poll_id.'");';
+		$jsInclude .= 'sexyAnimationTypeContainer["'.$poll_id.'"]="'.$v.'";';
+	}
+
 	$jsInclude .= 'if (typeof sexyAnimationTypeContainerMove === \'undefined\') { var sexyAnimationTypeContainerMove = new Array();};';
-	$jsInclude .= 'sexyAnimationTypeContainerMove["'.$module_id.'"] = "'.$sexyAnimationTypeContainerMove.'";';
+	foreach ($sexyAnimationTypeContainerMove as $poll_id => $v) {
+		$jsInclude .= 'sexyAnimationTypeContainerMove.push("'.$poll_id.'");';
+		$jsInclude .= 'sexyAnimationTypeContainerMove["'.$poll_id.'"]="'.$v.'";';
+	}
+	
 	$document->addScriptDeclaration ( $jsInclude );
 ?>
 <?php }?>

@@ -94,7 +94,6 @@ class SexypollingViewSexyPolls extends JViewLegacy {
     		JToolBarHelper::divider();
     	}
 	    
-		JToolBarHelper::preferences('com_sexypolling');
 		JToolBarHelper::divider();
 	}
 	

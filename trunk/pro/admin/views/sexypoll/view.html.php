@@ -31,13 +31,15 @@ class SexypollingViewSexyPoll extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
+		$max_id	= $this->get('max_id');
+		$this->assignRef( 'max_id', $max_id );
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		$this->addToolbar();
+		$this->addToolbar($max_id);
 		parent::display($tpl);
 	}
 
@@ -46,7 +48,7 @@ class SexypollingViewSexyPoll extends JViewLegacy
 	 *
 	 * @since	1.6
 	 */
-	protected function addToolbar()
+	protected function addToolbar($max_id)
 	{
 		JRequest::setVar('hidemainmenu', true);
 

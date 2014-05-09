@@ -21,6 +21,11 @@
 	text-align: left !important;
 	margin: 0 !important;
 	float: none !important;
+	
+	-webkit-transition:  background linear 0.2s, background-color linear 0.2s, box-shadow linear 0.2s, border linear 0.2s;
+	-moz-transition: background linear 0.2s, background-color linear 0.2s, box-shadow linear 0.2s, border linear 0.2s;
+	-o-transition: background linear 0.2s, background-color linear 0.2s, box-shadow linear 0.2s, border linear 0.2s;
+	transition: background linear 0.2s, background-color linear 0.2s, box-shadow linear 0.2s, border linear 0.2s;
 }
 .polling_ul {
 	margin: 10px 15px 10px 0px !important;
@@ -120,6 +125,11 @@ input.poll_answer {
 	width: auto !important;
 	height: auto !important;
 	outline: none !important;
+
+	-webkit-transition:  background linear 0.1s, background-color linear 0.1s, box-shadow linear 0.1s, border linear 0.1s;
+	-moz-transition: background linear 0.1s, background-color linear 0.1s, box-shadow linear 0.1s, border linear 0.1s;
+	-o-transition: background linear 0.1s, background-color linear 0.1s, box-shadow linear 0.1s, border linear 0.1s;
+	transition: background linear 0.1s, background-color linear 0.1s, box-shadow linear 0.1s, border linear 0.1s;
 }
 .polling_result {
 	display: block !important;
@@ -130,6 +140,11 @@ input.poll_answer {
 	width: auto !important;
 	height: auto !important;
 	outline: none !important;
+
+	-webkit-transition:  background linear 0.1s, background-color linear 0.1s, box-shadow linear 0.1s, border linear 0.1s;
+	-moz-transition: background linear 0.1s, background-color linear 0.1s, box-shadow linear 0.1s, border linear 0.1s;
+	-o-transition: background linear 0.1s, background-color linear 0.1s, box-shadow linear 0.1s, border linear 0.1s;
+	transition: background linear 0.1s, background-color linear 0.1s, box-shadow linear 0.1s, border linear 0.1s;
 }
 
 .answer_navigation {
@@ -403,26 +418,31 @@ select.polling_select2 {
 	bottom: 15px !important;
 	right: 15px !important;
 
-box-shadow: inset 0 0 15px 1px rgba(253,18,8,0.78);
-border-radius: 4px;
-background-color: #FF8F00;
-text-shadow: 0 -1px 1px rgba(0,0,0,0.77);
-color: white;
-border: none;
-cursor: pointer;
+	box-shadow: inset 0 0 15px 1px rgba(253,18,8,0.78);
+	border-radius: 4px;
+	background-color: #FF8F00;
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.77);
+	color: white;
+	border: none;
+	cursor: pointer;
+
+	-webkit-transition:  background linear 0.2s, background-color linear 0.2s, box-shadow linear 0.2s, border linear 0.2s;
+	-moz-transition: background linear 0.2s, background-color linear 0.2s, box-shadow linear 0.2s, border linear 0.2s;
+	-o-transition: background linear 0.2s, background-color linear 0.2s, box-shadow linear 0.2s, border linear 0.2s;
+	transition: background linear 0.2s, background-color linear 0.2s, box-shadow linear 0.2s, border linear 0.2s;
 }
 #close_sexy_alert:hover {
-box-shadow: inset 0 0 15px 2px rgba(253,18,8,0.78);
-text-shadow: 0 -1px 1px rgba(0,0,0,0.82);
-background-color: #FFCC00;
+	box-shadow: inset 0 0 15px 2px rgba(253,18,8,0.78);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.82);
+	background-color: #FFCC00;
 }
 .max_allowed_checkox_limit {
-text-decoration: underline;
-text-shadow: 0px 0px 21px rgb(241, 241, 8);
-font-size: 19px;
-font-weight: bold;
-font-family: tahoma,LCD;
-color: rgb(255, 110, 13);
+	text-decoration: underline;
+	text-shadow: 0px 0px 21px rgb(241, 241, 8);
+	font-size: 19px;
+	font-weight: bold;
+	font-family: tahoma,LCD;
+	color: rgb(255, 110, 13);
 }
 
 .sexy_clear {
@@ -653,17 +673,44 @@ color: rgb(255, 110, 13);
    user-select          : none !important;
 }
 
+/*DO NOT CHANGE*/
 .polling_container_wrapper .powered_by {
 	font-style: italic !important;
 	float: right !important;
 	display: block !important;
 	margin: -1px 8px 13px 0 !important;
+	padding: 0 !important;
 	font-weight: bold !important;
-	font-size: 16px !important;;
+	font-size: 16px !important;
+	bottom: 0 !important;
+	left: 0 !important;
+	right: 0 !important;
+	top: 0 !important;
+	position: relative !important;
+	visibility: visible !important;
+	overflow: visible !important;
+	height: auto !important;
+	width: auto !important;
+	text-indent: 0px !important;
+	background: none !important;
 }
 .polling_container_wrapper .powered_by a {
-	font-size: inherit !important;
 	text-decoration: none !important;
+	display: inline-block !important;
+	margin: 0px !important;
+	padding: 0px !important;
+	font-size: 16px !important;
+	bottom: 0 !important;
+	left: 0 !important;
+	right: 0 !important;
+	top: 0 !important;
+	position: relative !important;
+	visibility: visible !important;
+	overflow: visible !important;
+	height: auto !important;
+	width: auto !important;
+	text-indent: 0px !important;
+	background: none !important;
 }
 .polling_container_wrapper .powered_by a:hover {
 	text-decoration: none !important;
@@ -861,7 +908,6 @@ color: rgb(255, 110, 13);
 	text-shadow: 0px -1px 0px rgb(0, 0, 0), 0px 3px 3px rgb(15, 15, 15) !important
 }
 
-
 .polling_container_wrapper .powered_by_12 {
 	color: rgb(255, 255, 255);
 	text-shadow: 0px -1px 0px rgb(0, 0, 0), 0px 2px 3px rgb(15, 15, 15) !important;
@@ -884,16 +930,19 @@ color: rgb(255, 110, 13);
 	height: 118px;
 	margin: 39px 0 0px -76px;
 	border-radius: 12px;
-
-background-color: #FFC800;
-background: linear-gradient(top,rgb(247, 100, 3),#FFC800);
-background: -moz-linear-gradient(top,rgb(247, 100, 3),#FFC800);
-background: -webkit-linear-gradient(top,rgb(247, 100, 3),#FFC800);
-background: -o-linear-gradient(top,rgb(247, 100, 3),#FFC800);
--ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(247, 100, 3)', endColorstr='#FFC800')";
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="rgb(247, 100, 3)", endColorstr="#FFC800");
+	background-color: #FFC800;
+	background: linear-gradient(top,rgb(247, 100, 3),#FFC800);
+	background: -moz-linear-gradient(top,rgb(247, 100, 3),#FFC800);
+	background: -webkit-linear-gradient(top,rgb(247, 100, 3),#FFC800);
+	background: -o-linear-gradient(top,rgb(247, 100, 3),#FFC800);
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(247, 100, 3)', endColorstr='#FFC800')";
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="rgb(247, 100, 3)", endColorstr="#FFC800");
 }
 #estimated_time_message {
 	font-style: italic;
 	color: rgb(233, 144, 10);
+}
+
+.hide_sexy_button {
+	display: none !important;
 }
