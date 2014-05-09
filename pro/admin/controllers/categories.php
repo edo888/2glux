@@ -13,13 +13,9 @@
  *
  */
 
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
-/**
- * sexy_polling Controller
- *
- * @package Joomla
- * @subpackage sexy_polling
- */
 class SexypollingControllerCategories extends SexypollingController {
 
 	/**
