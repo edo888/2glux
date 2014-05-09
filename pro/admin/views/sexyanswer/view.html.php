@@ -31,6 +31,8 @@ class SexypollingViewSexyanswer extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
+		$max_id	= $this->get('max_id');
+		$this->assignRef( 'max_id', $max_id );
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {

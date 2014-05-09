@@ -84,15 +84,7 @@ class SexypollingViewSexypolls extends JViewLegacy {
 		JToolBarHelper::divider();
 		JToolBarHelper::archiveList('sexypolls.archive');
 		JToolBarHelper::checkin('sexypolls.checkin');
-	    
-    	if ($this->state->get('filter.published') == -2) {
-    		JToolBarHelper::deleteList('', 'sexypolls.delete', 'JTOOLBAR_EMPTY_TRASH');
-    		JToolBarHelper::divider();
-    	}
-    	else {
-    		JToolBarHelper::trash('sexypolls.trash');
-    		JToolBarHelper::divider();
-    	}
+    	JToolBarHelper::deleteList('', 'sexypolls.delete', 'JTOOLBAR_DELETE');
 	    
 		JToolBarHelper::divider();
 	}

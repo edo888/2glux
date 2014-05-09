@@ -37,6 +37,27 @@ function get_dates_array($date1,$date2) {
 	return $dates;
 }
 
+function show_buy_pro_link() {
+	echo
+	'
+	<div style="color: rgb(235, 9, 9);font-size: 16px;font-weight: bold;">'.JText::_("COM_SEXYPOLLING_PLEASE_UPGRADE_TO_SEE_STATISTICS").'</div>
+	<div id="cpanel" style="float: left;">
+	<div class="icon" style="float: right;">
+	<a href="'.JText::_("COM_SEXYPOLLING_SUBMENU_BUY_PRO_VERSION_LINK").'" target="_blank" title="'.JText::_("COM_SEXYPOLLING_SUBMENU_BUY_PRO_VERSION_DESCRIPTION").'">
+	<table style="width: 100%;height: 100%;text-decoration: none;">
+	<tr>
+	<td align="center" valign="middle">
+	<img src="components/com_sexypolling/assets/images/shopping_cart.png" /><br />
+	'.JText::_("COM_SEXYPOLLING_SUBMENU_BUY_PRO_VERSION").'
+	</td>
+	</tr>
+	</table>
+	</a>
+	</div>
+	</div>
+	';
+}
+
 $db = JFactory::getDBO();
 $poll_id = (int)$_GET['id'];
 $query = "
@@ -155,6 +176,7 @@ JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')' ,'manage
 
 if($totalvotes > 0) {
 ?>
+<div>
 <script type="text/javascript">
 (function($) {
 	$(document).ready(function() {
@@ -335,10 +357,15 @@ if($totalvotes > 0) {
 				            <?php 
 				            	foreach($statanswersdata as $k => $val) {
 					            	$perc = sprintf ("%.2f", ((100 * $val['votes']) / $totalvotes));
+					            	$val['name'] = preg_replace('/(\<\s\>.*?\<\s\>)/si','',$val['name']);
+					            	$val['name'] = str_replace("\n","",$val['name']);
+					            	$val['name'] = str_replace("\r","",$val['name']);
+					            	
+					            	$val['name'] = preg_replace('/(<[a-zA-Z]+.*?>(.*?)<\/[a-zA-Z]+>)/si','',$val['name']);
 					            	
 				            		if($val['id'] == $max_ans_id) {
 					            		echo "{
-						                        name: '".str_replace(array('\'','"',"'"),"",stripslashes(htmlspecialchars_decode($val['name'],ENT_NOQUOTES)))."',
+						                        name: '".str_replace(array('\'','"',"'"),"",stripslashes(htmlspecialchars_decode(strip_tags($val['name']),ENT_NOQUOTES)))."',
 						                        y: $perc,
 						                        sliced: true,
 						                        selected: true
@@ -346,7 +373,7 @@ if($totalvotes > 0) {
 				            		}
 				            		else {
 					            		//echo "['".str_replace(array('\'','"'),"",htmlspecialchars_decode($val['name']))."',".$perc."]";
-					            		echo "['".str_replace(array('\'','"',"'"),"",stripslashes(htmlspecialchars_decode($val['name'],ENT_NOQUOTES)))."',".$perc."]";
+					            		echo "['".str_replace(array('\'','"',"'"),"",stripslashes(htmlspecialchars_decode(strip_tags($val['name']),ENT_NOQUOTES)))."',".$perc."]";
 				            		}
 			            			if($k != sizeof($statanswersdata) - 1)
 			            				echo ',';	
@@ -362,7 +389,6 @@ if($totalvotes > 0) {
 })
 })(jQuery);
 </script>
-			
 <div style="position: relative;float: left; width: 48%;padding: 8px;border: 1px solid #ccc;border-radius: 6px;box-shadow: inset 0 0 28px -3px #bbb;margin: 15px 0;">
 	<div id="container2" style=""></div>
 	<div style="position: absolute;z-index: 100000;color: red;height: 13px;width: 87px;bottom: 10px;right: 10px;background-color: #fff;"></div>
@@ -376,9 +402,13 @@ if($totalvotes > 0) {
 	<div id="graph_container" style="width: 98%;margin:0 auto;"></div>
 	<div style="position: absolute;z-index: 100000;color: red;height: 13px;width: 200px;bottom: 10px;right: 10px;background-color: #fff;"></div>
 </div>
+</div>
 <?php }
-else {
+elseif($totalvotes == 0) {
 	echo 'No Data';
+}
+else {
+	show_buy_pro_link();
 }?>
 
 
@@ -394,5 +424,6 @@ else {
 		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_LINK' ); ?>" target="_blank" id="twoglux_ext_rate" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_DESCRIPTION' ); ?>">&nbsp;</a>
 		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_LINK' ); ?>" target="_blank" id="twoglux_ext_homepage" style="margin: 0 2px 0 0px;" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_DESCRIPTION' ); ?>">&nbsp;</a>
 		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_SUPPORT_FORUM_LINK' ); ?>" target="_blank" id="twoglux_ext_support" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_SUPPORT_FORUM_DESCRIPTION' ); ?>">&nbsp;</a>
+		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_BUY_PRO_VERSION_LINK' ); ?>" target="_blank" id="twoglux_ext_buy" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_BUY_PRO_VERSION_DESCRIPTION' ); ?>">&nbsp;</a>
 	</div>
 </td></tr></table>

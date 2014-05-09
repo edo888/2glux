@@ -60,15 +60,7 @@ class SexypollingViewSexytemplates extends JViewLegacy {
     	JToolBarHelper::divider();
     	JToolBarHelper::publish('sexytemplates.publish', 'JTOOLBAR_PUBLISH', true);
     	JToolBarHelper::unpublish('sexytemplates.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-    
-    	if ($this->state->get('filter.published') == -2) {
-    		JToolBarHelper::deleteList('', 'sexytemplates.delete', 'JTOOLBAR_EMPTY_TRASH');
-    		JToolBarHelper::divider();
-    	}
-    	else {
-    		JToolBarHelper::trash('sexytemplates.trash');
-    		JToolBarHelper::divider();
-    	}
+    	JToolBarHelper::deleteList('', 'sexytemplates.delete', 'JTOOLBAR_DELETE');
     }
     
     /**

@@ -6,7 +6,7 @@
     <copyright>Copyright (©) 2008-2014 2GLux company. All rights reserved.</copyright>
     <authorEmail>info@2glux.com</authorEmail>
     <authorUrl>http://2glux.com</authorUrl>
-    <version>1.0.9 PRO</version>
+    <version>2.0.0</version>
     <license>GNU/GPL</license>
     <description>MOD_SEXYPOLLING_DESCRIPTION</description>
 	<files>
@@ -15,17 +15,12 @@
 	</files>
 	<languages>
 			<language tag="en-GB">language/en-GB/en-GB.mod_sexypolling.ini</language>
-			<language tag="en-GB">language/en-GB/en-GB.mod_sexypolling.sys.ini</language>
 			<language tag="fr-FR">language/fr-FR/fr-FR.mod_sexypolling.ini</language>
-			<language tag="fr-FR">language/fr-FR/fr-FR.mod_sexypolling.sys.ini</language>
 			<language tag="es-ES">language/es-ES/es-ES.mod_sexypolling.ini</language>
-			<language tag="es-ES">language/es-ES/es-ES.mod_sexypolling.sys.ini</language>
 			<language tag="de-DE">language/de-DE/de-DE.mod_sexypolling.ini</language>
-			<language tag="de-DE">language/de-DE/de-DE.mod_sexypolling.sys.ini</language>
 			<language tag="it-IT">language/it-IT/it-IT.mod_sexypolling.ini</language>
-			<language tag="it-IT">language/it-IT/it-IT.mod_sexypolling.sys.ini</language>
 			<language tag="ru-RU">language/ru-RU/ru-RU.mod_sexypolling.ini</language>
-			<language tag="ru-RU">language/ru-RU/ru-RU.mod_sexypolling.sys.ini</language>
+			<language tag="fa-IR">language/fa-IR/fa-IR.mod_sexypolling.ini</language>
 	</languages>
 	<config>
 	   	<fields name="params">

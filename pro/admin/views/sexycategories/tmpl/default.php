@@ -51,6 +51,9 @@ defined('_JEXEC') or die('Restircted access');
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_NAME', 'sc.name', $listDirn, $listOrder); ?>
 				</th>
+				<th width="15%" class="nowrap hidden-phone center">
+						Shortcode
+				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'sc.published', $listDirn, $listOrder); ?>
 				</th>
@@ -84,6 +87,9 @@ defined('_JEXEC') or die('Restircted access');
 					<a href="<?php echo JRoute::_('index.php?option=com_sexypolling&task=sexycategory.edit&id='.(int) $item->id); ?>">
 						<?php echo $this->escape($item->name); ?>
 					</a>
+				</td>
+				<td class="center hidden-phone">
+					<input class="creative_shortcode" value='[sexypolling category=&quot;<?php echo $item->id;?>&quot;]' onclick="this.select()" readonly="readonly" />
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i,'sexycategories.', true, 'cb', $item->publish_up, $item->publish_down); ?>
@@ -196,6 +202,9 @@ $sortFields = $this->getSortFields();
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_NAME', 'sc.name', $listDirn, $listOrder); ?>
 					</th>
+					<th width="15%" class="nowrap hidden-phone center">
+						Shortcode
+					</th>
 					<th width="1%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'sc.id', $listDirn, $listOrder); ?>
 					</th>
@@ -219,6 +228,9 @@ $sortFields = $this->getSortFields();
 								<?php echo $this->escape($item->name); ?>
 							</a>
 						</div>
+					</td>
+					<td class="center hidden-phone">
+						<input class="creative_shortcode" value='[sexypolling category=&quot;<?php echo $item->id;?>&quot;]' onclick="this.select()" readonly="readonly" />
 					</td>
 					<td align="center hidden-phone">
 						<?php echo $item->id; ?>

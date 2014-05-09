@@ -1,6 +1,21 @@
 (function($) {
+$(window).load(function() {
+	function sp_make_li_h() {
+		$(".polling_li").each(function() {
+			var h = $(this).height();
+			$(this).attr("h_start",h);
+		});
+	};
+	sp_make_li_h();
+	function sp_make_ul_h() {
+		$(".polling_ul").each(function() {
+			var h = $(this).height();
+			$(this).attr("h",h);
+		});
+	};
+	sp_make_ul_h();
+});
 $(document).ready(function() {
-	
 			var sexyCountry = '',
 				sexyCountryCode = '',
 				sexyCity = '',
@@ -8,8 +23,84 @@ $(document).ready(function() {
 			
 			var offset_padding = 2;
 			
-			function check_pro_version() {
+			function sp_make_li_h_() {
+				$(".polling_li").each(function() {
+					var h = $(this).height();
+					$(this).attr("h_start",h);
+				});
+			};
+			function sp_make_ul_h_() {
+				$(".polling_ul").each(function() {
+					var h = $(this).height();
+					$(this).attr("h",h);
+				});
+			};
+			setTimeout(function() {
+				sp_make_li_h_();
+				sp_make_ul_h_();
+			},1000);
+			
+			function check_pro_version($elem) {
+				
 				return true;
+				
+				$elem_1 = $elem.find('.powered_by');
+				$elem_2 = $elem.find('.powered_by a');
+				
+				var sexy_font_size_1 = parseInt($elem_1.css('font-size'));
+				var sexy_top_1 = parseInt($elem_1.css('top'));
+				var sexy_left_1 = parseInt($elem_1.css('left'));
+				var sexy_bottom_1 = parseInt($elem_1.css('bottom'));
+				var sexy_right_1 = parseInt($elem_1.css('right'));
+				var sexy_text_indent_1 = parseInt($elem_1.css('text-indent'));
+				var sexy_margin_top_1 = parseInt($elem_1.css('margin-top'));
+				var sexy_margin_bottom_1 = parseInt($elem_1.css('margin-bottom'));
+				var sexy_margin_left_1 = parseInt($elem_1.css('margin-left'));
+				var sexy_margin_right_1 = parseInt($elem_1.css('margin-right'));
+				var sexy_display_1 = $elem_1.css('display');
+				var sexy_position_1 = $elem_1.css('position');
+				var sexy_width_1 = parseInt($elem_1.css('width'));
+				var sexy_height_1 = parseInt($elem_1.css('height'));
+				var sexy_visibility_1 = $elem_1.css('visibility');
+				var sexy_overflow_1 = $elem_1.css('overflow');
+				var sexy_zindex_1 = parseInt($elem_1.css('z-index'));
+				var sexy_font_size_2 = parseInt($elem_2.css('font-size'));
+				var sexy_top_2 = parseInt($elem_2.css('top'));
+				var sexy_left_2 = parseInt($elem_2.css('left'));
+				var sexy_bottom_2 = parseInt($elem_2.css('bottom'));
+				var sexy_right_2 = parseInt($elem_2.css('right'));
+				var sexy_text_indent_2 = parseInt($elem_2.css('text-indent'));
+				var sexy_margin_top_2 = parseInt($elem_2.css('margin-top'));
+				var sexy_margin_right_2 = parseInt($elem_2.css('margin-right'));
+				var sexy_margin_bottom_2 = parseInt($elem_2.css('margin-bottom'));
+				var sexy_margin_left_2 = parseInt($elem_2.css('margin-left'));
+				var sexy_display_2 = $elem_2.css('display');
+				var sexy_position_2 = $elem_2.css('position');
+				var sexy_width_2 = parseInt($elem_2.css('width'));
+				var sexy_height_2 = parseInt($elem_2.css('height'));
+				var sexy_visibility_2 = $elem_2.css('visibility');
+				var sexy_overflow_2 = $elem_2.css('overflow');
+				var sexy_zindex_2 = parseInt($elem_2.css('z-index'));
+				
+				var txt1 = $.trim($elem_1.html().replace(/<[^>]+>.*?<\/[^>]+>/gi, ''));
+				var txt2 = $.trim($elem_2.html().replace(/<[^>]+>.*?<\/[^>]+>/gi, ''));
+				var txt1_l = parseInt(txt1.length);
+				var txt2_l = parseInt(txt2.length);
+				
+				var a_href = $elem_2.attr("href").replace('http://','');
+				a_href = a_href.replace('www.','');
+				a_href = $.trim(a_href.replace('www',''));
+				a_href_l = parseInt(a_href.length);
+				
+				if(
+						sexy_font_size_1 == '13' && sexy_top_1 == '0' && sexy_left_1 == '0' && sexy_bottom_1 == '0' && sexy_right_1 == '0' && sexy_text_indent_1 == '0' && sexy_margin_top_1 == '-1' && sexy_margin_right_1 == '8' && sexy_margin_bottom_1 == '13' && sexy_margin_left_1 == '0' && 
+						sexy_display_1 == 'block' && sexy_position_1 == 'relative' && sexy_width_1 > '20' && sexy_height_1 > '10' && sexy_visibility_1 == 'visible' && sexy_overflow_1 == 'visible' && sexy_zindex_1 == '10' && 
+						sexy_font_size_2 == '13' && sexy_top_2 == '0' && sexy_left_2 == '0' && sexy_bottom_2 == '0' && sexy_right_2 == '0' && sexy_text_indent_2 == '0' && sexy_margin_top_2 == '0' && sexy_margin_right_2 == '0' && sexy_margin_bottom_2 == '0' && sexy_margin_left_2 == '0' && 
+						sexy_display_2 != 'none' && sexy_position_2 == 'relative' && sexy_width_2 > '20' && sexy_height_2 > '10' && sexy_visibility_2 == 'visible' && sexy_overflow_2 == 'visible' && sexy_zindex_2 == '10' && 
+						txt1 != '' && txt2 == 'Sexy Polling' && txt1_l > 1 && txt2_l == '12' && a_href_l == '30' && a_href == '2glux.com/projects/sexypolling'
+				)
+					return true;
+				return false;
 			};
 			
 			$.ajax
@@ -235,7 +326,8 @@ $(document).ready(function() {
 			};
 	
 			$('.polling_submit').click(function() {
-				if(!check_pro_version()) {
+				$elem = $(this).parents('.polling_container');
+				if(!check_pro_version($elem)) {
 					make_alert('To hide a backlink please purchase a Sexy Polling PRO version','sexy_error');
 					return false;
 				}
@@ -325,7 +417,8 @@ $(document).ready(function() {
 				vote_polling($t);
 			});
 			$('.polling_result').click(function() {
-				if(!check_pro_version()) {
+				$elem = $(this).parents('.polling_container');
+				if(!check_pro_version($elem)) {
 					make_alert('To hide a backlink please purchase a Sexy Polling PRO version','sexy_error');
 					return false;
 				}
@@ -341,6 +434,7 @@ $(document).ready(function() {
 				var polling_id = $t.parent('span').parent('div').find('.poll_answer').attr('name');
 				var module_id = $t.parent('span').parent('div').parent('div').attr('roll');
 				$container = $t.parent('span').parent('div');
+				var sexypolling_token = $container.find('.sexypolling_token').attr("name");
 				
 				//function to remove user added input boxes
 				$container.find('.doNotUncheck').parent('div').parent('div').parent('li').remove();
@@ -377,13 +471,18 @@ $(document).ready(function() {
 
 				//send request
 				var h = $container.find('.answer_votes_data').height();
+				
+				var min_date = $container.find('.polling_select1').val();
+				var max_date = $container.find('.polling_select2').val();
+				
+				//total time = 1000;
 				setTimeout(function() {
 					$.ajax
 					({
 						
 						url: sexyPath + 'components/com_sexypolling/vote.php',
 						type: "post",
-						data: 'polling_id=' + polling_id + '&mode=view' + '&dateformat=' + dateFormat[polling_id] + '&module_id=' + module_id,
+						data: 'polling_id=' + polling_id + '&mode=view_by_date&min_date=' + min_date + '&max_date=' + max_date + '&dateformat=' + dateFormat[polling_id] + '&module_id=' + module_id+'&'+sexypolling_token+'=1',
 						dataType: "json",
 						success: function(data)
 						{
@@ -424,12 +523,15 @@ $(document).ready(function() {
 								$current_width_rel = parseInt($nav_width * percent / 100 );
 								$current_width_rel = $current_width_rel == 0 ? '1' : $current_width_rel;
 								$current_width = parseInt($nav_width * percent / max_percent );
-								$current_width = $current_width == 0 ? '1' : $current_width;
+								$current_width = ($current_width == 0 || isNaN($current_width)) ? '1' : $current_width;
+								
+								$current_width_tobeset = $container.find('.scale_icon').hasClass('opened') ? $current_width_rel : $current_width;
+								
 								$container.find('#answer_navigation_' + answer_id).attr({"rel_width":$current_width_rel,"ab_width":$current_width}).animate({
-									width: $current_width
+									width: $current_width_tobeset
 								},1000,sexyAnimationTypeBar[polling_id]);
 								$container.find('#answer_navigation_' + answer_id).next(".ie-shadow").animate({
-									width: $current_width
+									width: $current_width_tobeset
 								},1000,sexyAnimationTypeBar[polling_id]);
 			
 								//set the value
@@ -459,6 +561,15 @@ $(document).ready(function() {
 			
 			//function to animate elements
 			function animate_poll_items($container,answers_array,polling_id,module_id,total_votes,min_date,max_date,orders_array,orders_array_start) {
+				var s_timeout = 2700;
+				if(
+						$container.find('.polling_info').attr("rell") == 'noanimate' && 
+						$container.find('.sexyback_icon').attr("rell") == 'noanimate' && 
+						$container.find('.timeline_icon').attr("rell") == 'noanimate' && 
+						$container.find('.scale_icon').attr("rell") == 'noanimate' && 
+						$container.find('.add_answer_icon').attr("rell") == 'noanimate'
+					)
+					s_timeout = 1200;
 				
 				setTimeout(function(){
 					
@@ -529,7 +640,7 @@ $(document).ready(function() {
 					
 					$container.find('.polling_ul').css('height',curr_height);
 					
-				},2700,function() {
+				},s_timeout,function() {
 				});
 
 				//show total votes, min and max dates
@@ -575,7 +686,7 @@ $(document).ready(function() {
 				if(autoOpenTimeline[polling_id] == 1) {
 					setTimeout(function() {
 						$container.find('.timeline_icon').trigger("click");
-					},2700);
+					},s_timeout);
 				}
 			}
 
@@ -592,6 +703,7 @@ $(document).ready(function() {
 				var min_date = $t.find('.polling_select1').val();
 				var max_date = $t.find('.polling_select2').val();
 				$container = $t;
+				var sexypolling_token = $container.find('.sexypolling_token').attr("name");
 
 				//clear all intervals
 				for(i_v in $digit_int) {
@@ -611,7 +723,7 @@ $(document).ready(function() {
 					({
 						url: sexyPath + 'components/com_sexypolling/vote.php',
 						type: "post",
-						data: 'polling_id=' + polling_id + '&mode=view_by_date&min_date=' + min_date + '&max_date=' + max_date + '&dateformat=' + dateFormat[polling_id] + '&curr_date=' + use_current_date,
+						data: 'polling_id=' + polling_id + '&mode=view_by_date&min_date=' + min_date + '&max_date=' + max_date + '&dateformat=' + dateFormat[polling_id] + '&curr_date=' + use_current_date+'&'+sexypolling_token+'=1',
 						dataType: "json",
 						success: function(data)
 						{
@@ -666,12 +778,13 @@ $(document).ready(function() {
 							 	$current_width_rel = parseInt($nav_width * percent / 100 );
 								$current_width_rel = $current_width_rel == 0 ? '1' : $current_width_rel;
 								$current_width = parseInt($nav_width * percent / max_percent );
-								$current_width = $current_width == 0 ? '1' : $current_width;
+								$current_width = ($current_width == 0 || isNaN($current_width)) ? '1' : $current_width;
 								
 								if($container.find('.scale_icon').hasClass('opened'))
 									new_w = $current_width_rel;
 								else
 									new_w = $current_width;
+								
 								$container.find('#answer_navigation_' + answer_id).attr({"rel_width":$current_width_rel,"ab_width":$current_width}).stop(true,false).animate({
 									width: new_w
 								},1000,sexyAnimationTypeBar[polling_id]);
@@ -909,6 +1022,7 @@ $(document).ready(function() {
 				var polling_id = $t.parent('span').parent('div').find('.poll_answer').attr('name');
 				var module_id = $t.parent('span').parent('div').parent('div').attr('roll');
 				$container = $t.parent('span').parent('div');
+				var sexypolling_token = $container.find('.sexypolling_token').attr("name");
 				
 				var voting_period = voting_periods[module_id + '_' + polling_id];
 				
@@ -968,15 +1082,22 @@ $(document).ready(function() {
 				$t.parent('span').parent('div').find('.poll_answer:checked').not('.doNotUncheck').each(function() {
 					ch_data += '&answer_id[]=' + $(this).val();
 				});
+				
+				var min_date = $container.find('.polling_select1').val();
+				var max_date = $container.find('.polling_select2').val();
+				
 				setTimeout(function() {
 					$.ajax
 					({
 						url: sexyPath + 'components/com_sexypolling/vote.php',
 						type: "post",
-						data: 'polling_id=' + polling_id +ch_data + '&dateformat=' + dateFormat[polling_id] + additionalAnswers  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion + '&voting_period='+voting_period,
+						data: 'polling_id=' + polling_id +ch_data + '&dateformat=' + dateFormat[polling_id] + additionalAnswers  + '&min_date=' + min_date + '&max_date=' + max_date + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion + '&voting_period='+voting_period+'&'+sexypolling_token+'=1',
 						dataType: "json",
 						success: function(data)
 						{
+							if((data[0].invalid) == 'invalid_token') 
+								make_alert('Invalid Token','sexy_error');
+							
 							$container.find('.doNotUncheck').each(function(i) {
 								if(typeof data[0].addedanswers !== 'undefined') {
 									$(this).parents('li').attr("id",'answer_' + data[0].addedanswers[i]);
@@ -1017,13 +1138,16 @@ $(document).ready(function() {
 								$current_width_rel = parseInt($nav_width * percent / 100 );
 								$current_width_rel = $current_width_rel == 0 ? '1' : $current_width_rel;
 								$current_width = parseInt($nav_width * percent / max_percent );
-								$current_width = $current_width == 0 ? '1' : $current_width;
+								$current_width = ($current_width == 0 || isNaN($current_width)) ? '1' : $current_width;
+								
+								$current_width_tobeset = $container.find('.scale_icon').hasClass('opened') ? $current_width_rel : $current_width;
+								
 								$container.find('#answer_navigation_' + answer_id).attr({"rel_width":$current_width_rel,"ab_width":$current_width}).animate({
-									width: $current_width
+									width: $current_width_tobeset
 								},1000,sexyAnimationTypeBar[polling_id]);
 								
 								$container.find('#answer_navigation_' + answer_id).next(".ie-shadow").animate({
-									width: $current_width
+									width: $current_width_tobeset
 								},1000,sexyAnimationTypeBar[polling_id]);
 
 								//set the value
@@ -1034,6 +1158,16 @@ $(document).ready(function() {
 								
 								//show answer data
 								$container.find('.answer_votes_data').css({'display':'block','height':0}).animate({height:h},1000);
+								
+								var s_timeout = 2700;
+								if(
+										$container.find('.polling_info').attr("rell") == 'noanimate' && 
+										$container.find('.sexyback_icon').attr("rell") == 'noanimate' && 
+										$container.find('.timeline_icon').attr("rell") == 'noanimate' && 
+										$container.find('.scale_icon').attr("rell") == 'noanimate' && 
+										$container.find('.add_answer_icon').attr("rell") == 'noanimate'
+									)
+									s_timeout = 1200;
 
 								//set to absolute
 								if(i == 0) {
@@ -1104,7 +1238,7 @@ $(document).ready(function() {
 										};
 										$container.find('.polling_ul').css('height',curr_height);
 										
-									},2700);
+									},s_timeout);
 									
 									//show total votes, min and max dates
 									total_votes = this.total_votes;
@@ -1151,7 +1285,7 @@ $(document).ready(function() {
 									if(autoOpenTimeline[polling_id] == 1) {
 										setTimeout(function() {
 											$container.find('.timeline_icon').trigger("click");
-										},2700);
+										},s_timeout);
 									};
 								};
 							 	
@@ -1414,6 +1548,13 @@ $(document).ready(function() {
 			
 			//add new answer functions
 			$('.add_ans_submit').click(function() {
+				var sexypolling_token = $(this).parents('.polling_container_wrapper').find('.sexypolling_token').attr("name");
+				
+				var answers_count = parseInt($(this).parents('.polling_container_wrapper').find('.answer_input').length);
+				if(answers_count >= 5) {
+					make_alert('This poll can not have more than 5 answers','sexy_error');
+					return false;
+				}
 				//check count allowed options
 				if(!check_allowed_answers_count($(this).parents('.polling_container_wrapper')))
 					return false;
@@ -1511,10 +1652,13 @@ $(document).ready(function() {
 				({
 					url: sexyPath + 'components/com_sexypolling/addanswer.php',
 					type: "post",
-					data: 'polling_id=' + $poll_id + '&answer=' + added_answer + '&autopublish=' + sexyAutoPublish[$poll_id] + '&writeinto=' + writeInto  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion + '&voting_period='+voting_period,
+					data: 'polling_id=' + $poll_id + '&answer=' + added_answer + '&autopublish=' + sexyAutoPublish[$poll_id] + '&writeinto=' + writeInto  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion + '&voting_period='+voting_period+'&'+sexypolling_token+'=1',
 					dataType: "json",
 					success: function(data)
 					{
+						if((data[0].invalid) == 'invalid_token') 
+							make_alert('Invalid Token','sexy_error');
+						
 						if(buttonType == 'radio' || (buttonType == 'checkbox' && cOpened)) {
 							$this.parents('.polling_container').find('.add_answer_icon').addClass('voted_button');
 							$this.parents('.polling_container').find('.polling_submit').addClass('voted_button');
