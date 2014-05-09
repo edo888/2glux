@@ -1,19 +1,17 @@
 <?php
 /**
- * Joomla! 1.5 component sexy_polling
+ * Joomla! component sexypolling
  *
  * @version $Id: controller.php 2012-04-05 14:30:25 svn $
  * @author Simon Poghosyan
  * @package Joomla
- * @subpackage sexypolling
+ * @subpackage com_sexypolling
  * @license GNU/GPL
- *
- *
  *
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restircted access');
 
 jimport( 'joomla.application.component.controller' );
 
@@ -24,17 +22,16 @@ jimport( 'joomla.application.component.controller' );
  * @package Joomla
  * @subpackage sexy_polling
  */
-class SexypollingController extends JController {
+class SexypollingController extends JControllerLegacy {
+	
+	/**
+	 * @var		string	The default view.
+	 * @since	1.6
+	 */
+	protected $default_view = 'sexypolls';
 
-    function display()
-    {
-		//Set the default view, just in case
-		$view = JRequest::getCmd('view');
-		if(empty($view)) {
-			JRequest::setVar('view', 'sexypolls');
-		};
-
+    public function display($cachable = false, $urlparams = false) {
 		parent::display();
-    }// function
+    }
 }
 ?>

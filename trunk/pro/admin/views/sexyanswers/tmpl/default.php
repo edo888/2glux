@@ -1,135 +1,318 @@
 <?php 
 /**
- * Joomla! 1.5 component sexy_polling
+ * Joomla! component sexypolling
  *
  * @version $Id: default.php 2012-04-05 14:30:25 svn $
- * @author Simon Poghosyan
- * @package Joomla
- * @subpackage sexy_polling
+ * @author 2GLux.com
+ * @package Sexy Polling
+ * @subpackage com_sexypolling
  * @license GNU/GPL
  *
- *
  */
-defined('_JEXEC') or die('Restricted access'); 
+
+// no direct access
+defined('_JEXEC') or die('Restircted access');
 ?>
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php if(JV == 'j2') {//////////////////////////////////////////////////////////////////////////////////////Joomla2.x/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////?>
+<?php 
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.multiselect');
 
-<form action="index.php" method="post" name="adminForm">
-<table style="width:100%"><tr><td align="left" width="100%">
-   				<b><?php echo JText::_('Filter');?>:</b>
-   				
-   				<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($this->filter->search);?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_state').value='';this.form.getElementById('id_poll').value=0;this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+$user		= JFactory::getUser();
+$userId		= $user->get('id');
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
+$saveOrder	= $listOrder == 'sp.ordering';
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_sexypolling'); ?>" method="post" name="adminForm" id="adminForm">
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('COM_SEXYPOLLING_FILTER_LABEL'); ?></label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_SEXYPOLLING_SEARCH_BY_NAME'); ?>" />
+			<button type="submit"><?php echo JText::_('COM_SEXYPOLLING_SEARCH'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('COM_SEXYPOLLING_RESET'); ?></button>
+		</div>
+		<div class="filter-select fltrt">
+
+			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('COM_SEXYPOLLING_SELECT_STATUS');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
+			</select>
+
+			<select name="filter_poll_id" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('COM_SEXYPOLLING_SELECT_POLL');?></option>
+				<?php echo JHtml::_('select.options', $this->poll_options, 'value', 'text', $this->state->get('filter.poll_id'));?>
+			</select>
+		</div>
+	</fieldset>
+	<div class="clr"> </div>
+
+	<table class="adminlist">
+		<thead>
+			<tr>
+				<th width="1%">
+					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+				</th>
+				<th>
+					<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_NAME', 'sa.name', $listDirn, $listOrder); ?>
+				</th>
+				<th>
+					<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_POLL', 'sp.name', $listDirn, $listOrder); ?>
+				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'sa.published', $listDirn, $listOrder); ?>
+				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'sa.ordering', $listDirn, $listOrder); ?>
+					<?php if ($saveOrder) :?>
+						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'sexypolls.saveorder'); ?>
+					<?php endif; ?>
+				</th>
+				
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_NUM_VOTES', 'count_votes', $listDirn, $listOrder); ?>
+				</th>
+				<th width="1%">
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'sa.id', $listDirn, $listOrder); ?>
+				</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="7">
+					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
-				<td nowrap="nowrap">
-				<?php echo JText::_('Poll');?>:
-				<select onchange="document.adminForm.id_poll.value=this.value; submitform();" name="period">
-					<option <?php if($this->filter->id_poll == 0) { ?> selected="selected" <?php } ?> value="">
-						<?php echo JText::_('All');?>
-					</option>
-					<?php foreach($this->filter->polls AS $poll) { ?>
-					<option <?php if($poll->id == $this->filter->id_poll) { ?> selected="selected" <?php } ?> value="<?php echo $poll->id;?>">
-						<?php echo $poll->name;?>
-					</option>
-					<?php } ?>
-				</select>
-				<?php echo JHTML::_('grid.state',  $this->filter->filter_state );?>
-</td></tr></table>
+			</tr>
+		</tfoot>
+		<tbody>
+		<?php
+		$n = count($this->items);
+		foreach ($this->items as $i => $item) :
+			$ordering	= $listOrder == 'sa.ordering';
+		
+			?>
+			<tr class="row<?php echo $i % 2; ?>">
+				<td class="center">
+					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+				</td>
+				<td>
+					<a href="<?php echo JRoute::_('index.php?option=com_sexypolling&task=sexyanswer.edit&id='.(int) $item->id); ?>">
+						<?php echo $this->escape($item->name); ?>
+					</a>
+				</td>
+				<td>
+					<a href="<?php echo JRoute::_('index.php?option=com_sexypolling&task=sexypoll.edit&id='.(int) $item->poll_id); ?>">
+						<?php echo $this->escape($item->poll_name); ?>
+					</a>
+				</td>
+				<td align="center">
+					<?php echo JHtml::_('jgrid.published', $item->published, $i,'sexyanswers.', true, 'cb', $item->publish_up, $item->publish_down); ?>
+				</td>
+				<td class="order">
+					<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
+					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled; ?> class="text-area-order" />
+				</td>
+				<td align="center">
+					<?php echo $item->count_votes; ?>
+				</td>
+				<td align="center">
+					<?php echo $item->id; ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
 
-<div id="editcell">
-    <table class="adminlist">
-    <thead>
-        <tr>
-            <th width="5">
-               <?php echo JText::_( 'NUM' ); ?>
-            </th>
-            <th width="150">
-               <?php echo JHTML::_('grid.sort',   'Poll Title', 'sp.name', @$this->filter->filter_order_Dir, @$this->filter->filter_order ); ?>
-            </th>
-            <th width="20">
-              <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
-            </th>
-            <th>
-               <?php echo JHTML::_('grid.sort',   'Answer', 'sa.name', @$this->filter->filter_order_Dir, @$this->filter->filter_order ); ?>
-            </th>
-            <th width="5%">
-                <?php echo JHTML::_('grid.sort',   'Votes', 'count_votes', @$this->filter->filter_order_Dir, @$this->filter->filter_order ); ?>
-            </th>
-            <th width="5%">
-                <?php echo JHTML::_('grid.sort',   'Published', 'sa.published', @$this->filter->filter_order_Dir, @$this->filter->filter_order ); ?>
-            </th>
-             <th width="1%">
-            	<?php echo JHTML::_('grid.order', $this->items, 'filesave.png', 'saveorderanswers' ); ?>
-            </th>
-             <th width="1%">
-                <?php echo JHTML::_('grid.sort',   'ID', 'sa.id', @$this->filter->filter_order_Dir, @$this->filter->filter_order ); ?>
-            </th>
-        </tr>            
-    </thead>
-    <tfoot>
-		<tr>
-			<td colspan="9">
-				<?php echo $this->pagination->getListFooter(); ?>
-			</td>
-		</tr>
-	</tfoot>
-    <tbody>
-    <?php
-    $k = 0;
-    for ($i=0, $n=count( $this->items ); $i < $n; $i++)
-    {
-        $row =& $this->items[$i];
-        $checked    = JHTML::_( 'grid.id', $i, $row->answer_id );
-        $link = JRoute::_( 'index.php?option=com_sexypolling&controller=answers&task=edit&cid[]='. $row->answer_id );
-        $published 	= JHTML::_('grid.published', $row, $i );
- 
-        echo $poll_name;
-        ?>
-        <tr class="<?php echo "row$k"; ?>">
-            <td>
-                <?php echo $i; ?>
-            </td>
-            <td>
-                <?php echo $row->poll_name; ?>
-            </td>
-            <td>
-              <?php echo $checked; ?>
-            </td>
-             <td>
-                 <a href="<?php echo $link; ?>"><?php echo $row->answer_name; ?></a>
-            </td>
-            <td align="center">
-				<?php echo $row->count_votes; ?>
-			</td>
-            <td align="center">
-				<?php echo $published;?>
-			</td>
-			<td class="order" >
-				<input type="text" name="order[]" size="5" value="<?php echo $row->order; ?>" class="text_area" style="text-align: center" />
-			</td>
-			<td>
-                <?php echo $row->answer_id; ?>
-            </td>
-        </tr>
-        <?php
-        $k = 1 - $k;
-    }
-    ?>
-    </tbody>
-    </table>
-</div>
- 
-<input type="hidden" name="option" value="com_sexypolling" />
-<input type="hidden" name="view" value="sexyanswers" />
-<input type="hidden" name="task" value="" />
-<input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="id_poll" id="id_poll" value="<?php echo $this->filter->id_poll;?>" />
-<input type="hidden" name="filter_order" value="<?php echo $this->filter->filter_order; ?>" />
-<input type="hidden" name="filter_order_Dir" value="<?php echo $this->filter->filter_order_Dir; ?>" />
-<input type="hidden" name="controller" value="answers" />
-
- 
+	<div>
+		<input type="hidden" name="view" value="sexyanswers" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+		<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>
+<table class="adminlist" style="width: 100%;margin-top: 12px;clear: both;"><tr><td align="center" valign="middle" id="twoglux_ext_td" style="position: relative;">
+	<div id="twoglux_bottom_link"><a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_LINK' ); ?>" target="_blank"><?php echo JText::_( 'COM_SEXYPOLLING' ); ?></a> <?php echo JText::_( 'COM_SEXYPOLLING_DEVELOPED_BY' ); ?> <a href="http://2glux.com" target="_blank">2GLux.com</a></div>
+	<div style="position: absolute;right: 2px;top: 7px;">
+		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_LINK' ); ?>" target="_blank" id="twoglux_ext_rate" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_DESCRIPTION' ); ?>">&nbsp;</a>
+		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_LINK' ); ?>" target="_blank" id="twoglux_ext_homepage" style="margin: 0 2px 0 0px;" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_DESCRIPTION' ); ?>">&nbsp;</a>
+		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_SUPPORT_FORUM_LINK' ); ?>" target="_blank" id="twoglux_ext_support" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_SUPPORT_FORUM_DESCRIPTION' ); ?>">&nbsp;</a>
+	</div>
+</td></tr></table>
+<?php }elseif(JV == 'j3') {//////////////////////////////////////////////////////////////////////////////////////Joomla3.x/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////?>
+<?php 
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::_('bootstrap.tooltip');
+JHtml::_('behavior.multiselect');
+JHtml::_('dropdown.init');
+JHtml::_('formbehavior.chosen', 'select');
 
-<table class="adminlist" style="width: 100%;margin-top: 12px;"><tr><td align="center"><a href="http://2glux.com/projects/sexypolling" target="_blank">Sexy Polling</a> developed and designed by <a href="http://2glux.com" target="_blank">2GLux.com</a></td></tr></table>
+$user		= JFactory::getUser();
+$userId		= $user->get('id');
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
+$archived	= $this->state->get('filter.published') == 2 ? true : false;
+$trashed	= $this->state->get('filter.published') == -2 ? true : false;
+$saveOrder	= $listOrder == 'sa.ordering';
+if ($saveOrder)
+{
+	$saveOrderingUrl = 'index.php?option=com_sexypolling&task=sexyanswers.saveOrderAjax&tmpl=component';
+	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+}
+$sortFields = $this->getSortFields();
+?>
+<script type="text/javascript">
+	Joomla.orderTable = function() {
+		table = document.getElementById("sortTable");
+		direction = document.getElementById("directionTable");
+		order = table.options[table.selectedIndex].value;
+		if (order != '<?php echo $listOrder; ?>') {
+			dirn = 'asc';
+		} else {
+			dirn = direction.options[direction.selectedIndex].value;
+		}
+		Joomla.tableOrdering(order, dirn, '');
+	}
+</script>
+<form action="<?php echo JRoute::_('index.php?option=com_sexypolling'); ?>" method="post" name="adminForm" id="adminForm">
+<?php if(!empty( $this->sidebar)): ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
+		<div id="filter-bar" class="btn-toolbar">
+			<div class="filter-search btn-group pull-left">
+				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_SEXYPOLLING_SEARCH_BY_NAME');?></label>
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_SEXYPOLLING_SEARCH_BY_NAME'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_SEXYPOLLING_SEARCH_BY_NAME'); ?>" />
+			</div>
+			<div class="btn-group pull-left">
+				<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('COM_SEXYPOLLING_SEARCH'); ?>"><i class="icon-search"></i></button>
+				<button class="btn hasTooltip" type="button" title="<?php echo JText::_('COM_SEXYPOLLING_RESET'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+			</div>
+			<div class="btn-group pull-right hidden-phone">
+				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
+				<?php echo $this->pagination->getLimitBox(); ?>
+			</div>
+			<div class="btn-group pull-right hidden-phone">
+				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC');?></label>
+				<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
+					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC');?></option>
+					<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING');?></option>
+					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
+				</select>
+			</div>
+			<div class="btn-group pull-right">
+				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY');?></label>
+				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
+					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
+					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder);?>
+				</select>
+			</div>
+		</div>
+		<div class="clearfix"> </div>
+		<table class="table table-striped" id="articleList">
+			<thead>
+				<tr>
+					<th width="1%" class="nowrap center hidden-phone">
+						<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'sa.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
+					</th>
+					<th width="1%" class="hidden-phone">
+						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+					</th>
+					<th width="1%" style="min-width:55px" class="nowrap center">
+						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'sa.published', $listDirn, $listOrder); ?>
+					</th>
+					<th>
+						<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_NAME', 'sa.name', $listDirn, $listOrder); ?>
+					</th>
+					<th width="10%">
+						<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_POLL', 'poll_name', $listDirn, $listOrder); ?>
+					</th>
+					<th width="5%">
+						<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_NUM_VOTES', 'count_votes', $listDirn, $listOrder); ?>
+					</th>
+					<th width="1%" class="nowrap center hidden-phone">
+						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'sa.id', $listDirn, $listOrder); ?>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
+			$n = count($this->items);
+			foreach ($this->items as $i => $item) :
+				$ordering	= $listOrder == 'sa.ordering';
+				?>
+				<tr class="row<?php echo $i % 2; ?>">
+					<td class="order nowrap center hidden-phone">
+						<?php
+							$disableClassName = '';
+							$disabledLabel	  = '';
+							if (!$saveOrder) :
+								$disabledLabel    = JText::_('JORDERINGDISABLED');
+								$disableClassName = 'inactive tip-top';
+							endif; ?>
+							<span class="sortable-handler hasTooltip<?php echo $disableClassName?>" title="<?php echo $disabledLabel?>">
+								<i class="icon-menu"></i>
+							</span>
+							<input type="text" style="display:none" name="order[]" size="5"
+							value="<?php echo $item->ordering;?>" class="width-20 text-area-order " />
+					</td>
+					<td class="center hidden-phone">
+						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+					</td>
+					<td class="center">
+						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'sexyanswers.', true, 'cb', $item->publish_up, $item->publish_down); ?>
+					</td>
+					<td class="nowrap has-context">
+						<div class="pull-left">
+							<a href="<?php echo JRoute::_('index.php?option=com_sexypolling&task=sexyanswer.edit&id='.(int) $item->id); ?>">
+								<?php echo $this->escape($item->name); ?>
+							</a>
+						</div>
+					</td>
+					<td class="nowrap has-context">
+						<div class="pull-left">
+							<a href="<?php echo JRoute::_('index.php?option=com_sexypolling&task=sexypoll.edit&id='.(int) $item->poll_id); ?>">
+								<?php echo $this->escape($item->poll_name); ?>
+							</a>
+						</div>
+					</td>
+					<td align="center hidden-phone">
+						<?php echo $item->count_votes; ?>
+					</td>
+					<td align="center hidden-phone">
+						<?php echo $item->id; ?>
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="7">
+						<?php echo $this->pagination->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<input type="hidden" name="view" value="sexyanswers" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+		<?php echo JHtml::_('form.token'); ?>
+	</div>
+</form>
+<table class="adminlist" style="width: 100%;margin-top: 12px;clear: both;"><tr><td align="center" valign="middle" id="twoglux_ext_td" style="position: relative;">
+	<div id="twoglux_bottom_link"><a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_LINK' ); ?>" target="_blank"><?php echo JText::_( 'COM_SEXYPOLLING' ); ?></a> <?php echo JText::_( 'COM_SEXYPOLLING_DEVELOPED_BY' ); ?> <a href="http://2glux.com" target="_blank">2GLux.com</a></div>
+	<div style="position: absolute;right: 2px;top: 7px;">
+		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_LINK' ); ?>" target="_blank" id="twoglux_ext_rate" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_DESCRIPTION' ); ?>">&nbsp;</a>
+		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_LINK' ); ?>" target="_blank" id="twoglux_ext_homepage" style="margin: 0 2px 0 0px;" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_DESCRIPTION' ); ?>">&nbsp;</a>
+		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_SUPPORT_FORUM_LINK' ); ?>" target="_blank" id="twoglux_ext_support" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_SUPPORT_FORUM_DESCRIPTION' ); ?>">&nbsp;</a>
+	</div>
+</td></tr></table>
+<?php }?>

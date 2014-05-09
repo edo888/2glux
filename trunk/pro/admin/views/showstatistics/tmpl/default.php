@@ -1,19 +1,19 @@
 <?php 
 /**
- * Joomla! 1.5 component sexy_polling
+ * Joomla! component sexypolling
  *
- * @version $Id: form.php 2012-04-05 14:30:25 svn $
- * @author Simon Poghosyan
- * @package Joomla
- * @subpackage sexy_polling
+ * @version $Id: default.php 2012-04-05 14:30:25 svn $
+ * @author 2GLux.com
+ * @package Sexy Polling
+ * @subpackage com_sexypolling
  * @license GNU/GPL
- *
  *
  */
 
-defined('_JEXEC') or die('Restricted access');
+// no direct access
+defined('_JEXEC') or die('Restircted access');
 
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 
 $jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/jquery-1.7.2.min.js';
 $document->addScript($jsFile);
@@ -38,18 +38,18 @@ function get_dates_array($date1,$date2) {
 }
 
 $db = JFactory::getDBO();
-$array = JRequest::getVar('cid',  0, '', 'array');
-$poll_id = ((int)$array[0]);
+$poll_id = (int)$_GET['id'];
 $query = "
 			SELECT 
 				sp.name,
+				sp.question,
 				count(sv.ip) votes,
 				sv.date
 			FROM 
-				#__sexy_votes sv 
-			JOIN #__sexy_answers sa ON sa.id_poll = '$poll_id'
-			JOIN #__sexy_polls sp ON sp.id = '$poll_id'
-			WHERE sv.id_answer = sa.id 
+				#__sexy_polls sp 
+			LEFT JOIN #__sexy_answers sa ON sa.id_poll = sp.id
+			LEFT JOIN #__sexy_votes sv ON sv.id_answer = sa.id
+			WHERE sp.id = '$poll_id' 
 			GROUP BY 
 				sv.date
 			ORDER BY 
@@ -58,15 +58,16 @@ $query = "
 $db->setQuery($query);
 $statdata = $db->loadAssocList();
 
-
-$poll_name = $statdata[0][name];
-$min_date = $statdata[0][date];
+$poll_name = $statdata[0]['name'];
+$poll_question = $statdata[0]['question'];
+$min_date = $statdata[0]['date'];
 $size = sizeof($statdata) - 1;
-$max_date = $statdata[$size][date];
+$max_date = $statdata[$size]['date'];
+
 
 $stat_array = array();
 foreach($statdata as $val) {
-	$stat_array["$val[date]"] = $val[votes];
+	$stat_array["$val[date]"] = $val['votes'];
 }
 
 
@@ -92,7 +93,7 @@ $query = "
 				sv.country
 			FROM
 				#__sexy_votes sv
-			JOIN #__sexy_answers sa ON sa.id_poll = '$poll_id'
+			LEFT JOIN #__sexy_answers sa ON sa.id_poll = '$poll_id'
 			WHERE sv.id_answer = sa.id
 			GROUP BY
 			sv.country
@@ -103,11 +104,11 @@ $db->setQuery($query);
 $statcountrydata = $db->loadAssocList();
 
 $max = 0;
-$max_country_name = $statcountrydata[0][country];
+$max_country_name = @$statcountrydata[0]['country'];
 foreach($statcountrydata as $val) {
-	if($val[votes] >= $max) {
-		$max = $val[votes];
-		$max_country_name = $val[country];
+	if($val['votes'] >= $max) {
+		$max = $val['votes'];
+		$max_country_name = $val['country'];
 	}
 }
 
@@ -129,11 +130,11 @@ $query = "
 $db->setQuery($query);
 $statanswersdata = $db->loadAssocList();
 $max = 0;
-$max_ans_id = $statanswersdata[0][id];
+$max_ans_id = @$statanswersdata[0]['id'];
 foreach($statanswersdata as $val) {
-	if($val[votes] >= $max) {
-		$max = $val[votes];
-		$max_ans_id = $val[id];
+	if($val['votes'] >= $max) {
+		$max = $val['votes'];
+		$max_ans_id = $val['id'];
 	}
 }
 
@@ -148,9 +149,21 @@ $query = "
 $db->setQuery($query);
 $totalvotes = $db->loadResult();
 
+JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')' ,'manage.png' );
 
 
-JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')','manage.png' );
+//get demo question name
+$query = "
+SELECT
+sp.question
+FROM
+#__sexy_polls sp
+WHERE sp.id = '$poll_id'
+";
+$db->setQuery($query);
+$demo_question = $db->loadResult();
+
+if($totalvotes > 0 && $demo_question == 'Do You like Sexy Polling by 2GLux?') {
 ?>
 <script type="text/javascript">
 (function($) {
@@ -188,8 +201,8 @@ JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')','manage.
 			<?php 
 				$c_data = array();
 				foreach($stat_array_final as $row) {
-					$m = $row[m] - 1;
-					$c_data[] = '[Date.UTC('.$row[y].','.$m.','.$row[d].',0,0,0),'.$row[votes].']';
+					$m = $row['m'] - 1;
+					$c_data[] = '[Date.UTC('.$row["y"].','.$m.','.$row["d"].',0,0,0),'.$row["votes"].']';
 				}
 				
 				//print series javacript
@@ -270,18 +283,18 @@ JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')','manage.
 		                data: [
 				            <?php 
 				            	foreach($statcountrydata as $k => $val) {
-					            	$perc = sprintf ("%.2f", ((100 * $val[votes]) / $totalvotes));
+					            	$perc = sprintf ("%.2f", ((100 * $val['votes']) / $totalvotes));
 					            	
-				            		if($max_country_name == $val[country]) {
+				            		if($max_country_name == $val['country']) {
 					            		echo "{
-						                        name: '".$val[country]."',
+						                        name: '".$val['country']."',
 						                        y: $perc,
 						                        sliced: true,
 						                        selected: true
 						                    }";
 				            		}
 				            		else {
-					            		echo "['".$val[country]."',".$perc."]";
+					            		echo "['".$val['country']."',".$perc."]";
 				            		}
 			            			if($k != sizeof($statcountrydata) - 1)
 			            				echo ',';	
@@ -331,18 +344,18 @@ JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')','manage.
 		                data: [
 				            <?php 
 				            	foreach($statanswersdata as $k => $val) {
-					            	$perc = sprintf ("%.2f", ((100 * $val[votes]) / $totalvotes));
+					            	$perc = sprintf ("%.2f", ((100 * $val['votes']) / $totalvotes));
 					            	
-				            		if($val[id] == $max_ans_id) {
+				            		if($val['id'] == $max_ans_id) {
 					            		echo "{
-						                        name: '".htmlspecialchars_decode($val[name])."',
+						                        name: '".htmlspecialchars_decode($val['name'])."',
 						                        y: $perc,
 						                        sliced: true,
 						                        selected: true
 						                    }";
 				            		}
 				            		else {
-					            		echo "['".htmlspecialchars_decode($val[name])."',".$perc."]";
+					            		echo "['".str_replace(array('\'','"'),"",htmlspecialchars_decode($val['name']))."',".$perc."]";
 				            		}
 			            			if($k != sizeof($statanswersdata) - 1)
 			            				echo ',';	
@@ -372,7 +385,10 @@ JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')','manage.
 	<div id="graph_container" style="width: 98%;margin:0 auto;"></div>
 	<div style="position: absolute;z-index: 100000;color: red;height: 13px;width: 200px;bottom: 10px;right: 10px;background-color: #fff;"></div>
 </div>
-
+<?php }
+else {
+	echo 'No Data';
+}?>
 
 
 
@@ -381,4 +397,11 @@ JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')','manage.
 <input type="hidden" name="task" value="cancel" />
 <input type="hidden" name="controller" value="statistics" />
 </form>
-<table class="adminlist" style="width: 100%;margin-top: 12px;"><tr><td align="center"><a href="http://2glux.com/projects/sexypolling" target="_blank">Sexy Polling</a> developed and designed by <a href="http://2glux.com" target="_blank">2GLux.com</a></td></tr></table>
+<table class="adminlist" style="width: 100%;margin-top: 12px;clear: both;"><tr><td align="center" valign="middle" id="twoglux_ext_td" style="position: relative;">
+	<div id="twoglux_bottom_link"><a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_LINK' ); ?>" target="_blank"><?php echo JText::_( 'COM_SEXYPOLLING' ); ?></a> <?php echo JText::_( 'COM_SEXYPOLLING_DEVELOPED_BY' ); ?> <a href="http://2glux.com" target="_blank">2GLux.com</a></div>
+	<div style="position: absolute;right: 2px;top: 7px;">
+		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_LINK' ); ?>" target="_blank" id="twoglux_ext_rate" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_DESCRIPTION' ); ?>">&nbsp;</a>
+		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_LINK' ); ?>" target="_blank" id="twoglux_ext_homepage" style="margin: 0 2px 0 0px;" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_DESCRIPTION' ); ?>">&nbsp;</a>
+		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_SUPPORT_FORUM_LINK' ); ?>" target="_blank" id="twoglux_ext_support" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_SUPPORT_FORUM_DESCRIPTION' ); ?>">&nbsp;</a>
+	</div>
+</td></tr></table>

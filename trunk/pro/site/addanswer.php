@@ -1,4 +1,24 @@
 <?php
+/**
+ * Joomla! component sexypolling
+ *
+ * @version $Id: addanswer.php 2012-04-05 14:30:25 svn $
+ * @author 2GLux.com
+ * @package Sexy Polling
+ * @subpackage com_sexypolling
+ * @license GNU/GPL
+ *
+ */
+
+// no direct access
+define('_JEXEC',true);
+defined('_JEXEC') or die('Restircted access');
+
+/*
+ * This is external PHP file and used on AJAX calls, so it has not "defined('_JEXEC') or die;" part.
+*/
+
+error_reporting(0);
 header('Content-type: application/json');
 include '../../configuration.php';
 
@@ -21,19 +41,19 @@ else {
 }
 
 //get post data
-$polling_id = (int)$_POST[polling_id];
-$autopublish = (int)$_POST[autopublish];
-$writeinto = (int)$_POST[writeinto];
-$answer = mysql_real_escape_string(strip_tags($_POST[answer]));
+$polling_id = (int)$_POST['polling_id'];
+$autopublish = (int)$_POST['autopublish'];
+$writeinto = (int)$_POST['writeinto'];
+$answer = mysql_real_escape_string(strip_tags($_POST['answer']));
 
-$countryname = ( $_POST[country_name] == '' || $_POST[country_name] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST[country_name]);
-$cityname = ( $_POST[city_name] == '' || $_POST[city_name] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST[city_name]);
-$regionname = ( $_POST[region_name] == '' || $_POST[region_name] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST[region_name]);
-$countrycode = ( $_POST[country_code] == '' || $_POST[country_code] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST[country_code]);
+$countryname = (!isset($_POST['country_name']) || $_POST['country_name'] == '' || $_POST['country_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['country_name']);
+$cityname = (!isset($_POST['city_name']) || $_POST['city_name'] == '' || $_POST['city_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['city_name']);
+$regionname = (!isset($_POST['region_name']) || $_POST['region_name'] == '' || $_POST['region_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['region_name']);
+$countrycode = (!isset($_POST['country_code']) || $_POST['country_code'] == '' || $_POST['country_code'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['country_code']);
 
-if($writeinto == 1 || $autopublish == 1) {
-	$published = $autopublish == 0 ? 1 : 0;
-	mysql_query("INSERT INTO `".$config->dbprefix."sexy_answers` (`id_poll`,`name`,`published`,`date`) VALUES ('$polling_id','$answer','$published',NOW())");
+if($writeinto == 1 || $autopublish == 0) {
+	$published = $autopublish == 1 ? 1 : 0;
+	mysql_query("INSERT INTO `".$config->dbprefix."sexy_answers` (`id_poll`,`name`,`published`,`created`) VALUES ('$polling_id','$answer','$published',NOW())");
 	$insert_id = mysql_insert_id();
 	
 	mysql_query("INSERT INTO `".$config->dbprefix."sexy_votes` (`id_answer`,`ip`,`date`,`country`,`city`,`region`,`countrycode`) VALUES ('$insert_id','$ip',NOW(),'$countryname','$cityname','$regionname','$countrycode')");

@@ -1,172 +1,228 @@
 <?php
 /**
- * Joomla! 1.5 component sexy_polling
+ * Joomla! component sexypolling
  *
  * @version $Id: sexypolls.php 2012-04-05 14:30:25 svn $
- * @author Simon Poghosyan
- * @package Joomla
- * @subpackage sexy_polling
+ * @author 2GLux.com
+ * @package Sexy Polling
+ * @subpackage com_sexypolling
  * @license GNU/GPL
- *
- * Sexy Polling
  *
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restircted access');
 
-// Import Joomla! libraries
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modellist');
 
-class SexypollingModelSexypolls extends JModel {
-var $_data, $_total, $_pagination, $_filter, $_total_sql;
+class SexypollingModelSexyPolls extends JModelList {
 	
-    function __construct() {
-    	
-    	parent::__construct();
-    	
-    	$this->loadFilter();
-    	
-    	$mainframe = JFactory::getApplication();
-    	
-    	$limit      = $mainframe->getUserStateFromRequest( 'com_sexypolling'.'.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-    	$limitstart = $mainframe->getUserStateFromRequest( 'com_sexypolling'.JRequest::getCmd( 'view').'.limitstart', 'limitstart', 0, 'int' );
-    	
-    	if($limitstart > $this->getTotal()) $limitstart = 0;
-    	
-    	$search_title				= $mainframe->getUserStateFromRequest( 'com_sexypolling'.'search_title',			'search_title',			'',		'string' );
-    	if (strpos($search_title, '"') !== false) {
-    		$search_title = str_replace(array('=', '<'), '', $search_title);
-    	}
-    	$search_title = JString::strtolower($search_title);
-    	$this->_filter->search_title = $search_title;
-    	$search_question				= $mainframe->getUserStateFromRequest( 'com_sexypolling'.'search_question',			'search_question',			'',		'string' );
-    	if (strpos($search_question, '"') !== false) {
-    		$search_question = str_replace(array('=', '<'), '', $search_question);
-    	}
-    	$search_question = JString::strtolower($search_question);
-    	$this->_filter->search_question = $search_question;
-    	
-    	$this->_filter->filter_order		= $mainframe->getUserStateFromRequest( 'com_sexypolling'.'filter_order',		'filter_order',		'm.id',	'cmd' );
-    	$this->_filter->filter_order_Dir	= $mainframe->getUserStateFromRequest( 'com_sexypolling'.'filter_order_Dir',	'filter_order_Dir',	'',		'word' );
-    	$this->_filter->filter_state		= $mainframe->getUserStateFromRequest( 'com_sexypolling'.'filter_state',		'filter_state',		'',		'word' );
-    	if (!in_array($this->_filter->filter_order, array('sp.name','sp.question','sp.published','sp.id','num_answers','category','template'))) {
-    		$this->_filter->filter_order = 'sp.id';
-    	}
-    	
-    	if (!in_array(strtoupper($this->_filter->filter_order_Dir), array('ASC', 'DESC'))) {
-    		$this->_filter->filter_order_Dir = '';
-    	}
-    	
-    	$this->setState('limit', $limit);
-    	$this->setState('limitstart', $limitstart);
-    }
-    
-    function loadFilter() {
-    	$this->_filter = new JObject();
-    
-    	$this->_filter->id_category = JRequest::getInt('id_category', 0);
-    	$sql = "SELECT `id`, `name` FROM `#__sexy_categories` ";
-    	$this->_db->setQuery($sql);
-    	$this->_filter->categories = $this->_db->loadObjectList();
-    }
-    
-    function getFilter() {
-    	return $this->_filter;
-    }
-    
-    /**
-     * Returns the query
-     * @return string The query to be used to retrieve the rows from the database
-     */
-    function _buildQuery() {
-    
-    	 
-    	//create where
-    	$where = array();
-    
-    	if ($this->_filter->search_title != '') {
-    		 
-    		$where[] = 'LOWER(sp.name) LIKE '.$this->_db->Quote( '%'.$this->_db->getEscaped( $this->_filter->search_title, true ).'%', false );
-    	}
-    	if ($this->_filter->search_question != '') {
-    		 
-    		$where[] = 'LOWER(sp.question) LIKE '.$this->_db->Quote( '%'.$this->_db->getEscaped( $this->_filter->search_question, true ).'%', false );
-    	}
-    	if($this->_filter->id_category != 0) {
-    		 
-    		$where[] .= 'sp.`id_category`="'.$this->_filter->id_category.'"';
-    	}
-    	if ( $this->_filter->filter_state )
-    	{
-    		if ( $this->_filter->filter_state == 'P' )
-    		{
-    			$where[] = 'sp.published = 1';
-    		}
-    		else if ($this->_filter->filter_state == 'U' )
-    		{
-    			$where[] = 'sp.published = 0';
-    		}
-    	}
-    
-    
-    	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-    
-    	//create ordering
-    
-    	$orderby 	= ' ORDER BY '. $this->_filter->filter_order .' '. $this->_filter->filter_order_Dir;
-    	$groupby 	=  ' GROUP BY sp.id ';
-    
-    	$query = 'SELECT sp.*, COUNT(sa.id) num_answers, sc.name category, st.name template '
-            . ' FROM #__sexy_polls sp '
-            . ' LEFT JOIN #__sexy_answers sa '
-            . ' ON sa.id_poll = sp.id '
-            . ' LEFT JOIN #__sexy_categories sc '
-            . ' ON sc.id = sp.id_category '
-            . ' LEFT JOIN #__sexy_templates st '
-            . ' ON st.id = sp.id_template ';
-    
-    	$this->_total_sql = $query . $where . $groupby;
-    
-    	$query_res = $query .  $where . $groupby . $orderby;
-    	return $query_res;
-    }
- 
-    /**
-     * Retrieves the hello data
-     * @return array Array of objects containing the data from the database
-     */
-    function getData() {
-    	// Lets load the data if it doesn't already exist
-    	if (empty( $this->_data )) {
-    		$query = $this->_buildQuery();
-    		$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-    	}
-    
-    	return $this->_data;
-    }
-    
-    function getTotal()
-    {
-    	//-- Load the content if it doesn't already exist
-    	if(empty($this->_total))
-    	{
-    		$this->_buildQuery();
-    		$this->_total = $this->_getListCount($this->_total_sql);
-    	}
-    
-    	return $this->_total;
-    }//function
-    
-    function getPagination()
-    {
-    	//-- Load the content if it doesn't already exist
-    	if(empty($this->_pagination))
-    	{
-    		jimport('joomla.html.pagination');
-    		$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-    	}
-    
-    	return $this->_pagination;
-    }//function
+	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+					'id', 'sp.id',
+					'name', 'sp.name',
+					'alias', 'sp.alias',
+					'category_title',
+					'template_title',
+					'num_answers',
+					'question', 'sp.question',
+					'published', 'sp.published',
+					'checked_out', 'sp.checked_out',
+					'checked_out_time', 'sp.checked_out_time',
+					'access', 'sp.access', 'access_level',
+					'ordering', 'sp.ordering',
+					'featured', 'sp.featured',
+					'publish_up', 'sp.publish_up',
+					'publish_down', 'sp.publish_down'
+			);
+		}
+	
+		parent::__construct($config);
+	}
+	
+	/**
+	 * Method to get category options
+	 *
+	 */
+	public function getCategory_options() {
+		$db		= $this->getDbo();
+		$sql = "SELECT `id`, `name` FROM `#__sexy_categories` ";
+    	$db->setQuery($sql);
+    	return $opts = $db->loadObjectList();
+	}
+	
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		// Initialise variables.
+		$app = JFactory::getApplication();
+	
+		// Adjust the context to support modal layouts.
+		if ($layout = JRequest::getVar('layout')) {
+			$this->context .= '.'.$layout;
+		}
+	
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+	
+		$access = $this->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', 0, 'int');
+		$this->setState('filter.access', $access);
+	
+		$published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+	
+		$categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
+		$this->setState('filter.category_id', $categoryId);
+		
+		$language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
+	
+		// List state information.
+		parent::populateState('sp.name', 'asc');
+	}
+	
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string		$id	A prefix for the store id.
+	 *
+	 * @return	string		A store id.
+	 * @since	1.6
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.access');
+		$id	.= ':'.$this->getState('filter.published');
+		$id	.= ':'.$this->getState('filter.category_id');
+		$id	.= ':'.$this->getState('filter.language');
+	
+		return parent::getStoreId($id);
+	}
+	
+	/**
+	 * Build an SQL query to load the list data.
+	 *
+	 * @return	JDatabaseQuery
+	 * @since	1.6
+	 */
+	protected function getListQuery()
+	{
+		// Create a new query object.
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
+		$user	= JFactory::getUser();
+	
+		// Select the required fields from the table.
+		$query->select(
+				$this->getState(
+						'list.select',
+						'sp.id, sp.name, sp.question, sp.alias, sp.checked_out, sp.checked_out_time,sp.id_category, MAX(sp.id) AS max_id'.
+						', sp.published, sp.access, sp.created, sp.ordering, sp.featured, sp.language'.
+						', sp.publish_up, sp.publish_down'
+				)
+		);
+		$query->from('#__sexy_polls AS sp');
+		
+		// Join over the answers.
+		$query->select('COUNT(sa.id) AS num_answers');
+		$query->join('LEFT', '#__sexy_answers AS sa ON sa.id_poll=sp.id');
+	
+		// Join over the categories.
+		$query->select('sc.name AS category_title, sc.id AS category_id');
+		$query->join('LEFT', '#__sexy_categories AS sc ON sc.id=sp.id_category');
+	
+		// Join over the templates.
+		$query->select('st.name AS template_title, st.id AS template_id');
+		$query->join('LEFT', '#__sexy_templates AS st ON st.id=sp.id_template');
+	
+		// Join over the language
+		$query->select('l.title AS language_title');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = sp.language');
+	
+		// Join over the users for the checked out user.
+		$query->select('uc.name AS editor');
+		$query->join('LEFT', '#__users AS uc ON uc.id=sp.checked_out');
+	
+		// Join over the asset groups.
+		$query->select('ag.title AS access_level');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = sp.access');
+	
+		// Filter by access level.
+		if ($access = $this->getState('filter.access')) {
+			$query->where('sp.access = ' . (int) $access);
+		}
+	
+		// Filter by published state
+		$published = $this->getState('filter.published');
+		if (is_numeric($published)) {
+			$query->where('sp.published = ' . (int) $published);
+		}
+		elseif ($published === '') {
+			$query->where('(sp.published = 0 OR sp.published = 1)');
+		}
+	
+		// Filter by a single or group of categories.
+		$categoryId = $this->getState('filter.category_id');
+		if (is_numeric($categoryId)) {
+			$query->where('sp.id_category = '.(int) $categoryId);
+		}
+		elseif (is_array($categoryId)) {
+			JArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
+			$query->where('sp.id_category IN ('.$categoryId.')');
+		}
+	
+		// Filter by search in name.
+		$search = $this->getState('filter.search');
+		if (!empty($search)) {
+			if (stripos($search, 'id:') === 0) {
+				$query->where('sp.id = '.(int) substr($search, 3));
+			}
+			else {
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
+				$query->where('(sp.name LIKE '.$search.' OR sp.alias LIKE '.$search.' OR sp.question LIKE '.$search.')');
+			}
+		}
+	
+		// Filter on the language.
+		if ($language = $this->getState('filter.language')) {
+			$query->where('sp.language = '.$db->quote($language));
+		}
+	
+		// Add the list ordering clause.
+		$orderCol	= $this->state->get('list.ordering', 'sp.name');
+		$orderDirn	= $this->state->get('list.direction', 'asc');
+		/*
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
+			$orderCol = 'c.title '.$orderDirn.', a.ordering';
+		}
+		*/
+		$query->order($db->escape($orderCol.' '.$orderDirn));
+		$query->group('sp.id');
+	
+		//echo nl2br(str_replace('#__','jos_',$query));
+		return $query;
+	}
 }

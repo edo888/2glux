@@ -7,5 +7,3 @@ DROP TABLE IF EXISTS `#__sexy_votes`;
 DROP TABLE IF EXISTS `#__sexy_categories`;
 
 DROP TABLE IF EXISTS `#__sexy_templates`;
-
-DELETE FROM `#__menu` where link LIKE 'index.php?option=com_sexypolling%';

@@ -1,142 +1,148 @@
 <?php
 /**
+ * Joomla! component sexypolling
  *
  * @version $Id: sexytemplates.php 2012-04-05 14:30:25 svn $
- * @author Simon Poghosyan
- * @package Joomla
- * @subpackage sexy_polling
+ * @author 2GLux.com
+ * @package Sexy Pollinga
+ * @subpackage com_sexypolling
  * @license GNU/GPL
- *
- * Sexy Polling
- *
  *
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restircted access');
 
-// Import Joomla! libraries
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modellist');
 
-class SexypollingModelSexytemplates extends JModel {
-var $_data, $_total, $_pagination, $_filter, $_total_sql;
-	
-    function __construct() {
-    	
-    	parent::__construct();
-    	
-    	$this->_filter = new JObject();
-    	
-    	$mainframe = JFactory::getApplication();
-    	
-    	$limit      = $mainframe->getUserStateFromRequest( 'com_sexypolling'.'.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-    	$limitstart = $mainframe->getUserStateFromRequest( 'com_sexypolling'.JRequest::getCmd( 'view').'.limitstart', 'limitstart', 0, 'int' );
-    	
-    	if($limitstart > $this->getTotal()) $limitstart = 0;
-    	
-    	$search				= $mainframe->getUserStateFromRequest( 'com_sexypolling'.'search',			'search',			'',		'string' );
-    	if (strpos($search, '"') !== false) {
-    		$search = str_replace(array('=', '<'), '', $search);
-    	}
-    	$search = JString::strtolower($search);
-    	$this->_filter->search = $search;
-    	
-    	$this->_filter->filter_order		= $mainframe->getUserStateFromRequest( 'com_sexypolling'.'filter_order',		'filter_order',		't.id',	'cmd' );
-    	$this->_filter->filter_order_Dir	= $mainframe->getUserStateFromRequest( 'com_sexypolling'.'filter_order_Dir',	'filter_order_Dir',	'',		'word' );
-    	$this->_filter->filter_state		= $mainframe->getUserStateFromRequest( 'com_sexypolling'.'filter_state',		'filter_state',		'',		'word' );
-    	if (!in_array($this->_filter->filter_order, array('t.name','t.id','t.published'))) {
-    		$this->_filter->filter_order = 't.id';
-    	}
-    	
-    	if (!in_array(strtoupper($this->_filter->filter_order_Dir), array('ASC', 'DESC'))) {
-    		$this->_filter->filter_order_Dir = '';
-    	}
-    	
-    	$this->setState('limit', $limit);
-    	$this->setState('limitstart', $limitstart);
-    }
-    
-    function getFilter() {
-    	return $this->_filter;
-    }
-    
-    /**
-     * Returns the query
-     * @return string The query to be used to retrieve the rows from the database
-     */
-    function _buildQuery() {
-    
-    	 
-    	//create where
-    	$where = array();
-    
-    	if ($this->_filter->search != '') {
-    		 
-    		$where[] = 'LOWER(t.name) LIKE '.$this->_db->Quote( '%'.$this->_db->getEscaped( $this->_filter->search, true ).'%', false );
-    	}
-    	if ( $this->_filter->filter_state )
-    	{
-    		if ( $this->_filter->filter_state == 'P' )
-    		{
-    			$where[] = 't.published = 1';
-    		}
-    		else if ($this->_filter->filter_state == 'U' )
-    		{
-    			$where[] = 't.published = 0';
-    		}
-    	}
-    
-    
-    	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-    
-    	//create ordering
-    
-    	$orderby 	= ' ORDER BY '. $this->_filter->filter_order .' '. $this->_filter->filter_order_Dir;
-    
-    	$query = 'SELECT t.* '
-            . ' FROM #__sexy_templates t ';
-    
-    	$this->_total_sql = $query . $where;
-    
-    	$query_res = $query .  $where . $orderby;
-    	return $query_res;
-    }
- 
-    /**
-     * Retrieves the hello data
-     * @return array Array of objects containing the data from the database
-     */
-    function getData() {
-    	// Lets load the data if it doesn't already exist
-    	if (empty( $this->_data )) {
-    		$query = $this->_buildQuery();
-    		$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-    	}
-    
-    	return $this->_data;
-    }
-    
-    function getTotal()
-    {
-    	//-- Load the content if it doesn't already exist
-    	if(empty($this->_total))
-    	{
-    		$this->_buildQuery();
-    		$this->_total = $this->_getListCount($this->_total_sql);
-    	}
-    
-    	return $this->_total;
-    }//function
-    
-    function getPagination()
-    {
-    	//-- Load the content if it doesn't already exist
-    	if(empty($this->_pagination))
-    	{
-    		jimport('joomla.html.pagination');
-    		$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-    	}
-    
-    	return $this->_pagination;
-    }//function
+class SexypollingModelSexyTemplates extends JModelList {
+
+	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+					'id', 'st.id',
+					'name', 'st.name',
+					'published', 'st.published',
+					'publish_up', 'st.publish_up',
+					'publish_down', 'st.publish_down'
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		// Initialise variables.
+		$app = JFactory::getApplication();
+
+		// Adjust the context to support modal layouts.
+		if ($layout = JRequest::getVar('layout')) {
+			$this->context .= '.'.$layout;
+		}
+
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		// List state information.
+		parent::populateState('st.name', 'asc');
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string		$id	A prefix for the store id.
+	 *
+	 * @return	string		A store id.
+	 * @since	1.6
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.published');
+
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Build an SQL query to load the list data.
+	 *
+	 * @return	JDatabaseQuery
+	 * @since	1.6
+	 */
+	protected function getListQuery()
+	{
+		// Create a new query object.
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
+		$user	= JFactory::getUser();
+
+		// Select the required fields from the table.
+		$query->select(
+				$this->getState(
+						'list.select',
+						'st.id, st.name, st.published, st.publish_up, st.publish_down'
+				)
+		);
+			
+		$query->from('#__sexy_templates AS st');
+
+		// Filter by published state
+		$published = $this->getState('filter.published');
+		if (is_numeric($published)) {
+			$query->where('st.published = ' . (int) $published);
+		}
+		elseif ($published === '') {
+			$query->where('(st.published = 0 OR st.published = 1)');
+		}
+
+		// Filter by search in name.
+		$search = $this->getState('filter.search');
+		if (!empty($search)) {
+			if (stripos($search, 'id:') === 0) {
+				$query->where('st.id = '.(int) substr($search, 3));
+			}
+			else {
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
+				$query->where('(st.name LIKE '.$search.')');
+			}
+		}
+
+		// Add the list ordering clause.
+		$orderCol	= $this->state->get('list.ordering', 'st.name');
+		$orderDirn	= $this->state->get('list.direction', 'asc');
+		/*
+		 if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
+		$orderCol = 'c.title '.$orderDirn.', a.ordering';
+		}
+		*/
+		$query->order($db->escape($orderCol.' '.$orderDirn));
+		
+		return $query;
+	}
 }

@@ -1,18 +1,17 @@
 <?php
 /**
- * Joomla! 1.5 component sexy_polling
+ * Joomla! component sexypolling
  *
- * @version $Id: router.php 2012-04-05 14:30:25 svn $
- * @author Simon Poghosyan
- * @package Joomla
- * @subpackage sexypolling
+ * @version $Id: sexypoll.php 2012-04-05 14:30:25 svn $
+ * @author 2GLux.com
+ * @package Sexy Polling
+ * @subpackage com_sexypolling
  * @license GNU/GPL
- *
  *
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restircted access');
 
 /*
  * Function to convert a system URL to a SEF URL
@@ -20,6 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 function SexypollingBuildRoute( &$query )
 {
 	static $items;
+	$app	= JFactory::getApplication();
 
 	$segments	= array();
 	$itemid		= null;
@@ -31,8 +31,8 @@ function SexypollingBuildRoute( &$query )
 
 	// Get the menu items for this component.
 	if (!$items) {
-		$component	= &JComponentHelper::getComponent('com_sexypolling');
-		$menu		= &JSite::getMenu();
+		$component	= JComponentHelper::getComponent('com_sexypolling');
+		$menu	= $app->getMenu();
 		$items		= $menu->getItems('componentid', $component->id);
 	}
 
