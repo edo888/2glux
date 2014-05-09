@@ -144,8 +144,8 @@ class SexypollingHelper
 
         //get ip address
         $REMOTE_ADDR = null;
-        if(isset($_SERVER['HTTP_X_REAL_IP'])) { $REMOTE_ADDR = $_SERVER['HTTP_X_REAL_IP']; }
-        elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) { list($REMOTE_ADDR) = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']); }
+        if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) { list($REMOTE_ADDR) = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']); }
+        elseif(isset($_SERVER['HTTP_X_REAL_IP'])) { $REMOTE_ADDR = $_SERVER['HTTP_X_REAL_IP']; }
         elseif(isset($_SERVER['REMOTE_ADDR'])) { $REMOTE_ADDR = $_SERVER['REMOTE_ADDR']; }
         else { $REMOTE_ADDR = 'Unknown'; }
         $sexyip = $REMOTE_ADDR;
