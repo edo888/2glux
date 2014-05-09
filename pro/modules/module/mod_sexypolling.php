@@ -155,7 +155,7 @@ foreach ($pollings as $poll_index => $polling_array) {
 				$voted_ids[] = $poll_index;
 	//check ip
 	if ($checkIp == 1) {
-		$query = "SELECT ip FROM #__sexy_votes sv JOIN #__sexy_answers sa ON sa.id_poll = '$poll_index' WHERE sv.id_answer = sa.id";
+		$query = "SELECT ip FROM #__sexy_votes sv JOIN #__sexy_answers sa ON sa.id_poll = '$poll_index' WHERE sv.id_answer = sa.id AND sv.ip = '$sexyip'";
 		$db->setQuery($query);
 		$db->query();
 		$num_rows = $db->getNumRows();

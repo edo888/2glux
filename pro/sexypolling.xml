@@ -5,7 +5,7 @@
     <author>Simon Poghosyan</author>
     <creationDate>05/04/2012</creationDate>
     <license>GNU/GPL</license>
-    <version>0.9.2</version>
+    <version>0.9.4</version>
     <description><![CDATA[<a href="http://2glux.com/projects/sexypolling" target="_blank">Sexy Polling</a> by <a href="http://2glux.com" target="_blank">2GLux</a> ]]></description>
 
   	<installfile>install/install.package.php</installfile>
@@ -44,7 +44,7 @@
 		<menu img="icon" link="option=com_sexypolling&amp;view=sexyanswers">Answers</menu>
 		<menu img="icon" link="option=com_sexypolling&amp;view=sexycategories">Categories</menu>
 		<menu img="icon" link="option=com_sexypolling&amp;view=sexytemplates">Templates</menu>
-		<!-- <menu img="icon" link="option=com_sexypolling&amp;view=sexystatistics">Statistics</menu>  -->
+		<menu img="icon" link="option=com_sexypolling&amp;view=sexystatistics">Statistics</menu>
 	</submenu>
     <files folder="admin">
         <filename>controller.php</filename>
