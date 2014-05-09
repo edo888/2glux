@@ -1,38 +1,25 @@
 <?php
 /**
- * Joomla! 1.5 component sexy_polling
+ * Joomla! component sexypolling
  *
  * @version $Id: view.html.php 2012-04-05 14:30:25 svn $
- * @author Simon Poghosyan
- * @package Joomla
- * @subpackage sexypolling
+ * @author 2GLux.com
+ * @package Sexy Polling
+ * @subpackage com_sexypolling
  * @license GNU/GPL
- *
  *
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restircted access');
 
 // Import Joomla! libraries
 jimport( 'joomla.application.component.view');
 
-class SexypollingViewShowStatistics extends JView {
+class SexypollingViewShowStatistics extends JViewLegacy {
 	
 	function display($tpl = null) {
-		//get the poll
-		$poll		=& $this->get('Data');
-		$categories		=& $this->get('Categories');
-		$templates		=& $this->get('Templates');
- 
-		JToolBarHelper::cancel( 'cancel', 'Close' );
- 
-		$this->assignRef('poll',$poll);
-		$this->assignRef('limit',$limit);
-		$this->assignRef('new',$isNew);
-		$this->assignRef('categories',$categories);
-		$this->assignRef('templates',$templates);
- 
+		JToolBarHelper::cancel( 'showstatistics.cancel', 'Close' );
 		parent::display($tpl);
 	}
 }

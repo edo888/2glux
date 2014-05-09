@@ -1,16 +1,17 @@
 <?php
 /**
- * Joomla! 1.5 component sexy_polling
+ * Joomla! component sexypolling
  *
  * @version $Id: poll.php 2012-04-05 14:30:25 svn $
- * @author Simon Poghosyan
- * @package Joomla
- * @subpackage sexy_polling
+ * @author 2GLux.com
+ * @package Sexy Polling
+ * @subpackage com_sexypolling
  * @license GNU/GPL
  *
- *
  */
-defined('_JEXEC') or die();
+
+// no direct access
+defined('_JEXEC') or die('Restircted access');
 
 class JFormFieldPoll extends JFormField
 {
@@ -19,10 +20,10 @@ class JFormFieldPoll extends JFormField
 
 	function getInput()
 	{
-		$doc 		=& JFactory::getDocument();
+		$doc 		= JFactory::getDocument();
 		$fieldName	= $this->name;
 
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT name text,id value FROM #__sexy_polls WHERE published = '1'";
 		$db->setQuery($query);

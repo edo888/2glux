@@ -3,14 +3,14 @@
  * Joomla! 1.5 component sexy_polling
  *
  * @version $Id: poll.php 2012-04-05 14:30:25 svn $
- * @author Simon Poghosyan
- * @package Joomla
+ * @author 2GLux.com
+ * @package Sexy Polling
  * @subpackage sexy_polling
  * @license GNU/GPL
  *
  *
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die('Restircted access');
 
 class JElementPoll extends JElement
 {

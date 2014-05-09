@@ -1,36 +1,36 @@
 <?php
 /**
- * Joomla! 1.5 component sexy_polling
+ * Joomla! component sexypolling
  *
  * @version $Id: sexypoll.php 2012-04-05 14:30:25 svn $
- * @author Simon Poghosyan
- * @package Joomla
- * @subpackage sexy_polling
+ * @author 2GLux.com
+ * @package Sexy Polling
+ * @subpackage com_sexypolling
  * @license GNU/GPL
- *
  *
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restircted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.model');
 
-class SexypollingModelSexypoll extends JModel {
+class SexypollingModelSexypoll extends JModelLegacy {
     function __construct() {
 		parent::__construct();
 		
-		$app	 = &JFactory::getApplication();
-		$params	 = &$app->getParams();
+		$app	 = JFactory::getApplication();
+		$params	 = $app->getParams();
 		$id_16 = $params->get('poll',0);
 		
 		$id_15 = JRequest::getVar('poll',  0, '', 'int');
 		$id = $id_15 != 0 ? $id_15 : $id_16;
+		
 		$this->setId($id);
     }
     
-function setId($id)
+	function setId($id)
 	{
 		// Set id and wipe data
 		$this->_id		= $id;
@@ -47,6 +47,7 @@ function setId($id)
 		if (empty( $this->_data )) {
 			$query = 'SELECT '.
 						'sp.id polling_id, '.
+						'sp.id_template id_template, '.
 						'sp.date_start date_start, '.
 						'sp.date_end date_end, '.
 						'sp.multiple_answers multiple_answers, '.
@@ -64,7 +65,7 @@ function setId($id)
 						'`#__sexy_templates` st ON st.id = sp.id_template '.
 					'WHERE sp.published = \'1\' '.
 					'AND sp.id = '.$this->_id.' '.
-						'ORDER BY sp.order,sp.name,sa.order,sa.name';
+						'ORDER BY sp.ordering,sp.name,sa.ordering,sa.name';
 			$this->_db->setQuery( $query );
 			$this->_data = $this->_db->loadObjectList();
 		}

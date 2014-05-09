@@ -1,4 +1,23 @@
 <?php
+/**
+ * Joomla! component sexypolling
+ *
+ * @version $Id: vote.php 2012-04-05 14:30:25 svn $
+ * @author 2GLux.com
+ * @package Sexy Polling
+ * @subpackage com_sexypolling
+ * @license GNU/GPL
+ *
+ */
+
+// no direct access
+define('_JEXEC',true);
+defined('_JEXEC') or die('Restircted access');
+/*
+ * This is external PHP file and used on AJAX calls, so it has not "defined('_JEXEC') or die;" part.
+ */
+
+error_reporting(0);
 header('Content-type: application/json');
 include '../../configuration.php';
 
@@ -23,20 +42,20 @@ else {
 	$ip=$_SERVER['REMOTE_ADDR'];
 }
 
-$countryname = ( $_POST[country_name] == '' || $_POST[country_name] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST[country_name]);
-$cityname = ( $_POST[city_name] == '' || $_POST[city_name] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST[city_name]);
-$regionname = ( $_POST[region_name] == '' || $_POST[region_name] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST[region_name]);
-$countrycode = ( $_POST[country_code] == '' || $_POST[country_code] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST[country_code]);
+$countryname = (!isset($_POST['country_name']) || $_POST['country_name'] == '' || $_POST['country_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['country_name']);
+$cityname = (!isset($_POST['city_name']) || $_POST['city_name'] == '' || $_POST['city_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['city_name']);
+$regionname = (!isset($_POST['region_name']) || $_POST['region_name'] == '' || $_POST['region_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['region_name']);
+$countrycode = (!isset($_POST['country_code']) || $_POST['country_code'] == '' || $_POST['country_code'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['country_code']);
 
-$answer_id_array = $_POST[answer_id];
-$adittional_answers = $_POST[answers];
-$polling_id = (int)$_POST[polling_id];
-$module_id = (int)$_POST[module_id];
-$mode = $_POST[mode];
-$min_date_sended = $_POST[min_date];
-$max_date_sended = $_POST[max_date];
+$answer_id_array = isset($_POST['answer_id']) ? $_POST['answer_id'] : 0;
+$adittional_answers = isset($_POST['answers']) ? $_POST['answers'] : 0;
+$polling_id = isset($_POST['polling_id']) ? (int)$_POST['polling_id'] : 0;
+$module_id = isset($_POST['module_id']) ? (int)$_POST['module_id'] : 0;
+$mode = isset($_POST['mode']) ? $_POST['mode'] : '';
+$min_date_sended = isset($_POST['min_date']) ? $_POST['min_date'] : '';
+$max_date_sended = isset($_POST['max_date']) ? $_POST['max_date'] : '';
 
-$use_current = $_POST[curr_date];
+$use_current = isset($_POST['curr_date']) ? $_POST['curr_date'] : '';
 if($use_current == 'yes') {
 	$max_date_sended = date('Y-m-d',strtotime("now"));
 }
@@ -47,7 +66,7 @@ if(is_array($adittional_answers)) {
 		$answer = mysql_real_escape_string(strip_tags($answer));
 		
 		$published = 1;
-		mysql_query("INSERT INTO `".$config->dbprefix."sexy_answers` (`id_poll`,`name`,`published`,`date`) VALUES ('$polling_id','$answer','$published',NOW())");
+		mysql_query("INSERT INTO `".$config->dbprefix."sexy_answers` (`id_poll`,`name`,`published`,`created`) VALUES ('$polling_id','$answer','$published',NOW())");
 		$insert_id = mysql_insert_id();
 		
 		$add_answers[] = $insert_id;
@@ -90,10 +109,10 @@ if ($mode == 'view_by_date')
 
 $res_toal = mysql_query($query_toal);
 $row_total = mysql_fetch_assoc($res_toal);
-$count_total_votes = $row_total[total_count];
+$count_total_votes = $row_total['total_count'];
 if ($count_total_votes > 0) {
-	$min_date = $date_format == 'str' ? date('F j, Y', strtotime($row_total[min_date])) : date('d / m / Y',strtotime($row_total[min_date]));
-	$max_date = $date_format == 'str' ? date('F j, Y', strtotime($row_total[max_date])) : date('d / m / Y',strtotime($row_total[max_date]));
+	$min_date = $date_format == 'str' ? date('F j, Y', strtotime($row_total['min_date'])) : date('d / m / Y',strtotime($row_total['min_date']));
+	$max_date = $date_format == 'str' ? date('F j, Y', strtotime($row_total['max_date'])) : date('d / m / Y',strtotime($row_total['max_date']));
 }
 elseif($min_date_sended != ''){
 	$min_date = $date_format == 'str' ? date('F j, Y', strtotime($min_date_sended)) : date('d / m / Y',strtotime($min_date_sended));
@@ -109,12 +128,12 @@ $answer_ids = array();
 $voted_ids = array();
 $ans_names = array();
 $ans_orders_start = array();
-$res_all = mysql_query("SELECT `id`,`name` FROM `".$config->dbprefix."sexy_answers` WHERE `id_poll` = '$polling_id' AND  published = '1' ORDER BY `order` DESC,name");
+$res_all = mysql_query("SELECT `id`,`name` FROM `".$config->dbprefix."sexy_answers` WHERE `id_poll` = '$polling_id' AND  published = '1' ORDER BY `ordering` DESC,name");
 $a = 1;
 while ($row_all = mysql_fetch_assoc($res_all)) {
-	$answer_ids[] = $row_all[id];
-	$ans_names[$row_all[id]] = $row_all[name];
-	$ans_orders_start[$row_all[id]] = $a;
+	$answer_ids[] = $row_all['id'];
+	$ans_names[$row_all['id']] = $row_all['name'];
+	$ans_orders_start[$row_all['id']] = $a;
 	$a ++;
 }
 
@@ -140,39 +159,39 @@ $res_poll = mysql_query($query_poll);
 $poll_array = Array();
 while ($row_poll = mysql_fetch_assoc($res_poll)) {
 
-	$float_percent = (100 * $row_poll[count_votes] / $count_total_votes);
+	$float_percent = (100 * $row_poll['count_votes'] / $count_total_votes);
 	$item_percent = number_format($float_percent, 1, '.', ''); 
 	
-	$poll_array[$row_poll[id_answer]]['percent'] = $float_percent;
-	$poll_array[$row_poll[id_answer]]['percent_formated'] = $item_percent;
-	$poll_array[$row_poll[id_answer]]['answer_id'] = $row_poll[id_answer];
-	$poll_array[$row_poll[id_answer]]['votes'] = $row_poll[count_votes];
-	$poll_array[$row_poll[id_answer]]['total_votes'] = $count_total_votes;
-	$poll_array[$row_poll[id_answer]]['min_date'] = $min_date;
-	$poll_array[$row_poll[id_answer]]['max_date'] = $max_date;
-	$poll_array[$row_poll[id_answer]]['name'] = $row_poll[name];
+	$poll_array[$row_poll['id_answer']]['percent'] = $float_percent;
+	$poll_array[$row_poll['id_answer']]['percent_formated'] = $item_percent;
+	$poll_array[$row_poll['id_answer']]['answer_id'] = $row_poll['id_answer'];
+	$poll_array[$row_poll['id_answer']]['votes'] = $row_poll['count_votes'];
+	$poll_array[$row_poll['id_answer']]['total_votes'] = $count_total_votes;
+	$poll_array[$row_poll['id_answer']]['min_date'] = $min_date;
+	$poll_array[$row_poll['id_answer']]['max_date'] = $max_date;
+	$poll_array[$row_poll['id_answer']]['name'] = $row_poll['name'];
 	
-	$voted_ids[] = $row_poll[id_answer];
+	$voted_ids[] = $row_poll['id_answer'];
 }
 
 //chech if there are answers with no votes
 foreach ($answer_ids as $ans_id) {
 	if(!in_array($ans_id,$voted_ids)) {
-		$poll_array[$ans_id]['percent'] = '0';
-		$poll_array[$ans_id]['percent_formated'] = '0';
-		$poll_array[$ans_id]['answer_id'] = $ans_id;
-		$poll_array[$ans_id]['votes'] = '0';
-		$poll_array[$ans_id]['total_votes'] = $count_total_votes;
-		$poll_array[$ans_id]['min_date'] = $min_date;
-		$poll_array[$ans_id]['max_date'] = $max_date;
-		$poll_array[$ans_id]['name'] = $ans_names[$ans_id];
+		$poll_array["$ans_id"]['percent'] = '0';
+		$poll_array["$ans_id"]['percent_formated'] = '0';
+		$poll_array["$ans_id"]['answer_id'] = $ans_id;
+		$poll_array["$ans_id"]['votes'] = '0';
+		$poll_array["$ans_id"]['total_votes'] = $count_total_votes;
+		$poll_array["$ans_id"]['min_date'] = $min_date;
+		$poll_array["$ans_id"]['max_date'] = $max_date;
+		$poll_array["$ans_id"]['name'] = $ans_names[$ans_id];
 	}
 }
 
 //genertes order list
 $order_list = array();
 foreach ($poll_array as $data) {
-	$order_list[$data[answer_id]] = array($data[votes],$data[name],$data[answer_id]);
+	$order_list[$data['answer_id']] = array($data['votes'],$data['name'],$data['answer_id']);
 }
 usort($order_list, "cmp");
 $r = 1;
@@ -225,18 +244,18 @@ echo '[';
 foreach ($poll_array as $data)
 {
 	echo '{';
-	echo '"answer_id": "'.$data[answer_id].'", ';
+	echo '"answer_id": "'.$data["answer_id"].'", ';
 	echo '"poll_id": "'.$polling_id.'", ';
 	echo '"module_id": "'.$module_id.'", ';
-	echo '"percent_formated": "'.$data[percent_formated].'", ';
-	echo '"percent": "'.$data[percent].'", ';
-	echo '"votes": "'.$data[votes].'", ';
-	echo '"total_votes": "'.$data[total_votes].'", ';
-	echo '"min_date": "'.$data[min_date].'", ';
-	echo '"order": "'.$ord_final_list[$data[answer_id]].'", ';
-	echo '"order_start": "'.$ans_orders_start[$data[answer_id]].'", ';
-	echo '"name": "'.htmlspecialchars($data[name], ENT_QUOTES).'", ';
-	echo '"max_date": "'.$data[max_date].'"';
+	echo '"percent_formated": "'.$data["percent_formated"].'", ';
+	echo '"percent": "'.$data["percent"].'", ';
+	echo '"votes": "'.$data["votes"].'", ';
+	echo '"total_votes": "'.$data["total_votes"].'", ';
+	echo '"min_date": "'.$data["min_date"].'", ';
+	echo '"order": "'.$ord_final_list[$data["answer_id"]].'", ';
+	echo '"order_start": "'.$ans_orders_start[$data["answer_id"]].'", ';
+	echo '"name": "'.$data["name"].'", ';
+	echo '"max_date": "'.$data["max_date"].'"';
 	
 	if(sizeof($add_answers) > 0 && $a == 0) {
 		echo ', "addedanswers": ';

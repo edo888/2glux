@@ -1,49 +1,34 @@
 <?php
 /**
- * Joomla! 1.5 component sexy_polling
+ * Joomla! component sexypolling
  *
- * @version $Id: sexy_polling.php 2012-04-05 14:30:25 svn $
- * @author Simon Poghosyan
- * @package Joomla
- * @subpackage sexypolling
+ * @version $Id: sexypolling.php 2012-04-05 14:30:25 svn $
+ * @author 2GLux.com
+ * @package Sexy Polling
+ * @subpackage com_sexypolling
  * @license GNU/GPL
- *
  *
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restircted access');
 
 
 /*
  * Define constants for all pages
  */
+if(!defined('DS')){
+	define('DS',DIRECTORY_SEPARATOR);
+}
+define('JV', (version_compare(JVERSION, '3', 'l')) ? 'j2' : 'j3');
 define( 'COM_SEXY_POLLING_DIR', 'images'.DS.'sexy_polling'.DS );
 define( 'COM_SEXY_POLLING_BASE', JPATH_ROOT.DS.COM_SEXY_POLLING_DIR );
 define( 'COM_SEXY_POLLING_BASEURL', JURI::root().str_replace( DS, '/', COM_SEXY_POLLING_DIR ));
 
-// Require the base controller
-require_once JPATH_COMPONENT.DS.'controller.php';
-
-
-require_once( JPATH_COMPONENT.DS.'controller.php' );
-
-// Require specific controller if requested
-if($controller = JRequest::getWord('controller')) {
-	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
-	if (file_exists($path)) {
-		require_once $path;
-	} else {
-		$controller = '';
-	}
-}
-
-// Initialize the controller
-$classname    = 'SexypollingController'.$controller;
-$controller   = new $classname( );
-
-
+$controller	= JControllerLegacy::getInstance('SexyPolling');
 // Perform the Request task
-echo JRequest::getCmd('task');
-$controller->execute( JRequest::getCmd('task'));
+if(JV == 'j2')
+	$controller->execute( JRequest::getCmd('task'));
+else
+	$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
