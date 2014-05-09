@@ -157,8 +157,9 @@ foreach ($pollings as $poll_index => $polling_array) {
 	if ($checkIp == 1) {
 		$query = "SELECT ip FROM #__sexy_votes sv JOIN #__sexy_answers sa ON sa.id_poll = '$poll_index' WHERE sv.id_answer = sa.id";
 		$db->setQuery($query);
-		$result = $db->query();
-		if(mysql_num_rows($result) > 0) {
+		$db->query();
+		$num_rows = $db->getNumRows();
+		if($num_rows > 0) {
 			if(!in_array($poll_index,$voted_ids))
 				$voted_ids[] = $poll_index;
 		}
@@ -220,8 +221,7 @@ foreach ($pollings as $poll_index => $polling_array) {
 	//get count of total votes, min and max dates of voting
 	$query = "SELECT COUNT(sv.`id_answer`) total_count, MAX(sv.`date`) max_date,MIN(sv.`date`) min_date FROM `#__sexy_votes` sv JOIN `#__sexy_answers` sa ON sa.id_poll = '$poll_index' WHERE sv.id_answer = sa.id";
 	$db->setQuery($query);
-	$res_toal = $db->query();
-	$row_total = mysql_fetch_assoc($res_toal);
+	$row_total = $db->loadAssoc();
 	$count_total_votes = $row_total[total_count];
 	$min_date = strtotime($row_total[min_date]);
 	$max_date = strtotime($row_total[max_date]);
