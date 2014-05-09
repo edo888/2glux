@@ -8,9 +8,11 @@
     <authorEmail>info@2glux.com</authorEmail>
     <authorUrl>2glux.com</authorUrl>
     <version>1.0</version>
+    <license>GNU/GPL</license>
     <description></description>
      <files>
-         <filename module="mod_sexypolling">mod_sexypolling.php</filename>
+     	<filename>index.html</filename>
+        <filename module="mod_sexypolling">mod_sexypolling.php</filename>
      </files>
      <params>
      	<param name="poll_type" type="radio" default="0" label="Poll Type" description="">
