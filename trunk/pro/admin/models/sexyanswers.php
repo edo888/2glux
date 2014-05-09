@@ -50,7 +50,7 @@ class SexypollingModelSexyAnswers extends JModelList {
 	 */
 	public function getSexyPolls() {
 		$db		= $this->getDbo();
-		$sql = "SELECT `id`, `name` FROM `#__sexy_polls` order by `ordering`,`name` ";
+		$sql = "SELECT `id`, `name` FROM `#__sexy_polls` WHERE `published` <> '-2' order by `ordering`,`name` ";
 		$db->setQuery($sql);
 		return $opts = $db->loadObjectList();
 	}
@@ -138,6 +138,9 @@ class SexypollingModelSexyAnswers extends JModelList {
 		
 		$query->from('#__sexy_answers AS sa');
 			
+		// get only published polls answers
+		$query->join('INNER', '#__sexy_polls AS sp1 ON sp1.id=sa.id_poll AND sp1.published <> -2');
+		
 		// Join over the answers.
 		$query->select('COUNT(sv.id_answer) AS count_votes');
 		$query->join('LEFT', '#__sexy_votes AS sv ON sv.id_answer=sa.id');

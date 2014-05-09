@@ -1,6 +1,6 @@
 .polling_container_wrapper {
 	float: none !important;
-	width: 98%  !important;
+	width: 98%;
 	margin: 8px auto 8px !important;
 	position: relative !important;
 	line-height: 15px !important;
@@ -32,6 +32,7 @@
 	bottom: auto !important;
 	top: auto !important;
 	width: auto !important;
+	background: none !important;
 }
 .polling_ul li {
 	margin: 0 !important;
@@ -44,6 +45,7 @@
 	border: 1px solid transparent;
 	z-index: 10 !important;
 	border: none !important;
+	background: none !important;
 }
 .animation_block {
 	position: absolute !important;
@@ -222,7 +224,7 @@ td.total_votes,td.last_vote,td.first_vote
 	clear: both !important;
 }
 .add_answer {
-	padding: 2px 0px 2px 25px !important;
+	padding: 2px 0px 2px 25px;
 	position: relative !important;
 	background: transparent url("../images/bg_plus.png") no-repeat 6px center !important;
 	margin: 0 !important;
@@ -397,10 +399,30 @@ select.polling_select2 {
 #close_sexy_alert {
 	position: absolute !important;
 	cursor: pointer !important;
-	padding: 0 14px 2px !important;
-	height: 24px !important;
+	padding: 4px 20px !important;
 	bottom: 15px !important;
 	right: 15px !important;
+
+box-shadow: inset 0 0 15px 1px rgba(253,18,8,0.78);
+border-radius: 4px;
+background-color: #FF8F00;
+text-shadow: 0 -1px 1px rgba(0,0,0,0.77);
+color: white;
+border: none;
+cursor: pointer;
+}
+#close_sexy_alert:hover {
+box-shadow: inset 0 0 15px 2px rgba(253,18,8,0.78);
+text-shadow: 0 -1px 1px rgba(0,0,0,0.82);
+background-color: #FFCC00;
+}
+.max_allowed_checkox_limit {
+text-decoration: underline;
+text-shadow: 0px 0px 21px rgb(241, 241, 8);
+font-size: 19px;
+font-weight: bold;
+font-family: tahoma,LCD;
+color: rgb(255, 110, 13);
 }
 
 .sexy_clear {
@@ -854,4 +876,24 @@ select.polling_select2 {
 .polling_container_wrapper .powered_by_12:hover a  {
 	color:rgb(21, 208, 255) !important;
 	text-shadow: 0px -1px 0px rgb(0, 0, 0), 0px 3px 3px rgb(15, 15, 15) !important
+}
+
+#sexy_timer {
+	padding: 15px;
+	overflow: hidden;
+	height: 118px;
+	margin: 39px 0 0px -76px;
+	border-radius: 12px;
+
+background-color: #FFC800;
+background: linear-gradient(top,rgb(247, 100, 3),#FFC800);
+background: -moz-linear-gradient(top,rgb(247, 100, 3),#FFC800);
+background: -webkit-linear-gradient(top,rgb(247, 100, 3),#FFC800);
+background: -o-linear-gradient(top,rgb(247, 100, 3),#FFC800);
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(247, 100, 3)', endColorstr='#FFC800')";
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="rgb(247, 100, 3)", endColorstr="#FFC800");
+}
+#estimated_time_message {
+	font-style: italic;
+	color: rgb(233, 144, 10);
 }

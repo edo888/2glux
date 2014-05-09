@@ -6,7 +6,7 @@
     <copyright>Copyright (©) 2008-2013 2GLux company. All rights reserved.</copyright>
     <authorEmail>info@2glux.com</authorEmail>
     <authorUrl>http://2glux.com</authorUrl>
-    <version>1.0.2</version>
+    <version>1.0.5</version>
     <license>GNU/GPL</license>
     <description>MOD_SEXYPOLLING_DESCRIPTION</description>
 	<files>
@@ -18,6 +18,14 @@
 			<language tag="en-GB">language/en-GB/en-GB.mod_sexypolling.sys.ini</language>
 			<language tag="fr-FR">language/fr-FR/fr-FR.mod_sexypolling.ini</language>
 			<language tag="fr-FR">language/fr-FR/fr-FR.mod_sexypolling.sys.ini</language>
+			<language tag="es-ES">language/es-ES/es-ES.mod_sexypolling.ini</language>
+			<language tag="es-ES">language/es-ES/es-ES.mod_sexypolling.sys.ini</language>
+			<language tag="de-DE">language/de-DE/de-DE.mod_sexypolling.ini</language>
+			<language tag="de-DE">language/de-DE/de-DE.mod_sexypolling.sys.ini</language>
+			<language tag="it-IT">language/it-IT/it-IT.mod_sexypolling.ini</language>
+			<language tag="it-IT">language/it-IT/it-IT.mod_sexypolling.sys.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.mod_sexypolling.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.mod_sexypolling.sys.ini</language>
 	</languages>
 	<config>
 	   	<fields name="params">
@@ -173,18 +181,7 @@
 				  <option value="0">JNo</option>
 				</field>
 				
-				<field name="autoAnimate" type="radio" default="1" label="MOD_SEXYPOLLING_AUTOANIMATE_FOR_VOTED_POLLS_LABEL" description="MOD_SEXYPOLLING_AUTOANIMATE_FOR_VOTED_POLLS_DESCRIPTION" class="btn-group">
-				  <option value="1">JYes</option>
-				  <option value="0">JNo</option>
-				</field>
-				
-		  		<field type="spacer" />
-		  		
-		  		<field name="checkIp" type="radio" default="1" label="MOD_SEXYPOLLING_CHECK_IP_LABEL" description="MOD_SEXYPOLLING_CHECK_IP_DESCRIPTION" class="btn-group">
-				  <option value="1">JYes</option>
-				  <option value="0">JNo</option>
-				</field>
-				<field name="checkCookie" type="radio" default="1" label="MOD_SEXYPOLLING_CHECK_COOKIES_LABEL" description="MOD_SEXYPOLLING_CHECK_COOKIES_DESCRIPTION" class="btn-group">
+				<field name="autoAnimate" type="radio" default="0" label="MOD_SEXYPOLLING_AUTOANIMATE_FOR_VOTED_POLLS_LABEL" description="MOD_SEXYPOLLING_AUTOANIMATE_FOR_VOTED_POLLS_DESCRIPTION" class="btn-group">
 				  <option value="1">JYes</option>
 				  <option value="0">JNo</option>
 				</field>

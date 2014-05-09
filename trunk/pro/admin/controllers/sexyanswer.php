@@ -17,5 +17,27 @@ jimport('joomla.application.component.controllerform');
 
 class SexyPollingControllerSexyAnswer extends JControllerForm
 {
+	function __construct($default = array()) {
+		parent::__construct($default);
 	
+		$this->registerTask('save', 'saveAnswer');
+		$this->registerTask('apply', 'saveAnswer');
+	}
+	
+	function saveAnswer() {
+		$id = JRequest::getInt('id',0);
+		$model = $this->getModel('sexyanswer');
+	
+		if ($model->saveAnswer()) {
+			$msg = JText::_( 'COM_SEXYPOLLING_ANSWER_SAVED' );
+		} else {
+			$msg = JText::_( 'COM_SEXYPOLLING_ERROR_SAVING_ANSWER' );
+		}
+	
+		if($_REQUEST['task'] == 'apply' && $id != 0)
+			$link = 'index.php?option=com_sexypolling&view=sexyanswer&layout=edit&id='.$id;
+		else
+			$link = 'index.php?option=com_sexypolling&view=sexyanswers';
+		$this->setRedirect($link, $msg);
+	}
 }

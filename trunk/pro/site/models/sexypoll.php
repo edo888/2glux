@@ -51,6 +51,8 @@ class SexypollingModelSexypoll extends JModelLegacy {
 						'sp.date_start date_start, '.
 						'sp.date_end date_end, '.
 						'sp.multiple_answers multiple_answers, '.
+						'sp.voting_period voting_period, '.
+						'sp.number_answers number_answers, '.
 						'st.styles styles, '.
 						'sp.name polling_name, '.
 						'sp.question polling_question, '.

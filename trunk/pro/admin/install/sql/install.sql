@@ -19,14 +19,16 @@ CREATE TABLE IF NOT EXISTS `#__sexy_polls` (
   `ordering` int(11) NOT NULL,
   `language` char(7) NOT NULL,
   `multiple_answers` enum('0','1') NOT NULL DEFAULT '0',
+  `number_answers` mediumint(8) unsigned NOT NULL,
+  `voting_period` float unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`),
   KEY `id_category` (`id_category`),
   KEY `id_template` (`id_template`)
 ) ENGINE=MyISAM CHARACTER SET = `utf8`;
 
-INSERT IGNORE INTO `#__sexy_polls` (`id`, `id_user`, `id_category`, `id_template`, `name`, `alias`, `question`, `created`, `date_start`, `date_end`, `published`, `ordering`, `multiple_answers`,`access`) VALUES
-(1, 0, 1, 1, 'Sexy Poll Example', '', 'Do You like Sexy Polling by 2GLux?', '2012-04-19 19:13:34', '0000-00-00', '0000-00-00', '1', '0', '1', '1');
+INSERT IGNORE INTO `#__sexy_polls` (`id`, `id_user`, `id_category`, `id_template`, `name`, `alias`, `question`, `created`, `date_start`, `date_end`, `published`, `ordering`, `multiple_answers`,`access`,`number_answers`,`voting_period`) VALUES
+(1, 0, 1, 1, 'Sexy Poll Example', '', 'Do You like Sexy Polling by 2GLux?', '2012-04-19 19:13:34', '0000-00-00', '0000-00-00', '1', '0', '1', '1','3','24');
 
 CREATE TABLE IF NOT EXISTS `#__sexy_answers` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -55,7 +57,7 @@ INSERT IGNORE INTO `#__sexy_answers` (`id`, `id_poll`, `id_user`, `name`, `publi
 CREATE TABLE IF NOT EXISTS `#__sexy_votes` (
   `id_answer` int(10) unsigned NOT NULL,
   `ip` text NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `country` text NOT NULL,
   `city` text NOT NULL,
   `region` text NOT NULL,
