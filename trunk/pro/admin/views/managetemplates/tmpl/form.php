@@ -457,48 +457,6 @@ Joomla.submitbutton = function(task) {
 					$(".right_col").css('textShadow' , textShadow);
 				}
 
-
-
-
-				//add answer///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				/*
-	        	seperate_tr("Add Answer Styles","");
-	        	create_accordion('Styles','closed');
-	        		echo_size_tr('Height:','272',$styles[272],'13','40');
-		        	echo_size_tr('Font Size:','252',$styles[252],'8','22');
-		        	echo_select_tr('Font Weight','253',array("normal" => "Normal","bold" => "Bold"),$styles[253]);
-		        	echo_select_tr('Font Style','254',array("normal" => "Normal","italic" => "Italic"),$styles[254]);
-		        	echo_select_tr('Text Decoration','255',array("none" => "None","underline" => "Underline","overline" => "Overline","line-through"=>"Line Through"),$styles[255]);
-		        	echo_font_tr('Font Family','256',$styles[256]);
-	        	close_accordion();
-	        	create_accordion('Text Shadow','closed');
-		        	echo_size_tr('Text Shadow Horizontal Offset:','275',$styles[275],'-50','50');
-		        	echo_size_tr('Text Shadow Vertical Offset:','276',$styles[276],'-50','50');
-		        	echo_size_tr('Text Shadow Blur Radius:','277',$styles[277],'0','50');
-	        	close_accordion();
-	        	create_accordion('Box Shadow','closed');
-		        	echo_color_tr('Box Shadow Color:','257',$styles[257]);
-		        	echo_select_tr('Box Shadow Type','258',array("" => "Default","inset" => "Inset"),$styles[258]);
-		        	echo_size_tr('Box Shadow Horizontal Offset:','259',$styles[259],'-80','80');
-		        	echo_size_tr('Box Shadow Vertical Offset:','260',$styles[260],'-80','80');
-		        	echo_size_tr('Box Shadow Blur Radius:','261',$styles[261],'-120','120');
-		        	echo_size_tr('Box Shadow Spread Radius:','262',$styles[262],'-120','120');
-	        	close_accordion();
-	        	create_accordion('Border','closed');
-		        	echo_color_tr('Border Color:','263',$styles[263]);
-		        	echo_size_tr('Border Size:','264',$styles[264],'0','3');
-		        	echo_select_tr('Border Style','265',array("solid" => "Solid", "dotted" => "Dotted","dashed" => "Dashed", "double" => "Double", "groove" => "Groove", "ridge" => "Ridge", "inset" => "Inset", "outset" => "Outset"),$styles[265]);
-		        	echo_size_tr('Border Top Left Radius:','266',$styles[266],'0','80');
-		        	echo_size_tr('Border Top Right Radius:','267',$styles[267],'0','80');
-		        	echo_size_tr('Border Bottom Left Radius:','268',$styles[268],'0','80');
-		        	echo_size_tr('Border Bottom Right Radius:','269',$styles[269],'0','80');
-	        	close_accordion();
-
-
-*/
-
-
-
 				//add answer
 				else if(roll == 273) {
 					var backColor = $("#elem-273").val();
@@ -526,9 +484,6 @@ Joomla.submitbutton = function(task) {
 					$(".add_ans_submit").css('borderLeft' , border);
 				}
 
-
-
-				
 				//slider
 				else if(roll == 230) {
 					var back = $("#elem-230").val();
@@ -651,9 +606,11 @@ Joomla.submitbutton = function(task) {
 			}
 		});
 
+
 		//size up
 		var up_int,down_int,curr_up,curr_down;
 		$('.size_up').mousedown(function() {
+			
 			var $this = $(this);
 			curr_up = parseInt($this.parent('div').prev('input').val());
 			up_int = setInterval(function() {
@@ -662,367 +619,7 @@ Joomla.submitbutton = function(task) {
 				if(val < max_val) {
 					$this.parent('div').prev('input').val(val*1 + 1);
 					roll = $this.parent('div').prev('input').attr('roll');
-					if(roll == 2) { //box border width
-						$(".polling_container").css({
-							borderLeftWidth : val*1 + 1,
-							borderRightWidth : val*1 + 1,
-							borderBottomWidth : val*1 + 1,
-							borderTopWidth : val*1 + 1
-						});
-					}
-					else if(roll == 89) { //box border width
-						$(".polling_container .grad").css({
-							borderLeftWidth : val*1 + 1,
-							borderRightWidth : val*1 + 1,
-							borderBottomWidth : val*1 + 1,
-							borderTopWidth : val*1 + 1
-						});
-					}
-					else if(roll == 51) {
-						$(".polling_container").css('border-top-left-radius' , val*1 + 1);
-					}
-					else if(roll == 52) {
-						$(".polling_container").css('border-top-right-radius' , val*1 + 1);
-					}
-					else if(roll == 53) {
-						$(".polling_container").css('border-bottom-left-radius' , val*1 + 1);
-					}
-					else if(roll == 54) {
-						$(".polling_container").css('border-bottom-right-radius' , val*1 + 1);
-					}
-					
-					//add answer
-					else if(roll == 266) {
-						$(".add_answer").css('border-top-left-radius' , val*1 + 1);
-					}
-					else if(roll == 267) {
-						$(".add_answer").css('border-top-right-radius' , val*1 + 1);
-					}
-					else if(roll == 268) {
-						$(".add_answer").css('border-bottom-left-radius' , val*1 + 1);
-					}
-					else if(roll == 269) {
-						$(".add_answer").css('border-bottom-right-radius' , val*1 + 1);
-					}
-					else if(roll == 252) {
-						$(".add_ans_name,.add_ans_submit").css('fontSize' , val*1 - 1);
-					}
-					else if(roll == 264) {
-						var size = val*1 + 1;
-						var border = size + 'px '  + $("#elem-265").val() + $("#elem-263").val() ;
-						$(".add_answer").css('border' , border);
-						$(".add_ans_submit").css('borderLeft' , border);
-					}
-					else if(roll == 259 || roll == 260 || roll == 261 || roll == 262) {
-						var boxShadow = $("#elem-258").val() + ' ' + $("#elem-259").val() + 'px '  + $("#elem-260").val() + 'px '  + $("#elem-261").val() + 'px ' + $("#elem-262").val() + 'px ' + $("#elem-257").val();
-						$(".add_answer").css('boxShadow' , boxShadow);
-					}
-					else if(roll == 275 || roll == 276 || roll == 277 ) { 
-						textShadow = $("#elem-275").val() + 'px '  + $("#elem-276").val() + 'px '  + $("#elem-277").val() + 'px ' +  $("#elem-274").val() ;
-						$(".add_ans_name,.add_ans_submit").css('textShadow' , textShadow);
-					}
-					else if(roll == 272) {
-						$(".add_answer").css('height' , val*1 + 1);
-					}
-
-		        	//grad
-					else if(roll == 85) {
-						$(".polling_container .grad").css('border-top-left-radius' , val*1 + 1);
-						$(".polling_container .answer_navigation").css('border-top-left-radius' , val*1 + 1);
-					}
-					else if(roll == 86) {
-						$(".polling_container .grad").css('border-top-right-radius' , val*1 + 1);
-						$(".polling_container .answer_navigation").css('border-top-right-radius' , val*1 + 1);
-					}
-					else if(roll == 87) {
-						$(".polling_container .grad").css('border-bottom-left-radius' , val*1 + 1);
-						$(".polling_container .answer_navigation").css('border-bottom-left-radius' , val*1 + 1);
-					}
-					else if(roll == 88) {
-						$(".polling_container .grad").css('border-bottom-right-radius' , val*1 + 1);
-						$(".polling_container .answer_navigation").css('border-bottom-right-radius' , val*1 + 1);
-					}
-					else if(roll == 8) { //box border radius
-						$(".polling_container .polling_name").css('fontSize' , val*1 + 1);
-					}
-					else if(roll == 10) { //answer name font size
-						$(".polling_container .answer_name").css('fontSize' , val*1 + 1);
-					}
-					else if(roll == 46 || roll == 47 || roll == 48 || roll == 49) {
-						var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
-						var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
-						
-						$(".polling_container").css('boxShadow' , boxShadow_);
-						$(".polling_container").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					else if(roll == 56 || roll == 57 || roll == 58 || roll == 59) {//box hover state
-						var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
-						var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
-						
-						$(".polling_container").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					else if(roll == 60 || roll == 61 || roll == 62 ) { //poll name text shadow
-						textShadow = $("#elem-60").val() + 'px '  + $("#elem-61").val() + 'px '  + $("#elem-62").val() + 'px ' +  $("#elem-63").val() ;
-						$(".polling_container .polling_name").css('textShadow' , textShadow);
-					}
-					else if(roll == 64 || roll == 65 || roll == 66 ) { //poll answer name text shadow
-						textShadow = $("#elem-64").val() + 'px '  + $("#elem-65").val() + 'px '  + $("#elem-66").val() + 'px ' +  $("#elem-67").val() ;
-						$(".polling_container .answer_name").css('textShadow' , textShadow);
-					}
-					else if(roll == 72 || roll == 69 || roll == 70 || roll == 71) { //active animation
-						var boxShadow = $("#elem-68").val() + ' ' + $("#elem-69").val() + 'px '  + $("#elem-70").val() + 'px '  + $("#elem-71").val() + 'px ' + $("#elem-72").val() + 'px ' + $("#elem-11").val();
-						$(".polling_container .active_li").css('boxShadow' , boxShadow);
-					}
-					else if(roll == 80 || roll == 81 || roll == 82 || roll == 83) { //answer_navigation
-						var boxShadow = $("#elem-79").val() + ' ' + $("#elem-80").val() + 'px '  + $("#elem-81").val() + 'px '  + $("#elem-82").val() + 'px ' + $("#elem-83").val() + 'px ' + $("#elem-78").val();
-						$(".polling_container .grad").css('boxShadow' , boxShadow);
-					}
-					//animation border radius
-					else if(roll == 74) {
-						$(".polling_container .active_li").css('border-top-left-radius' , val*1 + 1);
-					}
-					else if(roll == 75) {
-						$(".polling_container .active_li").css('border-top-right-radius' , val*1 + 1);
-					}
-					else if(roll == 76) {
-						$(".polling_container .active_li").css('border-bottom-left-radius' , val*1 + 1);
-					}
-					else if(roll == 77) {
-						$(".polling_container .active_li").css('border-bottom-right-radius' , val*1 + 1);
-					}
-					else if(roll == 90) {
-						$(".polling_container .answer_navigation").css('height' , val*1 + 1);
-					}
-					
-					// poll submit ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					
-					else if(roll == 92) {
-						$(".polling_container .polling_submit").css('paddingTop' , val*1 + 1);
-						$(".polling_container .polling_submit").css('paddingBottom' , val*1 + 1);
-					}
-					else if(roll == 93) {
-						$(".polling_container .polling_submit").css('paddingLeft' , val*1 + 1);
-						$(".polling_container .polling_submit").css('paddingRight' , val*1 + 1);
-					}
-					else if(roll == 101) { //box border width
-						$(".polling_container .polling_submit").css({
-							borderLeftWidth : val*1 + 1,
-							borderRightWidth : val*1 + 1,
-							borderBottomWidth : val*1 + 1,
-							borderTopWidth : val*1 + 1
-						});
-					}
-					else if(roll == 102) {
-						$(".polling_container .polling_submit").css('border-top-left-radius' , val*1 + 1);
-					}
-					else if(roll == 103) {
-						$(".polling_container .polling_submit").css('border-top-right-radius' , val*1 + 1);
-					}
-					else if(roll == 104) {
-						$(".polling_container .polling_submit").css('border-bottom-left-radius' , val*1 + 1);
-					}
-					else if(roll == 105) {
-						$(".polling_container .polling_submit").css('border-bottom-right-radius' , val*1 + 1);
-					}
-					else if(roll == 96 || roll == 97 || roll == 98 || roll == 99) {
-						var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' +  $("#elem-117").val();
-						var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
-						$(".polling_container .polling_submit").css('boxShadow' , boxShadow_);
-						
-						$(".polling_container .polling_submit").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					else if(roll == 107) {
-						$(".polling_container .polling_submit").css('fontSize' , val*1 + 1);
-					}
-					else if(roll == 114 || roll == 115 || roll == 116 ) {
-						var textShadow = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-125").val();
-						var textShadow_ = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-113").val();
-						$(".polling_container .polling_submit").css('textShadow' , textShadow_);
-						
-						$(".polling_container .polling_submit").hover(function() {
-							$(this).css('textShadow' , textShadow);
-						},function() {
-							$(this).css('textShadow' , textShadow_);
-						});
-					}
-					else if(roll == 119 || roll == 120 || roll == 121 || roll == 122) {
-						var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' + $("#elem-117").val();
-						var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
-						
-						$(".polling_container .polling_submit").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-
-					// poll Result ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					
-					else if(roll == 129) {
-						$(".polling_container .polling_result").css('paddingTop' , val*1 + 1);
-						$(".polling_container .polling_result").css('paddingBottom' , val*1 + 1);
-					}
-					else if(roll == 130) {
-						$(".polling_container .polling_result").css('paddingLeft' , val*1 + 1);
-						$(".polling_container .polling_result").css('paddingRight' , val*1 + 1);
-					}
-					else if(roll == 138) { //box border width
-						$(".polling_container .polling_result").css({
-							borderLeftWidth : val*1 + 1,
-							borderRightWidth : val*1 + 1,
-							borderBottomWidth : val*1 + 1,
-							borderTopWidth : val*1 + 1
-						});
-					}
-					else if(roll == 139) {
-						$(".polling_container .polling_result").css('border-top-left-radius' , val*1 + 1);
-					}
-					else if(roll == 140) {
-						$(".polling_container .polling_result").css('border-top-right-radius' , val*1 + 1);
-					}
-					else if(roll == 141) {
-						$(".polling_container .polling_result").css('border-bottom-left-radius' , val*1 + 1);
-					}
-					else if(roll == 142) {
-						$(".polling_container .polling_result").css('border-bottom-right-radius' , val*1 + 1);
-					}
-					else if(roll == 133 || roll == 134 || roll == 135 || roll == 136) {
-						var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' +  $("#elem-154").val();
-						var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
-						$(".polling_container .polling_result").css('boxShadow' , boxShadow_);
-						
-						$(".polling_container .polling_result").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					else if(roll == 144) {
-						$(".polling_container .polling_result").css('fontSize' , val*1 + 1);
-					}
-					else if(roll == 151 || roll == 152 || roll == 153 ) {
-						var textShadow = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-162").val();
-						var textShadow_ = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-150").val();
-						$(".polling_container .polling_result").css('textShadow' , textShadow_);
-						
-						$(".polling_container .polling_result").hover(function() {
-							$(this).css('textShadow' , textShadow);
-						},function() {
-							$(this).css('textShadow' , textShadow_);
-						});
-					}
-					else if(roll == 156 || roll == 157 || roll == 158 || roll == 159) {
-						var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' + $("#elem-154").val();
-						var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
-						
-						$(".polling_container .polling_result").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					//votes data
-					else if(roll == 207) {
-						$(".polling_select1,.polling_select2").css('paddingTop' , val*1 + 1);
-						$(".polling_select1,.polling_select2").css('paddingBottom' , val*1 + 1);
-					}
-					else if(roll == 208) {
-						$(".polling_select1,.polling_select2").css('paddingLeft' , val*1 + 1);
-						$(".polling_select1,.polling_select2").css('paddingRight' , val*1 + 1);
-					}
-					else if(roll == 210) { //box border radius
-						$(".polling_select1,.polling_select2").css('fontSize' , val*1 + 1);
-					}
-					else if(roll == 216 || roll == 217 || roll == 218 ) {
-						var textShadow = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-215").val();
-						var textShadow_ = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-229").val();
-						$(".polling_select1,.polling_select2").css('textShadow' , textShadow);
-						
-						$(".polling_select1,.polling_select2").hover(function() {
-							$(this).css('textShadow' , textShadow_);
-						},function() {
-							$(this).css('textShadow' , textShadow);
-						});
-					}
-					else if(roll == 220) { 
-						$(".polling_select1,.polling_select2").css({
-							borderLeftWidth : val*1 + 1,
-							borderRightWidth : val*1 + 1,
-							borderBottomWidth : val*1 + 1,
-							borderTopWidth : val*1 + 1
-						});
-					}
-					else if(roll == 222) {
-						$(".polling_select1,.polling_select2").css('border-top-left-radius' , val*1 + 1);
-					}
-					else if(roll == 223) {
-						$(".polling_select1,.polling_select2").css('border-top-right-radius' , val*1 + 1);
-					}
-					else if(roll == 224) {
-						$(".polling_select1,.polling_select2").css('border-bottom-left-radius' , val*1 + 1);
-					}
-					else if(roll == 225) {
-						$(".polling_select1,.polling_select2").css('border-bottom-right-radius' , val*1 + 1);
-					}
-					//vote data
-					else if(roll == 167) {
-						$(".answer_votes_data").css('fontSize',val*1 + 1);
-					}
-					else if(roll == 173 || roll == 174 || roll == 175 ) {
-						var textShadow = $("#elem-173").val() + 'px '  + $("#elem-174").val() + 'px '  + $("#elem-175").val() + 'px ' + $("#elem-172").val();
-						$(".answer_votes_data").css('textShadow' , textShadow);
-					}
-					//vote  digit data
-					else if(roll == 177) {
-						$(".answer_votes_data span").css('fontSize',val*1 + 1);
-					}
-					else if(roll == 183 || roll == 184 || roll == 185 ) {
-						var textShadow = $("#elem-183").val() + 'px '  + $("#elem-184").val() + 'px '  + $("#elem-185").val() + 'px ' + $("#elem-182").val();
-						$(".answer_votes_data span").css('textShadow' , textShadow);
-					}
-					//total vote  data
-					else if(roll == 187) {
-						$(".left_col").css('fontSize',val*1 + 1);
-					}
-					else if(roll == 197) {
-						$(".right_col").css('fontSize',val*1 + 1);
-					}
-					else if(roll == 193 || roll == 194 || roll == 195 ) {
-						var textShadow = $("#elem-193").val() + 'px '  + $("#elem-194").val() + 'px '  + $("#elem-195").val() + 'px ' + $("#elem-192").val();
-						$(".left_col").css('textShadow' , textShadow);
-					}
-					else if(roll == 203 || roll == 204 || roll == 205 ) {
-						var textShadow = $("#elem-203").val() + 'px '  + $("#elem-204").val() + 'px '  + $("#elem-205").val() + 'px ' + $("#elem-202").val();
-						$(".right_col").css('textShadow' , textShadow);
-					}
-					//slider
-					else if (roll == 232) {
-						$(".ui-corner-all").css('borderRadius',val*1 + 1);
-					}
-					else if (roll == 248) {
-						$(".ui-slider dt").css('fontSize',val*1 + 1);
-					}
-					else if (roll == 250) {
-						$(".ui-slider dt").css('height',val*1 + 1);
-					}
-					else if(roll == 245 || roll == 246 || roll == 247 ) {
-						var textShadow = $("#elem-245").val() + 'px '  + $("#elem-246").val() + 'px '  + $("#elem-247").val() + 'px ' + $("#elem-244").val();
-						$(".ui-slider dt").css('textShadow' , textShadow);
-					}
-					
-					
+					move_up(roll,val);
 				}
 			},100);
 		})
@@ -1035,365 +632,379 @@ Joomla.submitbutton = function(task) {
 			if((val < max_val) && (curr_up == val)) {
 				$this.parent('div').prev('input').val(val*1 + 1);
 				roll = $this.parent('div').prev('input').attr('roll');
-				
-				if(roll == 2) {
-					$(".polling_container").css({
-						borderLeftWidth : val*1 + 1,
-						borderRightWidth : val*1 + 1,
-						borderBottomWidth : val*1 + 1,
-						borderTopWidth : val*1 + 1
-					});
-				}
-				else if(roll == 89) { //box border width
-					$(".polling_container .grad").css({
-						borderLeftWidth : val*1 + 1,
-						borderRightWidth : val*1 + 1,
-						borderBottomWidth : val*1 + 1,
-						borderTopWidth : val*1 + 1
-					});
-				}
-				else if(roll == 51) {
-					$(".polling_container").css('border-top-left-radius' , val*1 + 1);
-				}
-				else if(roll == 52) {
-					$(".polling_container").css('border-top-right-radius' , val*1 + 1);
-				}
-				else if(roll == 53) {
-					$(".polling_container").css('border-bottom-left-radius' , val*1 + 1);
-				}
-				else if(roll == 54) {
-					$(".polling_container").css('border-bottom-right-radius' , val*1 + 1);
-				}
-				else if(roll == 85) {
-					$(".polling_container .grad").css('border-top-left-radius' , val*1 + 1);
-					$(".polling_container .answer_navigation").css('border-top-left-radius' , val*1 + 1);
-				}
-				else if(roll == 86) {
-					$(".polling_container .grad").css('border-top-right-radius' , val*1 + 1);
-					$(".polling_container .answer_navigation").css('border-top-right-radius' , val*1 + 1);
-				}
-				else if(roll == 87) {
-					$(".polling_container .grad").css('border-bottom-left-radius' , val*1 + 1);
-					$(".polling_container .answer_navigation").css('border-bottom-left-radius' , val*1 + 1);
-				}
-				else if(roll == 88) {
-					$(".polling_container .grad").css('border-bottom-right-radius' , val*1 + 1);
-					$(".polling_container .answer_navigation").css('border-bottom-right-radius' , val*1 + 1);
-				}
-				else if(roll == 8) { //box border radius
-					$(".polling_container .polling_name").css('fontSize' , val*1 + 1);
-				}
-				else if(roll == 10) { //answer name font size
-					$(".polling_container .answer_name").css('fontSize' , val*1 + 1);
-				}
-				else if(roll == 46 || roll == 47 || roll == 48 || roll == 49) {
-					var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
-					var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
-					
-					$(".polling_container").css('boxShadow' , boxShadow_);
-					$(".polling_container").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				else if(roll == 56 || roll == 57 || roll == 58 || roll == 59) {//box hover state
-					var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
-					var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
-					
-					$(".polling_container").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				else if(roll == 60 || roll == 61 || roll == 62 ) { //poll name text shadow
-					textShadow = $("#elem-60").val() + 'px '  + $("#elem-61").val() + 'px '  + $("#elem-62").val() + 'px ' +  $("#elem-63").val() ;
-					$(".polling_container .polling_name").css('textShadow' , textShadow);
-				}
-				else if(roll == 64 || roll == 65 || roll == 66 ) { //poll answer name text shadow
-					textShadow = $("#elem-64").val() + 'px '  + $("#elem-65").val() + 'px '  + $("#elem-66").val() + 'px ' +  $("#elem-67").val() ;
-					$(".polling_container .answer_name").css('textShadow' , textShadow);
-				}
-				else if(roll == 72 || roll == 69 || roll == 70 || roll == 71) { //active animation
-					var boxShadow = $("#elem-68").val() + ' ' + $("#elem-69").val() + 'px '  + $("#elem-70").val() + 'px '  + $("#elem-71").val() + 'px ' + $("#elem-72").val() + 'px ' + $("#elem-11").val();
-					$(".polling_container .active_li").css('boxShadow' , boxShadow);
-				}
-				else if(roll == 80 || roll == 81 || roll == 82 || roll == 83) { //active animation
-					var boxShadow = $("#elem-79").val() + ' ' + $("#elem-80").val() + 'px '  + $("#elem-81").val() + 'px '  + $("#elem-82").val() + 'px ' + $("#elem-83").val() + 'px ' + $("#elem-78").val();
-					$(".polling_container .grad").css('boxShadow' , boxShadow);
-				}
-				//animation border radius
-				else if(roll == 74) {
-					$(".polling_container .active_li").css('border-top-left-radius' , val*1 + 1);
-				}
-				else if(roll == 75) {
-					$(".polling_container .active_li").css('border-top-right-radius' , val*1 + 1);
-				}
-				else if(roll == 76) {
-					$(".polling_container .active_li").css('border-bottom-left-radius' , val*1 + 1);
-				}
-				else if(roll == 77) {
-					$(".polling_container .active_li").css('border-bottom-right-radius' , val*1 + 1);
-				}
-				else if(roll == 90) {
-					$(".polling_container .answer_navigation").css('height' , val*1 + 1);
-				}
-				//poll submit////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				else if(roll == 92) {
-					$(".polling_container .polling_submit").css('paddingTop' , val*1 + 1);
-					$(".polling_container .polling_submit").css('paddingBottom' , val*1 + 1);
-				}
-				else if(roll == 93) {
-					$(".polling_container .polling_submit").css('paddingLeft' , val*1 + 1);
-					$(".polling_container .polling_submit").css('paddingRight' , val*1 + 1);
-				}
-				else if(roll == 101) { //box border width
-					$(".polling_container .polling_submit").css({
-						borderLeftWidth : val*1 + 1,
-						borderRightWidth : val*1 + 1,
-						borderBottomWidth : val*1 + 1,
-						borderTopWidth : val*1 + 1
-					});
-				}
-				else if(roll == 102) {
-					$(".polling_container .polling_submit").css('border-top-left-radius' , val*1 + 1);
-				}
-				else if(roll == 103) {
-					$(".polling_container .polling_submit").css('border-top-right-radius' , val*1 + 1);
-				}
-				else if(roll == 104) {
-					$(".polling_container .polling_submit").css('border-bottom-left-radius' , val*1 + 1);
-				}
-				else if(roll == 105) {
-					$(".polling_container .polling_submit").css('border-bottom-right-radius' , val*1 + 1);
-				}
-				else if(roll == 96 || roll == 97 || roll == 98 || roll == 99) {
-					var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' +  $("#elem-117").val();
-					var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
-					$(".polling_container .polling_submit").css('boxShadow' , boxShadow_);
-					
-					$(".polling_container .polling_submit").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				else if(roll == 107) {
-					$(".polling_container .polling_submit").css('fontSize' , val*1 + 1);
-				}
-				else if(roll == 114 || roll == 115 || roll == 116 ) {
-					var textShadow = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-125").val();
-					var textShadow_ = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-113").val();
-					$(".polling_container .polling_submit").css('textShadow' , textShadow_);
-					
-					$(".polling_container .polling_submit").hover(function() {
-						$(this).css('textShadow' , textShadow);
-					},function() {
-						$(this).css('textShadow' , textShadow_);
-					});
-				}
-				else if(roll == 119 || roll == 120 || roll == 121 || roll == 122) {
-					var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' + $("#elem-117").val();
-					var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
-					
-					$(".polling_container .polling_submit").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				// poll Result ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				else if(roll == 129) {
-					$(".polling_container .polling_result").css('paddingTop' , val*1 + 1);
-					$(".polling_container .polling_result").css('paddingBottom' , val*1 + 1);
-				}
-				else if(roll == 130) {
-					$(".polling_container .polling_result").css('paddingLeft' , val*1 + 1);
-					$(".polling_container .polling_result").css('paddingRight' , val*1 + 1);
-				}
-				else if(roll == 138) { //box border width
-					$(".polling_container .polling_result").css({
-						borderLeftWidth : val*1 + 1,
-						borderRightWidth : val*1 + 1,
-						borderBottomWidth : val*1 + 1,
-						borderTopWidth : val*1 + 1
-					});
-				}
-				else if(roll == 139) {
-					$(".polling_container .polling_result").css('border-top-left-radius' , val*1 + 1);
-				}
-				else if(roll == 140) {
-					$(".polling_container .polling_result").css('border-top-right-radius' , val*1 + 1);
-				}
-				else if(roll == 141) {
-					$(".polling_container .polling_result").css('border-bottom-left-radius' , val*1 + 1);
-				}
-				else if(roll == 142) {
-					$(".polling_container .polling_result").css('border-bottom-right-radius' , val*1 + 1);
-				}
-				else if(roll == 133 || roll == 134 || roll == 135 || roll == 136) {
-					var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' +  $("#elem-154").val();
-					var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
-					$(".polling_container .polling_result").css('boxShadow' , boxShadow_);
-					
-					$(".polling_container .polling_result").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				else if(roll == 144) {
-					$(".polling_container .polling_result").css('fontSize' , val*1 + 1);
-				}
-				else if(roll == 151 || roll == 152 || roll == 153 ) {
-					var textShadow = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-162").val();
-					var textShadow_ = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-150").val();
-					$(".polling_container .polling_result").css('textShadow' , textShadow_);
-					
-					$(".polling_container .polling_result").hover(function() {
-						$(this).css('textShadow' , textShadow);
-					},function() {
-						$(this).css('textShadow' , textShadow_);
-					});
-				}
-				else if(roll == 156 || roll == 157 || roll == 158 || roll == 159) {
-					var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' + $("#elem-154").val();
-					var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
-					
-					$(".polling_container .polling_result").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				//votes data
-				else if(roll == 207) {
-					$(".polling_select1,.polling_select2").css('paddingTop' , val*1 + 1);
-					$(".polling_select1,.polling_select2").css('paddingBottom' , val*1 + 1);
-				}
-				else if(roll == 208) {
-					$(".polling_select1,.polling_select2").css('paddingLeft' , val*1 + 1);
-					$(".polling_select1,.polling_select2").css('paddingRight' , val*1 + 1);
-				}
-				else if(roll == 210) { //box border radius
-					$(".polling_select1,.polling_select2").css('fontSize' , val*1 + 1);
-				}
-				else if(roll == 216 || roll == 217 || roll == 218 ) {
-					var textShadow = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-215").val();
-					var textShadow_ = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-229").val();
-					$(".polling_select1,.polling_select2").css('textShadow' , textShadow);
-					
-					$(".polling_select1,.polling_select2").hover(function() {
-						$(this).css('textShadow' , textShadow_);
-					},function() {
-						$(this).css('textShadow' , textShadow);
-					});
-				}
-				else if(roll == 220) { 
-					$(".polling_select1,.polling_select2").css({
-						borderLeftWidth : val*1 + 1,
-						borderRightWidth : val*1 + 1,
-						borderBottomWidth : val*1 + 1,
-						borderTopWidth : val*1 + 1
-					});
-				}
-				else if(roll == 222) {
-					$(".polling_select1,.polling_select2").css('border-top-left-radius' , val*1 + 1);
-				}
-				else if(roll == 223) {
-					$(".polling_select1,.polling_select2").css('border-top-right-radius' , val*1 + 1);
-				}
-				else if(roll == 224) {
-					$(".polling_select1,.polling_select2").css('border-bottom-left-radius' , val*1 + 1);
-				}
-				else if(roll == 225) {
-					$(".polling_select1,.polling_select2").css('border-bottom-right-radius' , val*1 + 1);
-				}
-				//vote data
-				else if(roll == 167) {
-					$(".answer_votes_data").css('fontSize',val*1 + 1);
-				}
-				else if(roll == 173 || roll == 174 || roll == 175 ) {
-					var textShadow = $("#elem-173").val() + 'px '  + $("#elem-174").val() + 'px '  + $("#elem-175").val() + 'px ' + $("#elem-172").val();
-					$(".answer_votes_data").css('textShadow' , textShadow);
-				}
-				//vote  digit data
-				else if(roll == 177) {
-					$(".answer_votes_data span").css('fontSize',val*1 + 1);
-				}
-				else if(roll == 183 || roll == 184 || roll == 185 ) {
-					var textShadow = $("#elem-183").val() + 'px '  + $("#elem-184").val() + 'px '  + $("#elem-185").val() + 'px ' + $("#elem-182").val();
-					$(".answer_votes_data span").css('textShadow' , textShadow);
-				}
-				//total vote  data
-				else if(roll == 187) {
-					$(".left_col").css('fontSize',val*1 + 1);
-				}
-				else if(roll == 197) {
-					$(".right_col").css('fontSize',val*1 + 1);
-				}
-				else if(roll == 193 || roll == 194 || roll == 195 ) {
-					var textShadow = $("#elem-193").val() + 'px '  + $("#elem-194").val() + 'px '  + $("#elem-195").val() + 'px ' + $("#elem-192").val();
-					$(".left_col").css('textShadow' , textShadow);
-				}
-				else if(roll == 203 || roll == 204 || roll == 205 ) {
-					var textShadow = $("#elem-203").val() + 'px '  + $("#elem-204").val() + 'px '  + $("#elem-205").val() + 'px ' + $("#elem-202").val();
-					$(".right_col").css('textShadow' , textShadow);
-				}
-				else if (roll == 232) {
-					$(".ui-corner-all").css('borderRadius',val*1 + 1);
-				}
-				else if (roll == 248) {
-					$(".ui-slider dt").css('fontSize',val*1 + 1);
-				}
-				else if (roll == 250) {
-					$(".ui-slider dt").css('height',val*1 + 1);
-				}
-				else if(roll == 245 || roll == 246 || roll == 247 ) {
-					var textShadow = $("#elem-245").val() + 'px '  + $("#elem-246").val() + 'px '  + $("#elem-247").val() + 'px ' + $("#elem-244").val();
-					$(".ui-slider dt").css('textShadow' , textShadow);
-				}
-
-				//add answer
-				else if(roll == 266) {
-					$(".add_answer").css('border-top-left-radius' , val*1 + 1);
-				}
-				else if(roll == 267) {
-					$(".add_answer").css('border-top-right-radius' , val*1 + 1);
-				}
-				else if(roll == 268) {
-					$(".add_answer").css('border-bottom-left-radius' , val*1 + 1);
-				}
-				else if(roll == 269) {
-					$(".add_answer").css('border-bottom-right-radius' , val*1 + 1);
-				}
-				else if(roll == 252) {
-					$(".add_ans_name,.add_ans_submit").css('fontSize' , val*1 + 1);
-				}
-				else if(roll == 264) {
-					var size = val*1 + 1;
-					var border = size + 'px '  + $("#elem-265").val() + $("#elem-263").val() ;
-					$(".add_answer").css('border' , border);
-					$(".add_ans_submit").css('borderLeft' , border);
-				}
-				else if(roll == 259 || roll == 260 || roll == 261 || roll == 262) {
-					var boxShadow = $("#elem-258").val() + ' ' + $("#elem-259").val() + 'px '  + $("#elem-260").val() + 'px '  + $("#elem-261").val() + 'px ' + $("#elem-262").val() + 'px ' + $("#elem-257").val();
-					$(".add_answer").css('boxShadow' , boxShadow);
-				}
-				else if(roll == 275 || roll == 276 || roll == 277 ) { 
-					textShadow = $("#elem-275").val() + 'px '  + $("#elem-276").val() + 'px '  + $("#elem-277").val() + 'px ' +  $("#elem-274").val() ;
-					$(".add_ans_name,.add_ans_submit").css('textShadow' , textShadow);
-				}
-				else if(roll == 272) {
-					$(".add_answer").css('height' , val*1 + 1);
-				}
-
-				
+				move_up(roll,val);
 			}
-		})
+		});
+
+		$('.size_up').mouseleave(function() {
+			clearInterval(up_int);
+		});
+
+		function move_up(roll,val) {
+			if(roll == 2) { //box border width
+				$(".polling_container").css({
+					borderLeftWidth : val*1 + 1,
+					borderRightWidth : val*1 + 1,
+					borderBottomWidth : val*1 + 1,
+					borderTopWidth : val*1 + 1
+				});
+			}
+			else if(roll == 89) { //box border width
+				$(".polling_container .grad").css({
+					borderLeftWidth : val*1 + 1,
+					borderRightWidth : val*1 + 1,
+					borderBottomWidth : val*1 + 1,
+					borderTopWidth : val*1 + 1
+				});
+			}
+			else if(roll == 51) {
+				$(".polling_container").css('border-top-left-radius' , val*1 + 1);
+			}
+			else if(roll == 52) {
+				$(".polling_container").css('border-top-right-radius' , val*1 + 1);
+			}
+			else if(roll == 53) {
+				$(".polling_container").css('border-bottom-left-radius' , val*1 + 1);
+			}
+			else if(roll == 54) {
+				$(".polling_container").css('border-bottom-right-radius' , val*1 + 1);
+			}
 			
+			//add answer
+			else if(roll == 266) {
+				$(".add_answer").css('border-top-left-radius' , val*1 + 1);
+			}
+			else if(roll == 267) {
+				$(".add_answer").css('border-top-right-radius' , val*1 + 1);
+			}
+			else if(roll == 268) {
+				$(".add_answer").css('border-bottom-left-radius' , val*1 + 1);
+			}
+			else if(roll == 269) {
+				$(".add_answer").css('border-bottom-right-radius' , val*1 + 1);
+			}
+			else if(roll == 252) {
+				$(".add_ans_name,.add_ans_submit").css('fontSize' , val*1 + 1);
+			}
+			else if(roll == 264) {
+				var size = val*1 + 1;
+				var border = size + 'px '  + $("#elem-265").val() + $("#elem-263").val() ;
+				$(".add_answer").css('border' , border);
+				$(".add_ans_submit").css('borderLeft' , border);
+			}
+			else if(roll == 259 || roll == 260 || roll == 261 || roll == 262) {
+				var boxShadow = $("#elem-258").val() + ' ' + $("#elem-259").val() + 'px '  + $("#elem-260").val() + 'px '  + $("#elem-261").val() + 'px ' + $("#elem-262").val() + 'px ' + $("#elem-257").val();
+				$(".add_answer").css('boxShadow' , boxShadow);
+			}
+			else if(roll == 275 || roll == 276 || roll == 277 ) { 
+				textShadow = $("#elem-275").val() + 'px '  + $("#elem-276").val() + 'px '  + $("#elem-277").val() + 'px ' +  $("#elem-274").val() ;
+				$(".add_ans_name,.add_ans_submit").css('textShadow' , textShadow);
+			}
+			else if(roll == 272) {
+				$(".add_answer").css('height' , val*1 + 1);
+			}
+
+        	//grad
+			else if(roll == 85) {
+				$(".polling_container .grad").css('border-top-left-radius' , val*1 + 1);
+				$(".polling_container .answer_navigation").css('border-top-left-radius' , val*1 + 1);
+			}
+			else if(roll == 86) {
+				$(".polling_container .grad").css('border-top-right-radius' , val*1 + 1);
+				$(".polling_container .answer_navigation").css('border-top-right-radius' , val*1 + 1);
+			}
+			else if(roll == 87) {
+				$(".polling_container .grad").css('border-bottom-left-radius' , val*1 + 1);
+				$(".polling_container .answer_navigation").css('border-bottom-left-radius' , val*1 + 1);
+			}
+			else if(roll == 88) {
+				$(".polling_container .grad").css('border-bottom-right-radius' , val*1 + 1);
+				$(".polling_container .answer_navigation").css('border-bottom-right-radius' , val*1 + 1);
+			}
+			else if(roll == 8) { //box border radius
+				$(".polling_container .polling_name").css('fontSize' , val*1 + 1);
+			}
+			else if(roll == 10) { //answer name font size
+				$(".polling_container .answer_name").css('fontSize' , val*1 + 1);
+			}
+			else if(roll == 46 || roll == 47 || roll == 48 || roll == 49) {
+				var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
+				var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
+				
+				$(".polling_container").css('boxShadow' , boxShadow_);
+				$(".polling_container").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			else if(roll == 56 || roll == 57 || roll == 58 || roll == 59) {//box hover state
+				var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
+				var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
+				
+				$(".polling_container").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			else if(roll == 60 || roll == 61 || roll == 62 ) { //poll name text shadow
+				textShadow = $("#elem-60").val() + 'px '  + $("#elem-61").val() + 'px '  + $("#elem-62").val() + 'px ' +  $("#elem-63").val() ;
+				$(".polling_container .polling_name").css('textShadow' , textShadow);
+			}
+			else if(roll == 64 || roll == 65 || roll == 66 ) { //poll answer name text shadow
+				textShadow = $("#elem-64").val() + 'px '  + $("#elem-65").val() + 'px '  + $("#elem-66").val() + 'px ' +  $("#elem-67").val() ;
+				$(".polling_container .answer_name").css('textShadow' , textShadow);
+			}
+			else if(roll == 72 || roll == 69 || roll == 70 || roll == 71) { //active animation
+				var boxShadow = $("#elem-68").val() + ' ' + $("#elem-69").val() + 'px '  + $("#elem-70").val() + 'px '  + $("#elem-71").val() + 'px ' + $("#elem-72").val() + 'px ' + $("#elem-11").val();
+				$(".polling_container .active_li").css('boxShadow' , boxShadow);
+			}
+			else if(roll == 80 || roll == 81 || roll == 82 || roll == 83) { //answer_navigation
+				var boxShadow = $("#elem-79").val() + ' ' + $("#elem-80").val() + 'px '  + $("#elem-81").val() + 'px '  + $("#elem-82").val() + 'px ' + $("#elem-83").val() + 'px ' + $("#elem-78").val();
+				$(".polling_container .grad").css('boxShadow' , boxShadow);
+			}
+			//animation border radius
+			else if(roll == 74) {
+				$(".polling_container .active_li").css('border-top-left-radius' , val*1 + 1);
+			}
+			else if(roll == 75) {
+				$(".polling_container .active_li").css('border-top-right-radius' , val*1 + 1);
+			}
+			else if(roll == 76) {
+				$(".polling_container .active_li").css('border-bottom-left-radius' , val*1 + 1);
+			}
+			else if(roll == 77) {
+				$(".polling_container .active_li").css('border-bottom-right-radius' , val*1 + 1);
+			}
+			else if(roll == 90) {
+				$(".polling_container .answer_navigation").css('height' , val*1 + 1);
+			}
 			
+			// poll submit ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			else if(roll == 92) {
+				$(".polling_container .polling_submit").css('paddingTop' , val*1 + 1);
+				$(".polling_container .polling_submit").css('paddingBottom' , val*1 + 1);
+			}
+			else if(roll == 93) {
+				$(".polling_container .polling_submit").css('paddingLeft' , val*1 + 1);
+				$(".polling_container .polling_submit").css('paddingRight' , val*1 + 1);
+			}
+			else if(roll == 101) { //box border width
+				$(".polling_container .polling_submit").css({
+					borderLeftWidth : val*1 + 1,
+					borderRightWidth : val*1 + 1,
+					borderBottomWidth : val*1 + 1,
+					borderTopWidth : val*1 + 1
+				});
+			}
+			else if(roll == 102) {
+				$(".polling_container .polling_submit").css('border-top-left-radius' , val*1 + 1);
+			}
+			else if(roll == 103) {
+				$(".polling_container .polling_submit").css('border-top-right-radius' , val*1 + 1);
+			}
+			else if(roll == 104) {
+				$(".polling_container .polling_submit").css('border-bottom-left-radius' , val*1 + 1);
+			}
+			else if(roll == 105) {
+				$(".polling_container .polling_submit").css('border-bottom-right-radius' , val*1 + 1);
+			}
+			else if(roll == 96 || roll == 97 || roll == 98 || roll == 99) {
+				var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' +  $("#elem-117").val();
+				var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
+				$(".polling_container .polling_submit").css('boxShadow' , boxShadow_);
+				
+				$(".polling_container .polling_submit").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			else if(roll == 107) {
+				$(".polling_container .polling_submit").css('fontSize' , val*1 + 1);
+			}
+			else if(roll == 114 || roll == 115 || roll == 116 ) {
+				var textShadow = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-125").val();
+				var textShadow_ = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-113").val();
+				$(".polling_container .polling_submit").css('textShadow' , textShadow_);
+				
+				$(".polling_container .polling_submit").hover(function() {
+					$(this).css('textShadow' , textShadow);
+				},function() {
+					$(this).css('textShadow' , textShadow_);
+				});
+			}
+			else if(roll == 119 || roll == 120 || roll == 121 || roll == 122) {
+				var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' + $("#elem-117").val();
+				var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
+				
+				$(".polling_container .polling_submit").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+
+			// poll Result ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			else if(roll == 129) {
+				$(".polling_container .polling_result").css('paddingTop' , val*1 + 1);
+				$(".polling_container .polling_result").css('paddingBottom' , val*1 + 1);
+			}
+			else if(roll == 130) {
+				$(".polling_container .polling_result").css('paddingLeft' , val*1 + 1);
+				$(".polling_container .polling_result").css('paddingRight' , val*1 + 1);
+			}
+			else if(roll == 138) { //box border width
+				$(".polling_container .polling_result").css({
+					borderLeftWidth : val*1 + 1,
+					borderRightWidth : val*1 + 1,
+					borderBottomWidth : val*1 + 1,
+					borderTopWidth : val*1 + 1
+				});
+			}
+			else if(roll == 139) {
+				$(".polling_container .polling_result").css('border-top-left-radius' , val*1 + 1);
+			}
+			else if(roll == 140) {
+				$(".polling_container .polling_result").css('border-top-right-radius' , val*1 + 1);
+			}
+			else if(roll == 141) {
+				$(".polling_container .polling_result").css('border-bottom-left-radius' , val*1 + 1);
+			}
+			else if(roll == 142) {
+				$(".polling_container .polling_result").css('border-bottom-right-radius' , val*1 + 1);
+			}
+			else if(roll == 133 || roll == 134 || roll == 135 || roll == 136) {
+				var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' +  $("#elem-154").val();
+				var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
+				$(".polling_container .polling_result").css('boxShadow' , boxShadow_);
+				
+				$(".polling_container .polling_result").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			else if(roll == 144) {
+				$(".polling_container .polling_result").css('fontSize' , val*1 + 1);
+			}
+			else if(roll == 151 || roll == 152 || roll == 153 ) {
+				var textShadow = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-162").val();
+				var textShadow_ = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-150").val();
+				$(".polling_container .polling_result").css('textShadow' , textShadow_);
+				
+				$(".polling_container .polling_result").hover(function() {
+					$(this).css('textShadow' , textShadow);
+				},function() {
+					$(this).css('textShadow' , textShadow_);
+				});
+			}
+			else if(roll == 156 || roll == 157 || roll == 158 || roll == 159) {
+				var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' + $("#elem-154").val();
+				var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
+				
+				$(".polling_container .polling_result").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			//votes data
+			else if(roll == 207) {
+				$(".polling_select1,.polling_select2").css('paddingTop' , val*1 + 1);
+				$(".polling_select1,.polling_select2").css('paddingBottom' , val*1 + 1);
+			}
+			else if(roll == 208) {
+				$(".polling_select1,.polling_select2").css('paddingLeft' , val*1 + 1);
+				$(".polling_select1,.polling_select2").css('paddingRight' , val*1 + 1);
+			}
+			else if(roll == 210) { //box border radius
+				$(".polling_select1,.polling_select2").css('fontSize' , val*1 + 1);
+			}
+			else if(roll == 216 || roll == 217 || roll == 218 ) {
+				var textShadow = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-215").val();
+				var textShadow_ = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-229").val();
+				$(".polling_select1,.polling_select2").css('textShadow' , textShadow);
+				
+				$(".polling_select1,.polling_select2").hover(function() {
+					$(this).css('textShadow' , textShadow_);
+				},function() {
+					$(this).css('textShadow' , textShadow);
+				});
+			}
+			else if(roll == 220) { 
+				$(".polling_select1,.polling_select2").css({
+					borderLeftWidth : val*1 + 1,
+					borderRightWidth : val*1 + 1,
+					borderBottomWidth : val*1 + 1,
+					borderTopWidth : val*1 + 1
+				});
+			}
+			else if(roll == 222) {
+				$(".polling_select1,.polling_select2").css('border-top-left-radius' , val*1 + 1);
+			}
+			else if(roll == 223) {
+				$(".polling_select1,.polling_select2").css('border-top-right-radius' , val*1 + 1);
+			}
+			else if(roll == 224) {
+				$(".polling_select1,.polling_select2").css('border-bottom-left-radius' , val*1 + 1);
+			}
+			else if(roll == 225) {
+				$(".polling_select1,.polling_select2").css('border-bottom-right-radius' , val*1 + 1);
+			}
+			//vote data
+			else if(roll == 167) {
+				$(".answer_votes_data").css('fontSize',val*1 + 1);
+			}
+			else if(roll == 173 || roll == 174 || roll == 175 ) {
+				var textShadow = $("#elem-173").val() + 'px '  + $("#elem-174").val() + 'px '  + $("#elem-175").val() + 'px ' + $("#elem-172").val();
+				$(".answer_votes_data").css('textShadow' , textShadow);
+			}
+			//vote  digit data
+			else if(roll == 177) {
+				$(".answer_votes_data span").css('fontSize',val*1 + 1);
+			}
+			else if(roll == 183 || roll == 184 || roll == 185 ) {
+				var textShadow = $("#elem-183").val() + 'px '  + $("#elem-184").val() + 'px '  + $("#elem-185").val() + 'px ' + $("#elem-182").val();
+				$(".answer_votes_data span").css('textShadow' , textShadow);
+			}
+			//total vote  data
+			else if(roll == 187) {
+				$(".left_col").css('fontSize',val*1 + 1);
+			}
+			else if(roll == 197) {
+				$(".right_col").css('fontSize',val*1 + 1);
+			}
+			else if(roll == 193 || roll == 194 || roll == 195 ) {
+				var textShadow = $("#elem-193").val() + 'px '  + $("#elem-194").val() + 'px '  + $("#elem-195").val() + 'px ' + $("#elem-192").val();
+				$(".left_col").css('textShadow' , textShadow);
+			}
+			else if(roll == 203 || roll == 204 || roll == 205 ) {
+				var textShadow = $("#elem-203").val() + 'px '  + $("#elem-204").val() + 'px '  + $("#elem-205").val() + 'px ' + $("#elem-202").val();
+				$(".right_col").css('textShadow' , textShadow);
+			}
+			//slider
+			else if (roll == 232) {
+				$(".ui-corner-all").css('borderRadius',val*1 + 1);
+			}
+			else if (roll == 248) {
+				$(".ui-slider dt").css('fontSize',val*1 + 1);
+			}
+			else if (roll == 250) {
+				$(".ui-slider dt").css('height',val*1 + 1);
+			}
+			else if(roll == 245 || roll == 246 || roll == 247 ) {
+				var textShadow = $("#elem-245").val() + 'px '  + $("#elem-246").val() + 'px '  + $("#elem-247").val() + 'px ' + $("#elem-244").val();
+				$(".ui-slider dt").css('textShadow' , textShadow);
+			}
+
+			
+		}
+
+
 		$('.size_down').mousedown(function() {
 			var $this = $(this);
 			curr_down = parseInt($this.parent('div').prev('input').val());
@@ -1402,364 +1013,8 @@ Joomla.submitbutton = function(task) {
 				val = parseInt($this.parent('div').prev('input').val());
 				if(val > min_val) {
 					$this.parent('div').prev('input').val(val*1 - 1);
-
 					roll = $this.parent('div').prev('input').attr('roll');
-					
-					if(roll == 2) {
-						$(".polling_container").css({
-							borderLeftWidth : val*1 - 1,
-							borderRightWidth : val*1 - 1,
-							borderBottomWidth : val*1 - 1,
-							borderTopWidth : val*1 - 1
-						});
-					}
-					else if(roll == 89) { //box border width
-						$(".polling_container .grad").css({
-							borderLeftWidth : val*1 - 1,
-							borderRightWidth : val*1 - 1,
-							borderBottomWidth : val*1 - 1,
-							borderTopWidth : val*1 - 1
-						});
-					}
-					else if(roll == 51) {
-						$(".polling_container").css('border-top-left-radius' , val*1 - 1);
-					}
-					else if(roll == 52) {
-						$(".polling_container").css('border-top-right-radius' , val*1 - 1);
-					}
-					else if(roll == 53) {
-						$(".polling_container").css('border-bottom-left-radius' , val*1 - 1);
-					}
-					else if(roll == 54) {
-						$(".polling_container").css('border-bottom-right-radius' , val*1 - 1);
-					}
-					else if(roll == 85) {
-						$(".polling_container .grad").css('border-top-left-radius' , val*1 + 1);
-						$(".polling_container .answer_navigation").css('border-top-left-radius' , val*1 + 1);
-					}
-					else if(roll == 86) {
-						$(".polling_container .grad").css('border-top-right-radius' , val*1 + 1);
-						$(".polling_container .answer_navigation").css('border-top-right-radius' , val*1 + 1);
-					}
-					else if(roll == 87) {
-						$(".polling_container .grad").css('border-bottom-left-radius' , val*1 + 1);
-						$(".polling_container .answer_navigation").css('border-bottom-left-radius' , val*1 + 1);
-					}
-					else if(roll == 88) {
-						$(".polling_container .grad").css('border-bottom-right-radius' , val*1 + 1);
-						$(".polling_container .answer_navigation").css('border-bottom-right-radius' , val*1 + 1);
-					}
-					else if(roll == 8) { //box border radius
-						$(".polling_container .polling_name").css('fontSize' , val*1 - 1);
-					}
-					else if(roll == 10) { //answer name font size
-						$(".polling_container .answer_name").css('fontSize' , val*1 - 1);
-					}
-					else if(roll == 46 || roll == 47 || roll == 48 || roll == 49) {
-						var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
-						var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
-						
-						$(".polling_container").css('boxShadow' , boxShadow_);
-						$(".polling_container").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					else if(roll == 56 || roll == 57 || roll == 58 || roll == 59) {//box hover state
-						var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
-						var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
-						
-						$(".polling_container").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					else if(roll == 60 || roll == 61 || roll == 62 ) { //poll name text shadow
-						textShadow = $("#elem-60").val() + 'px '  + $("#elem-61").val() + 'px '  + $("#elem-62").val() + 'px ' +  $("#elem-63").val() ;
-						$(".polling_container .polling_name").css('textShadow' , textShadow);
-					}
-					else if(roll == 64 || roll == 65 || roll == 66 ) { //poll answer name text shadow
-						textShadow = $("#elem-64").val() + 'px '  + $("#elem-65").val() + 'px '  + $("#elem-66").val() + 'px ' +  $("#elem-67").val() ;
-						$(".polling_container .answer_name").css('textShadow' , textShadow);
-					}
-					else if(roll == 72 || roll == 69 || roll == 70 || roll == 71) { //active animation
-						var boxShadow = $("#elem-68").val() + ' ' + $("#elem-69").val() + 'px '  + $("#elem-70").val() + 'px '  + $("#elem-71").val() + 'px ' + $("#elem-72").val() + 'px ' + $("#elem-11").val();
-						$(".polling_container .active_li").css('boxShadow' , boxShadow);
-					}
-					else if(roll == 80 || roll == 81 || roll == 82 || roll == 83) { //active animation
-						var boxShadow = $("#elem-79").val() + ' ' + $("#elem-80").val() + 'px '  + $("#elem-81").val() + 'px '  + $("#elem-82").val() + 'px ' + $("#elem-83").val() + 'px ' + $("#elem-78").val();
-						$(".polling_container .grad").css('boxShadow' , boxShadow);
-					}
-					//animation border radius
-					else if(roll == 74) {
-						$(".polling_container .active_li").css('border-top-left-radius' , val*1 - 1);
-					}
-					else if(roll == 75) {
-						$(".polling_container .active_li").css('border-top-right-radius' , val*1 - 1);
-					}
-					else if(roll == 76) {
-						$(".polling_container .active_li").css('border-bottom-left-radius' , val*1 - 1);
-					}
-					else if(roll == 77) {
-						$(".polling_container .active_li").css('border-bottom-right-radius' , val*1 - 1);
-					}
-					else if(roll == 90) {
-						$(".polling_container .answer_navigation").css('height' , val*1 - 1);
-					}
-					//poll submit//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					else if(roll == 92) {
-						$(".polling_container .polling_submit").css('paddingTop' , val*1 - 1);
-						$(".polling_container .polling_submit").css('paddingBottom' , val*1 - 1);
-					}
-					else if(roll == 93) {
-						$(".polling_container .polling_submit").css('paddingLeft' , val*1 - 1);
-						$(".polling_container .polling_submit").css('paddingRight' , val*1 - 1);
-					}
-					else if(roll == 101) { //box border width
-						$(".polling_container .polling_submit").css({
-							borderLeftWidth : val*1 - 1,
-							borderRightWidth : val*1 - 1,
-							borderBottomWidth : val*1 - 1,
-							borderTopWidth : val*1 - 1
-						});
-					}
-					else if(roll == 102) {
-						$(".polling_container .polling_submit").css('border-top-left-radius' , val*1 - 1);
-					}
-					else if(roll == 103) {
-						$(".polling_container .polling_submit").css('border-top-right-radius' , val*1 - 1);
-					}
-					else if(roll == 104) {
-						$(".polling_container .polling_submit").css('border-bottom-left-radius' , val*1 - 1);
-					}
-					else if(roll == 105) {
-						$(".polling_container .polling_submit").css('border-bottom-right-radius' , val*1 - 1);
-					}
-					else if(roll == 96 || roll == 97 || roll == 98 || roll == 99) {
-						var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' +  $("#elem-117").val();
-						var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
-						$(".polling_container .polling_submit").css('boxShadow' , boxShadow_);
-						
-						$(".polling_container .polling_submit").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					else if(roll == 107) {
-						$(".polling_container .polling_submit").css('fontSize' , val*1 - 1);
-					}
-					else if(roll == 114 || roll == 115 || roll == 116 ) {
-						var textShadow = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-125").val();
-						var textShadow_ = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-113").val();
-						$(".polling_container .polling_submit").css('textShadow' , textShadow_);
-						
-						$(".polling_container .polling_submit").hover(function() {
-							$(this).css('textShadow' , textShadow);
-						},function() {
-							$(this).css('textShadow' , textShadow_);
-						});
-					}
-					else if(roll == 119 || roll == 120 || roll == 121 || roll == 122) {
-						var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' + $("#elem-117").val();
-						var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
-						
-						$(".polling_container .polling_submit").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					// poll Result ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					
-					else if(roll == 129) {
-						$(".polling_container .polling_result").css('paddingTop' , val*1 - 1);
-						$(".polling_container .polling_result").css('paddingBottom' , val*1 - 1);
-					}
-					else if(roll == 130) {
-						$(".polling_container .polling_result").css('paddingLeft' , val*1 - 1);
-						$(".polling_container .polling_result").css('paddingRight' , val*1 - 1);
-					}
-					else if(roll == 138) { //box border width
-						$(".polling_container .polling_result").css({
-							borderLeftWidth : val*1 - 1,
-							borderRightWidth : val*1 - 1,
-							borderBottomWidth : val*1 - 1,
-							borderTopWidth : val*1 - 1
-						});
-					}
-					else if(roll == 139) {
-						$(".polling_container .polling_result").css('border-top-left-radius' , val*1 - 1);
-					}
-					else if(roll == 140) {
-						$(".polling_container .polling_result").css('border-top-right-radius' , val*1 - 1);
-					}
-					else if(roll == 141) {
-						$(".polling_container .polling_result").css('border-bottom-left-radius' , val*1 - 1);
-					}
-					else if(roll == 142) {
-						$(".polling_container .polling_result").css('border-bottom-right-radius' , val*1 - 1);
-					}
-					else if(roll == 133 || roll == 134 || roll == 135 || roll == 136) {
-						var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' +  $("#elem-154").val();
-						var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
-						$(".polling_container .polling_result").css('boxShadow' , boxShadow_);
-						
-						$(".polling_container .polling_result").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					else if(roll == 144) {
-						$(".polling_container .polling_result").css('fontSize' , val*1 - 1);
-					}
-					else if(roll == 151 || roll == 152 || roll == 153 ) {
-						var textShadow = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-162").val();
-						var textShadow_ = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-150").val();
-						$(".polling_container .polling_result").css('textShadow' , textShadow_);
-						
-						$(".polling_container .polling_result").hover(function() {
-							$(this).css('textShadow' , textShadow);
-						},function() {
-							$(this).css('textShadow' , textShadow_);
-						});
-					}
-					else if(roll == 156 || roll == 157 || roll == 158 || roll == 159) {
-						var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' + $("#elem-154").val();
-						var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
-						
-						$(".polling_container .polling_result").hover(function() {
-							$(this).css('boxShadow' , boxShadow);
-						},function() {
-							$(this).css('boxShadow' , boxShadow_);
-						});
-					}
-					//votes data
-					else if(roll == 207) {
-						$(".polling_select1,.polling_select2").css('paddingTop' , val*1 - 1);
-						$(".polling_select1,.polling_select2").css('paddingBottom' , val*1 - 1);
-					}
-					else if(roll == 208) {
-						$(".polling_select1,.polling_select2").css('paddingLeft' , val*1 - 1);
-						$(".polling_select1,.polling_select2").css('paddingRight' , val*1 - 1);
-					}
-					else if(roll == 210) { //box border radius
-						$(".polling_select1,.polling_select2").css('fontSize' , val*1 - 1);
-					}
-					else if(roll == 216 || roll == 217 || roll == 218 ) {
-						var textShadow = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-215").val();
-						var textShadow_ = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-229").val();
-						$(".polling_select1,.polling_select2").css('textShadow' , textShadow);
-						
-						$(".polling_select1,.polling_select2").hover(function() {
-							$(this).css('textShadow' , textShadow_);
-						},function() {
-							$(this).css('textShadow' , textShadow);
-						});
-					}
-					else if(roll == 220) { 
-						$(".polling_select1,.polling_select2").css({
-							borderLeftWidth : val*1 - 1,
-							borderRightWidth : val*1 - 1,
-							borderBottomWidth : val*1 - 1,
-							borderTopWidth : val*1 - 1
-						});
-					}
-					else if(roll == 222) {
-						$(".polling_select1,.polling_select2").css('border-top-left-radius' , val*1 - 1);
-					}
-					else if(roll == 223) {
-						$(".polling_select1,.polling_select2").css('border-top-right-radius' , val*1 - 1);
-					}
-					else if(roll == 224) {
-						$(".polling_select1,.polling_select2").css('border-bottom-left-radius' , val*1 - 1);
-					}
-					else if(roll == 225) {
-						$(".polling_select1,.polling_select2").css('border-bottom-right-radius' , val*1 - 1);
-					}
-					//vote data
-					else if(roll == 167) {
-						$(".answer_votes_data").css('fontSize',val*1 - 1);
-					}
-					else if(roll == 173 || roll == 174 || roll == 175 ) {
-						var textShadow = $("#elem-173").val() + 'px '  + $("#elem-174").val() + 'px '  + $("#elem-175").val() + 'px ' + $("#elem-172").val();
-						$(".answer_votes_data").css('textShadow' , textShadow);
-					}
-					//vote  digit data
-					else if(roll == 177) {
-						$(".answer_votes_data span").css('fontSize',val*1 - 1);
-					}
-					else if(roll == 183 || roll == 184 || roll == 185 ) {
-						var textShadow = $("#elem-183").val() + 'px '  + $("#elem-184").val() + 'px '  + $("#elem-185").val() + 'px ' + $("#elem-182").val();
-						$(".answer_votes_data span").css('textShadow' , textShadow);
-					}
-					//total vote  data
-					else if(roll == 187) {
-						$(".left_col").css('fontSize',val*1 - 1);
-					}
-					else if(roll == 197) {
-						$(".right_col").css('fontSize',val*1 - 1);
-					}
-					else if(roll == 193 || roll == 194 || roll == 195 ) {
-						var textShadow = $("#elem-193").val() + 'px '  + $("#elem-194").val() + 'px '  + $("#elem-195").val() + 'px ' + $("#elem-192").val();
-						$(".left_col").css('textShadow' , textShadow);
-					}
-					else if(roll == 203 || roll == 204 || roll == 205 ) {
-						var textShadow = $("#elem-203").val() + 'px '  + $("#elem-204").val() + 'px '  + $("#elem-205").val() + 'px ' + $("#elem-202").val();
-						$(".right_col").css('textShadow' , textShadow);
-					}
-					else if (roll == 232) {
-						$(".ui-corner-all").css('borderRadius',val*1 - 1);
-					}
-					else if (roll == 248) {
-						$(".ui-slider dt").css('fontSize',val*1 - 1);
-					}
-					else if (roll == 250) {
-						$(".ui-slider dt").css('height',val*1 - 1);
-					}
-					else if(roll == 245 || roll == 246 || roll == 247 ) {
-						var textShadow = $("#elem-245").val() + 'px '  + $("#elem-246").val() + 'px '  + $("#elem-247").val() + 'px ' + $("#elem-244").val();
-						$(".ui-slider dt").css('textShadow' , textShadow);
-					}
-
-					//add answer
-					else if(roll == 266) {
-						$(".add_answer").css('border-top-left-radius' , val*1 - 1);
-					}
-					else if(roll == 267) {
-						$(".add_answer").css('border-top-right-radius' , val*1 - 1);
-					}
-					else if(roll == 268) {
-						$(".add_answer").css('border-bottom-left-radius' , val*1 - 1);
-					}
-					else if(roll == 269) {
-						$(".add_answer").css('border-bottom-right-radius' , val*1 - 1);
-					}
-					else if(roll == 252) {
-						$(".add_ans_name,.add_ans_submit").css('fontSize' , val*1 - 1);
-					}
-					else if(roll == 264) {
-						var size = val*1 - 1;
-						var border = size + 'px '  + $("#elem-265").val() + $("#elem-263").val() ;
-						$(".add_answer").css('border' , border);
-						$(".add_ans_submit").css('borderLeft' , border);
-					}
-					else if(roll == 259 || roll == 260 || roll == 261 || roll == 262) {
-						var boxShadow = $("#elem-258").val() + ' ' + $("#elem-259").val() + 'px '  + $("#elem-260").val() + 'px '  + $("#elem-261").val() + 'px ' + $("#elem-262").val() + 'px ' + $("#elem-257").val();
-						$(".add_answer").css('boxShadow' , boxShadow);
-					}
-					else if(roll == 275 || roll == 276 || roll == 277 ) { 
-						textShadow = $("#elem-275").val() + 'px '  + $("#elem-276").val() + 'px '  + $("#elem-277").val() + 'px ' +  $("#elem-274").val() ;
-						$(".add_ans_name,.add_ans_submit").css('textShadow' , textShadow);
-					}
-					else if(roll == 272) {
-						$(".add_answer").css('height' , val*1 - 1);
-					}
-					
-					
+					move_down(roll,val);
 				}
 			},100);
 		})
@@ -1771,368 +1026,372 @@ Joomla.submitbutton = function(task) {
 			val = parseInt($this.parent('div').prev('input').val());
 			if((val > min_val) && (curr_down == val)) {
 				$this.parent('div').prev('input').val(val*1 - 1);
-
 				roll = $this.parent('div').prev('input').attr('roll');
-				
-				if(roll == 2) {
-					$(".polling_container").css({
-						borderLeftWidth : val*1 - 1,
-						borderRightWidth : val*1 - 1,
-						borderBottomWidth : val*1 - 1,
-						borderTopWidth : val*1 - 1
-					});
-				}
-				else if(roll == 89) { //box border width
-					$(".polling_container .grad").css({
-						borderLeftWidth : val*1 - 1,
-						borderRightWidth : val*1 - 1,
-						borderBottomWidth : val*1 - 1,
-						borderTopWidth : val*1 - 1
-					});
-				}
-				else if(roll == 51) {
-					$(".polling_container").css('border-top-left-radius' , val*1 - 1);
-				}
-				else if(roll == 52) {
-					$(".polling_container").css('border-top-right-radius' , val*1 - 1);
-				}
-				else if(roll == 53) {
-					$(".polling_container").css('border-bottom-left-radius' , val*1 - 1);
-				}
-				else if(roll == 54) {
-					$(".polling_container").css('border-bottom-right-radius' , val*1 - 1);
-				}
-				else if(roll == 85) {
-					$(".polling_container .grad").css('border-top-left-radius' , val*1 + 1);
-					$(".polling_container .answer_navigation").css('border-top-left-radius' , val*1 + 1);
-				}
-				else if(roll == 86) {
-					$(".polling_container .grad").css('border-top-right-radius' , val*1 + 1);
-					$(".polling_container .answer_navigation").css('border-top-right-radius' , val*1 + 1);
-				}
-				else if(roll == 87) {
-					$(".polling_container .grad").css('border-bottom-left-radius' , val*1 + 1);
-					$(".polling_container .answer_navigation").css('border-bottom-left-radius' , val*1 + 1);
-				}
-				else if(roll == 88) {
-					$(".polling_container .grad").css('border-bottom-right-radius' , val*1 + 1);
-					$(".polling_container .answer_navigation").css('border-bottom-right-radius' , val*1 + 1);
-				}
-				else if(roll == 8) { //box border radius
-					$(".polling_container .polling_name").css('fontSize' , val*1 - 1);
-				}
-				else if(roll == 10) { //answer name font size
-					$(".polling_container .answer_name").css('fontSize' , val*1 - 1);
-				}
-				else if(roll == 46 || roll == 47 || roll == 48 || roll == 49) {
-					var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
-					var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
-					
-					$(".polling_container").css('boxShadow' , boxShadow_);
-					$(".polling_container").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				else if(roll == 56 || roll == 57 || roll == 58 || roll == 59) {//box hover state
-					var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
-					var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
-					
-					$(".polling_container").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				else if(roll == 60 || roll == 61 || roll == 62 ) { //poll name text shadow
-					textShadow = $("#elem-60").val() + 'px '  + $("#elem-61").val() + 'px '  + $("#elem-62").val() + 'px ' +  $("#elem-63").val() ;
-					$(".polling_container .polling_name").css('textShadow' , textShadow);
-				}
-				else if(roll == 64 || roll == 65 || roll == 66 ) { //poll answer name text shadow
-					textShadow = $("#elem-64").val() + 'px '  + $("#elem-65").val() + 'px '  + $("#elem-66").val() + 'px ' +  $("#elem-67").val() ;
-					$(".polling_container .answer_name").css('textShadow' , textShadow);
-				}
-				else if(roll == 72 || roll == 69 || roll == 70 || roll == 71) { //active animation
-					var boxShadow = $("#elem-68").val() + ' ' + $("#elem-69").val() + 'px '  + $("#elem-70").val() + 'px '  + $("#elem-71").val() + 'px ' + $("#elem-72").val() + 'px ' + $("#elem-11").val();
-					$(".polling_container .active_li").css('boxShadow' , boxShadow);
-				}
-				else if(roll == 80 || roll == 81 || roll == 82 || roll == 83) { //active animation
-					var boxShadow = $("#elem-79").val() + ' ' + $("#elem-80").val() + 'px '  + $("#elem-81").val() + 'px '  + $("#elem-82").val() + 'px ' + $("#elem-83").val() + 'px ' + $("#elem-78").val();
-					$(".polling_container .grad").css('boxShadow' , boxShadow);
-				}
-				//animation border radius
-				else if(roll == 74) {
-					$(".polling_container .active_li").css('border-top-left-radius' , val*1 - 1);
-				}
-				else if(roll == 75) {
-					$(".polling_container .active_li").css('border-top-right-radius' , val*1 - 1);
-				}
-				else if(roll == 76) {
-					$(".polling_container .active_li").css('border-bottom-left-radius' , val*1 - 1);
-				}
-				else if(roll == 77) {
-					$(".polling_container .active_li").css('border-bottom-right-radius' , val*1 - 1);
-				}
-				else if(roll == 90) {
-					$(".polling_container .answer_navigation").css('height' , val*1 - 1);
-				}
-				//poll submit///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				else if(roll == 92) {
-					$(".polling_container .polling_submit").css('paddingTop' , val*1 - 1);
-					$(".polling_container .polling_submit").css('paddingBottom' , val*1 - 1);
-				}
-				else if(roll == 93) {
-					$(".polling_container .polling_submit").css('paddingLeft' , val*1 - 1);
-					$(".polling_container .polling_submit").css('paddingRight' , val*1 - 1);
-				}
-				else if(roll == 101) { //box border width
-					$(".polling_container .polling_submit").css({
-						borderLeftWidth : val*1 - 1,
-						borderRightWidth : val*1 - 1,
-						borderBottomWidth : val*1 - 1,
-						borderTopWidth : val*1 - 1
-					});
-				}
-				else if(roll == 102) {
-					$(".polling_container .polling_submit").css('border-top-left-radius' , val*1 - 1);
-				}
-				else if(roll == 103) {
-					$(".polling_container .polling_submit").css('border-top-right-radius' , val*1 - 1);
-				}
-				else if(roll == 104) {
-					$(".polling_container .polling_submit").css('border-bottom-left-radius' , val*1 - 1);
-				}
-				else if(roll == 105) {
-					$(".polling_container .polling_submit").css('border-bottom-right-radius' , val*1 - 1);
-				}
-				else if(roll == 96 || roll == 97 || roll == 98 || roll == 99) {
-					var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' +  $("#elem-117").val();
-					var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
-					$(".polling_container .polling_submit").css('boxShadow' , boxShadow_);
-					
-					$(".polling_container .polling_submit").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				else if(roll == 107) {
-					$(".polling_container .polling_submit").css('fontSize' , val*1 - 1);
-				}
-				else if(roll == 114 || roll == 115 || roll == 116 ) {
-					var textShadow = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-125").val();
-					var textShadow_ = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-113").val();
-					$(".polling_container .polling_submit").css('textShadow' , textShadow_);
-					
-					$(".polling_container .polling_submit").hover(function() {
-						$(this).css('textShadow' , textShadow);
-					},function() {
-						$(this).css('textShadow' , textShadow_);
-					});
-				}
-				else if(roll == 119 || roll == 120 || roll == 121 || roll == 122) {
-					var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' + $("#elem-117").val();
-					var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
-					
-					$(".polling_container .polling_submit").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-
-				// poll Result ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				
-				else if(roll == 129) {
-					$(".polling_container .polling_result").css('paddingTop' , val*1 - 1);
-					$(".polling_container .polling_result").css('paddingBottom' , val*1 - 1);
-				}
-				else if(roll == 130) {
-					$(".polling_container .polling_result").css('paddingLeft' , val*1 - 1);
-					$(".polling_container .polling_result").css('paddingRight' , val*1 - 1);
-				}
-				else if(roll == 138) { //box border width
-					$(".polling_container .polling_result").css({
-						borderLeftWidth : val*1 - 1,
-						borderRightWidth : val*1 - 1,
-						borderBottomWidth : val*1 - 1,
-						borderTopWidth : val*1 - 1
-					});
-				}
-				else if(roll == 139) {
-					$(".polling_container .polling_result").css('border-top-left-radius' , val*1 - 1);
-				}
-				else if(roll == 140) {
-					$(".polling_container .polling_result").css('border-top-right-radius' , val*1 - 1);
-				}
-				else if(roll == 141) {
-					$(".polling_container .polling_result").css('border-bottom-left-radius' , val*1 - 1);
-				}
-				else if(roll == 142) {
-					$(".polling_container .polling_result").css('border-bottom-right-radius' , val*1 - 1);
-				}
-				else if(roll == 133 || roll == 134 || roll == 135 || roll == 136) {
-					var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' +  $("#elem-154").val();
-					var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
-					$(".polling_container .polling_result").css('boxShadow' , boxShadow_);
-					
-					$(".polling_container .polling_result").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				else if(roll == 144) {
-					$(".polling_container .polling_result").css('fontSize' , val*1 - 1);
-				}
-				else if(roll == 151 || roll == 152 || roll == 153 ) {
-					var textShadow = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-162").val();
-					var textShadow_ = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-150").val();
-					$(".polling_container .polling_result").css('textShadow' , textShadow_);
-					
-					$(".polling_container .polling_result").hover(function() {
-						$(this).css('textShadow' , textShadow);
-					},function() {
-						$(this).css('textShadow' , textShadow_);
-					});
-				}
-				else if(roll == 156 || roll == 157 || roll == 158 || roll == 159) {
-					var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' + $("#elem-154").val();
-					var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
-					
-					$(".polling_container .polling_result").hover(function() {
-						$(this).css('boxShadow' , boxShadow);
-					},function() {
-						$(this).css('boxShadow' , boxShadow_);
-					});
-				}
-				//votes data
-				else if(roll == 207) {
-					$(".polling_select1,.polling_select2").css('paddingTop' , val*1 - 1);
-					$(".polling_select1,.polling_select2").css('paddingBottom' , val*1 - 1);
-				}
-				else if(roll == 208) {
-					$(".polling_select1,.polling_select2").css('paddingLeft' , val*1 - 1);
-					$(".polling_select1,.polling_select2").css('paddingRight' , val*1 - 1);
-				}
-				else if(roll == 210) { //box border radius
-					$(".polling_select1,.polling_select2").css('fontSize' , val*1 - 1);
-				}
-				else if(roll == 216 || roll == 217 || roll == 218 ) {
-					var textShadow = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-215").val();
-					var textShadow_ = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-229").val();
-					$(".polling_select1,.polling_select2").css('textShadow' , textShadow);
-					
-					$(".polling_select1,.polling_select2").hover(function() {
-						$(this).css('textShadow' , textShadow_);
-					},function() {
-						$(this).css('textShadow' , textShadow);
-					});
-				}
-				else if(roll == 220) { 
-					$(".polling_select1,.polling_select2").css({
-						borderLeftWidth : val*1 - 1,
-						borderRightWidth : val*1 - 1,
-						borderBottomWidth : val*1 - 1,
-						borderTopWidth : val*1 - 1
-					});
-				}
-				else if(roll == 222) {
-					$(".polling_select1,.polling_select2").css('border-top-left-radius' , val*1 - 1);
-				}
-				else if(roll == 223) {
-					$(".polling_select1,.polling_select2").css('border-top-right-radius' , val*1 - 1);
-				}
-				else if(roll == 224) {
-					$(".polling_select1,.polling_select2").css('border-bottom-left-radius' , val*1 - 1);
-				}
-				else if(roll == 225) {
-					$(".polling_select1,.polling_select2").css('border-bottom-right-radius' , val*1 - 1);
-				}
-				//vote data
-				else if(roll == 167) {
-					$(".answer_votes_data").css('fontSize',val*1 - 1);
-				}
-				else if(roll == 173 || roll == 174 || roll == 175 ) {
-					var textShadow = $("#elem-173").val() + 'px '  + $("#elem-174").val() + 'px '  + $("#elem-175").val() + 'px ' + $("#elem-172").val();
-					$(".answer_votes_data").css('textShadow' , textShadow);
-				}
-				//vote  digit data
-				else if(roll == 177) {
-					$(".answer_votes_data span").css('fontSize',val*1 - 1);
-				}
-				else if(roll == 183 || roll == 184 || roll == 185 ) {
-					var textShadow = $("#elem-183").val() + 'px '  + $("#elem-184").val() + 'px '  + $("#elem-185").val() + 'px ' + $("#elem-182").val();
-					$(".answer_votes_data span").css('textShadow' , textShadow);
-				}
-				//total vote  data
-				else if(roll == 187) {
-					$(".left_col").css('fontSize',val*1 - 1);
-				}
-				else if(roll == 197) {
-					$(".right_col").css('fontSize',val*1 - 1);
-				}
-				else if(roll == 193 || roll == 194 || roll == 195 ) {
-					var textShadow = $("#elem-193").val() + 'px '  + $("#elem-194").val() + 'px '  + $("#elem-195").val() + 'px ' + $("#elem-192").val();
-					$(".left_col").css('textShadow' , textShadow);
-				}
-				else if(roll == 203 || roll == 204 || roll == 205 ) {
-					var textShadow = $("#elem-203").val() + 'px '  + $("#elem-204").val() + 'px '  + $("#elem-205").val() + 'px ' + $("#elem-202").val();
-					$(".right_col").css('textShadow' , textShadow);
-				}
-				else if (roll == 232) {
-					$(".ui-corner-all").css('borderRadius',val*1 - 1);
-				}
-				else if (roll == 248) {
-					$(".ui-slider dt").css('fontSize',val*1 - 1);
-				}
-				else if (roll == 250) {
-					$(".ui-slider dt").css('height',val*1 - 1);
-				}
-				else if(roll == 245 || roll == 246 || roll == 247 ) {
-					var textShadow = $("#elem-245").val() + 'px '  + $("#elem-246").val() + 'px '  + $("#elem-247").val() + 'px ' + $("#elem-244").val();
-					$(".ui-slider dt").css('textShadow' , textShadow);
-				}
-
-				//add answer
-				else if(roll == 266) {
-					$(".add_answer").css('border-top-left-radius' , val*1 - 1);
-				}
-				else if(roll == 267) {
-					$(".add_answer").css('border-top-right-radius' , val*1 - 1);
-				}
-				else if(roll == 268) {
-					$(".add_answer").css('border-bottom-left-radius' , val*1 - 1);
-				}
-				else if(roll == 269) {
-					$(".add_answer").css('border-bottom-right-radius' , val*1 - 1);
-				}
-				else if(roll == 252) {
-					$(".add_ans_name,.add_ans_submit").css('fontSize' , val*1 - 1);
-				}
-				else if(roll == 264) {
-					var size = val*1 - 1;
-					var border = size + 'px '  + $("#elem-265").val() + $("#elem-263").val() ;
-					$(".add_answer").css('border' , border);
-					$(".add_ans_submit").css('borderLeft' , border);
-				}
-				else if(roll == 259 || roll == 260 || roll == 261 || roll == 262) {
-					var boxShadow = $("#elem-258").val() + ' ' + $("#elem-259").val() + 'px '  + $("#elem-260").val() + 'px '  + $("#elem-261").val() + 'px ' + $("#elem-262").val() + 'px ' + $("#elem-257").val();
-					$(".add_answer").css('boxShadow' , boxShadow);
-				}
-				else if(roll == 275 || roll == 276 || roll == 277 ) { 
-					textShadow = $("#elem-275").val() + 'px '  + $("#elem-276").val() + 'px '  + $("#elem-277").val() + 'px ' +  $("#elem-274").val() ;
-					$(".add_ans_name,.add_ans_submit").css('textShadow' , textShadow);
-				}
-				else if(roll == 272) {
-					$(".add_answer").css('height' , val*1 - 1);
-				}
-
-				
+				move_down(roll,val);
 			}
 		})
 		
+		$('.size_down').mouseleave(function() {
+			clearInterval(down_int);
+		});
+
+		function move_down(roll,val) {
+			if(roll == 2) {
+				$(".polling_container").css({
+					borderLeftWidth : val*1 - 1,
+					borderRightWidth : val*1 - 1,
+					borderBottomWidth : val*1 - 1,
+					borderTopWidth : val*1 - 1
+				});
+			}
+			else if(roll == 89) { //box border width
+				$(".polling_container .grad").css({
+					borderLeftWidth : val*1 - 1,
+					borderRightWidth : val*1 - 1,
+					borderBottomWidth : val*1 - 1,
+					borderTopWidth : val*1 - 1
+				});
+			}
+			else if(roll == 51) {
+				$(".polling_container").css('border-top-left-radius' , val*1 - 1);
+			}
+			else if(roll == 52) {
+				$(".polling_container").css('border-top-right-radius' , val*1 - 1);
+			}
+			else if(roll == 53) {
+				$(".polling_container").css('border-bottom-left-radius' , val*1 - 1);
+			}
+			else if(roll == 54) {
+				$(".polling_container").css('border-bottom-right-radius' , val*1 - 1);
+			}
+			else if(roll == 85) {
+				$(".polling_container .grad").css('border-top-left-radius' , val*1 + 1);
+				$(".polling_container .answer_navigation").css('border-top-left-radius' , val*1 + 1);
+			}
+			else if(roll == 86) {
+				$(".polling_container .grad").css('border-top-right-radius' , val*1 + 1);
+				$(".polling_container .answer_navigation").css('border-top-right-radius' , val*1 + 1);
+			}
+			else if(roll == 87) {
+				$(".polling_container .grad").css('border-bottom-left-radius' , val*1 + 1);
+				$(".polling_container .answer_navigation").css('border-bottom-left-radius' , val*1 + 1);
+			}
+			else if(roll == 88) {
+				$(".polling_container .grad").css('border-bottom-right-radius' , val*1 + 1);
+				$(".polling_container .answer_navigation").css('border-bottom-right-radius' , val*1 + 1);
+			}
+			else if(roll == 8) { //box border radius
+				$(".polling_container .polling_name").css('fontSize' , val*1 - 1);
+			}
+			else if(roll == 10) { //answer name font size
+				$(".polling_container .answer_name").css('fontSize' , val*1 - 1);
+			}
+			else if(roll == 46 || roll == 47 || roll == 48 || roll == 49) {
+				var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
+				var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
+				
+				$(".polling_container").css('boxShadow' , boxShadow_);
+				$(".polling_container").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			else if(roll == 56 || roll == 57 || roll == 58 || roll == 59) {//box hover state
+				var boxShadow = $("#elem-55").val() + ' ' + $("#elem-56").val() + 'px '  + $("#elem-57").val() + 'px '  + $("#elem-58").val() + 'px ' + $("#elem-59").val() + 'px ' + $("#elem-5").val();
+				var boxShadow_ = $("#elem-50").val() + ' ' + $("#elem-46").val() + 'px '  + $("#elem-47").val() + 'px '  + $("#elem-48").val() + 'px ' + $("#elem-49").val() + 'px  ' + $("#elem-3").val();
+				
+				$(".polling_container").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			else if(roll == 60 || roll == 61 || roll == 62 ) { //poll name text shadow
+				textShadow = $("#elem-60").val() + 'px '  + $("#elem-61").val() + 'px '  + $("#elem-62").val() + 'px ' +  $("#elem-63").val() ;
+				$(".polling_container .polling_name").css('textShadow' , textShadow);
+			}
+			else if(roll == 64 || roll == 65 || roll == 66 ) { //poll answer name text shadow
+				textShadow = $("#elem-64").val() + 'px '  + $("#elem-65").val() + 'px '  + $("#elem-66").val() + 'px ' +  $("#elem-67").val() ;
+				$(".polling_container .answer_name").css('textShadow' , textShadow);
+			}
+			else if(roll == 72 || roll == 69 || roll == 70 || roll == 71) { //active animation
+				var boxShadow = $("#elem-68").val() + ' ' + $("#elem-69").val() + 'px '  + $("#elem-70").val() + 'px '  + $("#elem-71").val() + 'px ' + $("#elem-72").val() + 'px ' + $("#elem-11").val();
+				$(".polling_container .active_li").css('boxShadow' , boxShadow);
+			}
+			else if(roll == 80 || roll == 81 || roll == 82 || roll == 83) { //active animation
+				var boxShadow = $("#elem-79").val() + ' ' + $("#elem-80").val() + 'px '  + $("#elem-81").val() + 'px '  + $("#elem-82").val() + 'px ' + $("#elem-83").val() + 'px ' + $("#elem-78").val();
+				$(".polling_container .grad").css('boxShadow' , boxShadow);
+			}
+			//animation border radius
+			else if(roll == 74) {
+				$(".polling_container .active_li").css('border-top-left-radius' , val*1 - 1);
+			}
+			else if(roll == 75) {
+				$(".polling_container .active_li").css('border-top-right-radius' , val*1 - 1);
+			}
+			else if(roll == 76) {
+				$(".polling_container .active_li").css('border-bottom-left-radius' , val*1 - 1);
+			}
+			else if(roll == 77) {
+				$(".polling_container .active_li").css('border-bottom-right-radius' , val*1 - 1);
+			}
+			else if(roll == 90) {
+				$(".polling_container .answer_navigation").css('height' , val*1 - 1);
+			}
+			//poll submit//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			else if(roll == 92) {
+				$(".polling_container .polling_submit").css('paddingTop' , val*1 - 1);
+				$(".polling_container .polling_submit").css('paddingBottom' , val*1 - 1);
+			}
+			else if(roll == 93) {
+				$(".polling_container .polling_submit").css('paddingLeft' , val*1 - 1);
+				$(".polling_container .polling_submit").css('paddingRight' , val*1 - 1);
+			}
+			else if(roll == 101) { //box border width
+				$(".polling_container .polling_submit").css({
+					borderLeftWidth : val*1 - 1,
+					borderRightWidth : val*1 - 1,
+					borderBottomWidth : val*1 - 1,
+					borderTopWidth : val*1 - 1
+				});
+			}
+			else if(roll == 102) {
+				$(".polling_container .polling_submit").css('border-top-left-radius' , val*1 - 1);
+			}
+			else if(roll == 103) {
+				$(".polling_container .polling_submit").css('border-top-right-radius' , val*1 - 1);
+			}
+			else if(roll == 104) {
+				$(".polling_container .polling_submit").css('border-bottom-left-radius' , val*1 - 1);
+			}
+			else if(roll == 105) {
+				$(".polling_container .polling_submit").css('border-bottom-right-radius' , val*1 - 1);
+			}
+			else if(roll == 96 || roll == 97 || roll == 98 || roll == 99) {
+				var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' +  $("#elem-117").val();
+				var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
+				$(".polling_container .polling_submit").css('boxShadow' , boxShadow_);
+				
+				$(".polling_container .polling_submit").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			else if(roll == 107) {
+				$(".polling_container .polling_submit").css('fontSize' , val*1 - 1);
+			}
+			else if(roll == 114 || roll == 115 || roll == 116 ) {
+				var textShadow = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-125").val();
+				var textShadow_ = $("#elem-114").val() + 'px '  + $("#elem-115").val() + 'px '  + $("#elem-116").val() + 'px ' + $("#elem-113").val();
+				$(".polling_container .polling_submit").css('textShadow' , textShadow_);
+				
+				$(".polling_container .polling_submit").hover(function() {
+					$(this).css('textShadow' , textShadow);
+				},function() {
+					$(this).css('textShadow' , textShadow_);
+				});
+			}
+			else if(roll == 119 || roll == 120 || roll == 121 || roll == 122) {
+				var boxShadow = $("#elem-118").val() + ' ' + $("#elem-119").val() + 'px '  + $("#elem-120").val() + 'px '  + $("#elem-121").val() + 'px ' + $("#elem-122").val() + 'px ' + $("#elem-117").val();
+				var boxShadow_ = $("#elem-95").val() + ' ' + $("#elem-96").val() + 'px '  + $("#elem-97").val() + 'px '  + $("#elem-98").val() + 'px ' + $("#elem-99").val() + 'px ' + $("#elem-94").val();
+				
+				$(".polling_container .polling_submit").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			// poll Result ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			else if(roll == 129) {
+				$(".polling_container .polling_result").css('paddingTop' , val*1 - 1);
+				$(".polling_container .polling_result").css('paddingBottom' , val*1 - 1);
+			}
+			else if(roll == 130) {
+				$(".polling_container .polling_result").css('paddingLeft' , val*1 - 1);
+				$(".polling_container .polling_result").css('paddingRight' , val*1 - 1);
+			}
+			else if(roll == 138) { //box border width
+				$(".polling_container .polling_result").css({
+					borderLeftWidth : val*1 - 1,
+					borderRightWidth : val*1 - 1,
+					borderBottomWidth : val*1 - 1,
+					borderTopWidth : val*1 - 1
+				});
+			}
+			else if(roll == 139) {
+				$(".polling_container .polling_result").css('border-top-left-radius' , val*1 - 1);
+			}
+			else if(roll == 140) {
+				$(".polling_container .polling_result").css('border-top-right-radius' , val*1 - 1);
+			}
+			else if(roll == 141) {
+				$(".polling_container .polling_result").css('border-bottom-left-radius' , val*1 - 1);
+			}
+			else if(roll == 142) {
+				$(".polling_container .polling_result").css('border-bottom-right-radius' , val*1 - 1);
+			}
+			else if(roll == 133 || roll == 134 || roll == 135 || roll == 136) {
+				var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' +  $("#elem-154").val();
+				var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
+				$(".polling_container .polling_result").css('boxShadow' , boxShadow_);
+				
+				$(".polling_container .polling_result").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			else if(roll == 144) {
+				$(".polling_container .polling_result").css('fontSize' , val*1 - 1);
+			}
+			else if(roll == 151 || roll == 152 || roll == 153 ) {
+				var textShadow = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-162").val();
+				var textShadow_ = $("#elem-151").val() + 'px '  + $("#elem-152").val() + 'px '  + $("#elem-153").val() + 'px ' + $("#elem-150").val();
+				$(".polling_container .polling_result").css('textShadow' , textShadow_);
+				
+				$(".polling_container .polling_result").hover(function() {
+					$(this).css('textShadow' , textShadow);
+				},function() {
+					$(this).css('textShadow' , textShadow_);
+				});
+			}
+			else if(roll == 156 || roll == 157 || roll == 158 || roll == 159) {
+				var boxShadow = $("#elem-155").val() + ' ' + $("#elem-156").val() + 'px '  + $("#elem-157").val() + 'px '  + $("#elem-158").val() + 'px ' + $("#elem-159").val() + 'px ' + $("#elem-154").val();
+				var boxShadow_ = $("#elem-132").val() + ' ' + $("#elem-133").val() + 'px '  + $("#elem-134").val() + 'px '  + $("#elem-135").val() + 'px ' + $("#elem-136").val() + 'px ' + $("#elem-131").val();
+				
+				$(".polling_container .polling_result").hover(function() {
+					$(this).css('boxShadow' , boxShadow);
+				},function() {
+					$(this).css('boxShadow' , boxShadow_);
+				});
+			}
+			//votes data
+			else if(roll == 207) {
+				$(".polling_select1,.polling_select2").css('paddingTop' , val*1 - 1);
+				$(".polling_select1,.polling_select2").css('paddingBottom' , val*1 - 1);
+			}
+			else if(roll == 208) {
+				$(".polling_select1,.polling_select2").css('paddingLeft' , val*1 - 1);
+				$(".polling_select1,.polling_select2").css('paddingRight' , val*1 - 1);
+			}
+			else if(roll == 210) { //box border radius
+				$(".polling_select1,.polling_select2").css('fontSize' , val*1 - 1);
+			}
+			else if(roll == 216 || roll == 217 || roll == 218 ) {
+				var textShadow = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-215").val();
+				var textShadow_ = $("#elem-216").val() + 'px '  + $("#elem-217").val() + 'px '  + $("#elem-218").val() + 'px ' + $("#elem-229").val();
+				$(".polling_select1,.polling_select2").css('textShadow' , textShadow);
+				
+				$(".polling_select1,.polling_select2").hover(function() {
+					$(this).css('textShadow' , textShadow_);
+				},function() {
+					$(this).css('textShadow' , textShadow);
+				});
+			}
+			else if(roll == 220) { 
+				$(".polling_select1,.polling_select2").css({
+					borderLeftWidth : val*1 - 1,
+					borderRightWidth : val*1 - 1,
+					borderBottomWidth : val*1 - 1,
+					borderTopWidth : val*1 - 1
+				});
+			}
+			else if(roll == 222) {
+				$(".polling_select1,.polling_select2").css('border-top-left-radius' , val*1 - 1);
+			}
+			else if(roll == 223) {
+				$(".polling_select1,.polling_select2").css('border-top-right-radius' , val*1 - 1);
+			}
+			else if(roll == 224) {
+				$(".polling_select1,.polling_select2").css('border-bottom-left-radius' , val*1 - 1);
+			}
+			else if(roll == 225) {
+				$(".polling_select1,.polling_select2").css('border-bottom-right-radius' , val*1 - 1);
+			}
+			//vote data
+			else if(roll == 167) {
+				$(".answer_votes_data").css('fontSize',val*1 - 1);
+			}
+			else if(roll == 173 || roll == 174 || roll == 175 ) {
+				var textShadow = $("#elem-173").val() + 'px '  + $("#elem-174").val() + 'px '  + $("#elem-175").val() + 'px ' + $("#elem-172").val();
+				$(".answer_votes_data").css('textShadow' , textShadow);
+			}
+			//vote  digit data
+			else if(roll == 177) {
+				$(".answer_votes_data span").css('fontSize',val*1 - 1);
+			}
+			else if(roll == 183 || roll == 184 || roll == 185 ) {
+				var textShadow = $("#elem-183").val() + 'px '  + $("#elem-184").val() + 'px '  + $("#elem-185").val() + 'px ' + $("#elem-182").val();
+				$(".answer_votes_data span").css('textShadow' , textShadow);
+			}
+			//total vote  data
+			else if(roll == 187) {
+				$(".left_col").css('fontSize',val*1 - 1);
+			}
+			else if(roll == 197) {
+				$(".right_col").css('fontSize',val*1 - 1);
+			}
+			else if(roll == 193 || roll == 194 || roll == 195 ) {
+				var textShadow = $("#elem-193").val() + 'px '  + $("#elem-194").val() + 'px '  + $("#elem-195").val() + 'px ' + $("#elem-192").val();
+				$(".left_col").css('textShadow' , textShadow);
+			}
+			else if(roll == 203 || roll == 204 || roll == 205 ) {
+				var textShadow = $("#elem-203").val() + 'px '  + $("#elem-204").val() + 'px '  + $("#elem-205").val() + 'px ' + $("#elem-202").val();
+				$(".right_col").css('textShadow' , textShadow);
+			}
+			else if (roll == 232) {
+				$(".ui-corner-all").css('borderRadius',val*1 - 1);
+			}
+			else if (roll == 248) {
+				$(".ui-slider dt").css('fontSize',val*1 - 1);
+			}
+			else if (roll == 250) {
+				$(".ui-slider dt").css('height',val*1 - 1);
+			}
+			else if(roll == 245 || roll == 246 || roll == 247 ) {
+				var textShadow = $("#elem-245").val() + 'px '  + $("#elem-246").val() + 'px '  + $("#elem-247").val() + 'px ' + $("#elem-244").val();
+				$(".ui-slider dt").css('textShadow' , textShadow);
+			}
+
+			//add answer
+			else if(roll == 266) {
+				$(".add_answer").css('border-top-left-radius' , val*1 - 1);
+			}
+			else if(roll == 267) {
+				$(".add_answer").css('border-top-right-radius' , val*1 - 1);
+			}
+			else if(roll == 268) {
+				$(".add_answer").css('border-bottom-left-radius' , val*1 - 1);
+			}
+			else if(roll == 269) {
+				$(".add_answer").css('border-bottom-right-radius' , val*1 - 1);
+			}
+			else if(roll == 252) {
+				$(".add_ans_name,.add_ans_submit").css('fontSize' , val*1 - 1);
+			}
+			else if(roll == 264) {
+				var size = val*1 - 1;
+				var border = size + 'px '  + $("#elem-265").val() + $("#elem-263").val() ;
+				$(".add_answer").css('border' , border);
+				$(".add_ans_submit").css('borderLeft' , border);
+			}
+			else if(roll == 259 || roll == 260 || roll == 261 || roll == 262) {
+				var boxShadow = $("#elem-258").val() + ' ' + $("#elem-259").val() + 'px '  + $("#elem-260").val() + 'px '  + $("#elem-261").val() + 'px ' + $("#elem-262").val() + 'px ' + $("#elem-257").val();
+				$(".add_answer").css('boxShadow' , boxShadow);
+			}
+			else if(roll == 275 || roll == 276 || roll == 277 ) { 
+				textShadow = $("#elem-275").val() + 'px '  + $("#elem-276").val() + 'px '  + $("#elem-277").val() + 'px ' +  $("#elem-274").val() ;
+				$(".add_ans_name,.add_ans_submit").css('textShadow' , textShadow);
+			}
+			else if(roll == 272) {
+				$(".add_answer").css('height' , val*1 - 1);
+			}
+		}
+			
+			
 		$('.temp_family').blur(function() {
 			var val = $(this).val().replace('|','');
 			val = val.replace('~','');
