@@ -22,7 +22,7 @@ class JElementPoll extends JElement
 		$fieldName	= $control_name.'['.$name.']';
 		$db 		=& JFactory::getDBO();
 
-		$query = "SELECT name text,id value FROM #__sexy_polls";
+		$query = "SELECT name text,id value FROM #__sexy_polls WHERE published = '1'";
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
@@ -31,7 +31,7 @@ class JElementPoll extends JElement
 		$html[] = "<select name=\"$fieldName\">";
 		//$html[] = '<option value="0">'.JText::_("All").'</option>';
 		foreach($options AS $o) {
-			$html[] = '<option value="'.$o->value.'"'.(($o->value == $this->value) ? ' selected="selected"' : '').'>';
+			$html[] = '<option value="'.$o->value.'"'.(($o->value == $value) ? ' selected="selected"' : '').'>';
 			$html[] = $o->text;
 			$html[] = '</option>';
 		}

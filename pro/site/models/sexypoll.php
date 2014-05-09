@@ -69,9 +69,7 @@ function setId($id)
 			$this->_data = $this->_db->loadObjectList();
 		}
 		if (!$this->_data) {
-			$this->_data = new stdClass();
-			$this->_data->polling_id = 0;
-			$this->_data->polling_name = null;
+			$this->_data = false;
 		}
 		return $this->_data;
 	}
