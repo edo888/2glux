@@ -389,6 +389,8 @@ if($totalvotes > 0) {
 })
 })(jQuery);
 </script>
+<div style="color: rgb(21, 90, 177);font-size: 20px;font-weight: bold;clear: both;text-align: center;margin: 5px 0 5px 0;"><?php echo JText::_('COM_SEXYPOLLING_STATISTICS_DEMO')?></div>
+			
 <div style="position: relative;float: left; width: 48%;padding: 8px;border: 1px solid #ccc;border-radius: 6px;box-shadow: inset 0 0 28px -3px #bbb;margin: 15px 0;">
 	<div id="container2" style=""></div>
 	<div style="position: absolute;z-index: 100000;color: red;height: 13px;width: 87px;bottom: 10px;right: 10px;background-color: #fff;"></div>
@@ -404,11 +406,8 @@ if($totalvotes > 0) {
 </div>
 </div>
 <?php }
-elseif($totalvotes == 0) {
-	echo 'No Data';
-}
 else {
-	show_buy_pro_link();
+	echo 'No Data';
 }?>
 
 
@@ -418,12 +417,4 @@ else {
 <input type="hidden" name="task" value="cancel" />
 <input type="hidden" name="controller" value="statistics" />
 </form>
-<table class="adminlist" style="width: 100%;margin-top: 12px;clear: both;"><tr><td align="center" valign="middle" id="twoglux_ext_td" style="position: relative;">
-	<div id="twoglux_bottom_link"><a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_LINK' ); ?>" target="_blank"><?php echo JText::_( 'COM_SEXYPOLLING' ); ?></a> <?php echo JText::_( 'COM_SEXYPOLLING_DEVELOPED_BY' ); ?> <a href="http://2glux.com" target="_blank">2GLux.com</a></div>
-	<div style="position: absolute;right: 2px;top: 7px;">
-		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_LINK' ); ?>" target="_blank" id="twoglux_ext_rate" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_DESCRIPTION' ); ?>">&nbsp;</a>
-		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_LINK' ); ?>" target="_blank" id="twoglux_ext_homepage" style="margin: 0 2px 0 0px;" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_PROJECT_HOMEPAGE_DESCRIPTION' ); ?>">&nbsp;</a>
-		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_SUPPORT_FORUM_LINK' ); ?>" target="_blank" id="twoglux_ext_support" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_SUPPORT_FORUM_DESCRIPTION' ); ?>">&nbsp;</a>
-		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_BUY_PRO_VERSION_LINK' ); ?>" target="_blank" id="twoglux_ext_buy" class="twoglux_ext_bottom_icon" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_BUY_PRO_VERSION_DESCRIPTION' ); ?>">&nbsp;</a>
-	</div>
-</td></tr></table>
+<?php include (JPATH_BASE.'/components/com_sexypolling/helpers/footer.php'); ?>
