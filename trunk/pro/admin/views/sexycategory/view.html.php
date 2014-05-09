@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restircted access');
 // Import Joomla! libraries
 jimport( 'joomla.application.component.view');
 
-class SexypollingViewSexyCategory extends JViewLegacy
+class SexypollingViewSexycategory extends JViewLegacy
 {
 	protected $form;
 	protected $item;

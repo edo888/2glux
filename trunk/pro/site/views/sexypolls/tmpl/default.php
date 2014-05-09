@@ -23,7 +23,7 @@ else { $REMOTE_ADDR = 'Unknown'; }
 $sexyip = $REMOTE_ADDR;
 
 $comparams = JComponentHelper::getParams( 'com_sexypolling' );
-$version = '1.0.6-pro';
+$version = '1.0.7-pro';
 
 //get user groups
 $user = JFactory::getUser();

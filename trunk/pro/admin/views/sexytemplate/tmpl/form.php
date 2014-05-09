@@ -32,15 +32,8 @@ $document->addStyleSheet($cssFile, 'text/css', null, array());
 $cssFile = JURI::base(true).'/components/com_sexypolling/assets/css/main.css';
 $document->addStyleSheet($cssFile, 'text/css', null, array());
 
-$jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/jquery-1.7.2.min.js';
+$jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/sexylib.js';
 $document->addScript($jsFile);
-
-if(JV == 'j2') {
-	$document->addScriptDeclaration ( 'jQuery.noConflict();' );
-}
-else {
-	$document->addScriptDeclaration ( 'jQuery.noConflict(true);' );
-}
 
 $jsFile = JURI::base(true).'/components/com_sexypolling/assets/js/colorpicker.js';
 $document->addScript($jsFile);
@@ -1830,7 +1823,7 @@ setInterval("refreshSession()", <?php echo $timeout = intval(JFactory::getApplic
 		})
 
 	})
-})(jQuery);
+})(sexyJ);
 </script>
 
 <?php 

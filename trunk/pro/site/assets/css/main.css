@@ -96,7 +96,7 @@ input.poll_answer {
 	width: 100% !important;
 }
 .answer_name label{
-	margin: 6px 0 0 33px;
+	margin: 6px 0px 0px 33px;
 	padding: 0;
 	display: block;
 }
@@ -156,7 +156,7 @@ input.poll_answer {
 }
 .answer_votes_data {
 	float: right !important;
-	margin: 3px 5px 0 0 !important;
+	margin: 3px 5px 0px 0px !important;
 	padding: 0 2px !important;
 	overflow: hidden !important;
 	display: none;
@@ -388,9 +388,9 @@ select.polling_select2 {
 	border-radius: 6px !important;
 	moz-border-radius: 6px !important;
 	-webkit-border-radius: 6px !important;
-	box-shadow: 0 0 15px 0 #222 !important;
-	moz-box-shadow: 0 0 15px 0 #222 !important;
-	-webkit-box-shadow: 0 0 15px 0 #222 !important;
+	box-shadow: 0px 0px 15px 0 #222 !important;
+	moz-box-shadow: 0px 0px 15px 0 #222 !important;
+	-webkit-box-shadow: 0px 0px 15px 0 #222 !important;
 	background: #fff url("../images/background.png") repeat-x left bottom !important;
 	top: 0;
 	left: 0;
@@ -418,7 +418,7 @@ select.polling_select2 {
 	bottom: 15px !important;
 	right: 15px !important;
 
-	box-shadow: inset 0 0 15px 1px rgba(253,18,8,0.78);
+	box-shadow: inset 0px 0px 15px 1px rgba(253,18,8,0.78);
 	border-radius: 4px;
 	background-color: #FF8F00;
 	text-shadow: 0 -1px 1px rgba(0,0,0,0.77);
@@ -432,7 +432,7 @@ select.polling_select2 {
 	transition: background linear 0.2s, background-color linear 0.2s, box-shadow linear 0.2s, border linear 0.2s;
 }
 #close_sexy_alert:hover {
-	box-shadow: inset 0 0 15px 2px rgba(253,18,8,0.78);
+	box-shadow: inset 0px 0px 15px 2px rgba(253,18,8,0.78);
 	text-shadow: 0 -1px 1px rgba(0,0,0,0.82);
 	background-color: #FFCC00;
 }
@@ -495,10 +495,10 @@ select.polling_select2 {
 }
 
 .twoglux_styled_radio {
-	background-position: 0 -120px;
+	background-position: 0 -120px !important;
 }
 .twoglux_styled_checkbox {
-	background-position: 0 0;
+	background-position: 0px 0px !important;
 }
 
 .twoglux_styled_black { 
@@ -618,7 +618,7 @@ select.polling_select2 {
 	background: transparent url(../images/sexycheckboxes/litecrimson-radio-part1.png) top left no-repeat !important;
 }
 
-.twoglux_styled_radio_hovered{background-position: 0 -150px;}
+.twoglux_styled_radio_hovered{background-position: 0 -150px !important;}
 .twoglux_styled_checkbox_hovered{background-position: 0 -30px !important;}
 
 .twoglux_styled_input_wrapper {
