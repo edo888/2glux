@@ -85,7 +85,6 @@ defined('_JEXEC') or die('Restircted access');
 	</div>
 </div>
 
-
 <div id="cpanel">
 	<div class="icon" style="float: right;">
 		<a href="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_LINK' ); ?>" target="_blank" title="<?php echo JText::_( 'COM_SEXYPOLLING_SUBMENU_RATE_US_DESCRIPTION' ); ?>">

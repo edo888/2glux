@@ -1,7 +1,4 @@
 .polling_container_wrapper {
-	float: none !important;
-	width: 98%;
-	margin: 8px auto 8px !important;
 	position: relative !important;
 	line-height: 15px !important;
 	padding: 0 !important;
@@ -681,7 +678,7 @@ select.polling_select2 {
 	margin: -1px 8px 13px 0 !important;
 	padding: 0 !important;
 	font-weight: bold !important;
-	font-size: 16px !important;
+	font-size: 13px !important;
 	bottom: 0 !important;
 	left: 0 !important;
 	right: 0 !important;
@@ -693,13 +690,14 @@ select.polling_select2 {
 	width: auto !important;
 	text-indent: 0px !important;
 	background: none !important;
+	z-index: 10 !important;
 }
 .polling_container_wrapper .powered_by a {
 	text-decoration: none !important;
 	display: inline-block !important;
 	margin: 0px !important;
 	padding: 0px !important;
-	font-size: 16px !important;
+	font-size: 13px !important;
 	bottom: 0 !important;
 	left: 0 !important;
 	right: 0 !important;
@@ -711,6 +709,7 @@ select.polling_select2 {
 	width: auto !important;
 	text-indent: 0px !important;
 	background: none !important;
+	z-index: 10 !important;
 }
 .polling_container_wrapper .powered_by a:hover {
 	text-decoration: none !important;
@@ -945,4 +944,43 @@ select.polling_select2 {
 
 .hide_sexy_button {
 	display: none !important;
+}
+.sexy_hidden {
+	display: none !important;
+}
+
+/**********************EMBED IN ANSWERS**************************/
+.poll_answer_embed_code {
+	margin-top: 2px !important;
+}
+/**********************IMAGES IN ANSWERS**************************/
+.poll_answer_img {
+	float: left !important;
+	margin: 0 7px 3px 0 !important;
+	border-radius: 4px !important;
+	border: none !important;
+
+	max-width: 45% !important; 
+}
+
+/**********************LINKS IN ANSWERS**************************/
+.twoglux_label>a {
+	color: #08c !important;
+	background-color: transparent !important;
+	text-shadow: none !important;
+	text-decoration: none !important;
+	font-size: 85%;
+	font-weight: normal !important;
+	line-height: 1 !important;
+
+	-webkit-transition: color linear 0.2s  !important;
+	-moz-transition: color linear 0.2s  !important;
+	-o-transition: color linear 0.2s  !important;
+	transition: color linear 0.2s  !important;
+}
+.twoglux_label a:hover {
+	color: #0AF !important;
+	background-color: transparent !important;
+	text-shadow: none !important;
+	text-decoration: underline !important;
 }

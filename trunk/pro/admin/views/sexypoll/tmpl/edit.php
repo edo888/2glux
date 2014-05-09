@@ -47,8 +47,7 @@ Joomla.submitbutton = function(task) {
 </script>
 <?php if(JV == 'j2') {//////////////////////////////////////////////////////////////////////////////////////Joomla2.x/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////?>
 <form action="<?php echo JRoute::_('index.php?option=com_sexypolling&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm">
-	<?php //if(($this->max_id < 2) || ($this->item->id != 0)) {?>
-	<?php if(true) {?>
+	<?php if(true || ($this->item->id != 0)) {?>
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'COM_SEXYPOLLING_DETAILS' ); ?></legend>
 		<ul class="adminformlist">
@@ -77,6 +76,7 @@ Joomla.submitbutton = function(task) {
 					</a>
 				</div>
 			</div>
+			<div style="font-style: italic;font-size: 12px;color: #949494;clear: both;">If you've deleted the poll, but still see this message, please clear the polls trash.</div>
 	<?php }?>
 </form>
 <table class="adminlist" style="width: 100%;margin-top: 12px;clear: both;"><tr><td align="center" valign="middle" id="twoglux_ext_td" style="position: relative;">
@@ -97,8 +97,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	<div class="row-fluid">
 		<!-- Begin Newsfeed -->
 		<div class="span10 form-horizontal">
-			<?php //if(($this->max_id < 2) || ($this->item->id != 0)) {?>
-			<?php if(true) {?>
+			<?php if(true || ($this->item->id != 0)) {?>
 			<fieldset>
 				<div class="tab-content">
 					<div class="tab-pane active" id="details">
@@ -128,6 +127,7 @@ JHtml::_('formbehavior.chosen', 'select');
 							</a>
 						</div>
 					</div>
+					<div style="font-style: italic;font-size: 12px;color: #949494;clear: both;">If you've deleted the poll, but still see this message, please clear the polls trash.</div>
 			<?php }?>
 		</div>
 	</div>

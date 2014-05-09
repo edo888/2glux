@@ -74,15 +74,7 @@ class SexypollingViewSexyanswers extends JViewLegacy {
 		JToolBarHelper::divider();
  		JToolBarHelper::publish('sexyanswers.publish', 'JTOOLBAR_PUBLISH', true);
 		JToolBarHelper::unpublish('sexyanswers.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-	    
-    	if ($this->state->get('filter.published') == -2) {
-    		JToolBarHelper::deleteList('', 'sexyanswers.delete', 'JTOOLBAR_EMPTY_TRASH');
-    		JToolBarHelper::divider();
-    	}
-    	else {
-    		JToolBarHelper::trash('sexyanswers.trash');
-    		JToolBarHelper::divider();
-    	}
+		JToolBarHelper::deleteList('', 'sexyanswers.delete', 'JTOOLBAR_DELETE');
 	    
     }
     

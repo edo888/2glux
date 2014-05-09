@@ -16,23 +16,34 @@ defined('_JEXEC') or die('Restircted access');
 /*
  * This is external PHP file and used on AJAX calls, so it has not "defined('_JEXEC') or die;" part.
  */
-
 error_reporting(0);
+
+define( 'DS', DIRECTORY_SEPARATOR );
+define('JPATH_BASE', dirname(__FILE__).DS.'..'.DS.'..' );
+
+session_start();
 header('Content-type: application/json');
-include '../../configuration.php';
+
+require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
+require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
+
+$app = JFactory::getApplication('site');
+$app->initialise();
+
+$db = JFactory::getDBO();
+
+//get user groups
+$levels = array();
+$groups = array();
+
+$user = JFactory::getUser();
+$user_id = $user->get('id');
+jimport( 'joomla.access.access' );
+$groups = JAccess::getGroupsByUser($user_id);
 
 $date_now = strtotime("now");
 $datenow = date("Y-m-d H:i:s", $date_now);
-
-$config = new JConfig;
-
-//conects to datababse
-mysql_connect($config->host, $config->user, $config->password);
-mysql_select_db($config->db);
-mysql_query("SET NAMES utf8");
-
-//date format -> must get from component parameters
-$date_format = $_POST['dateformat'];
+$datenow_sql = date("Y-m-d", $date_now);
 
 //get ip address
 $REMOTE_ADDR = null;
@@ -56,26 +67,121 @@ $mode = isset($_POST['mode']) ? $_POST['mode'] : '';
 $min_date_sended = isset($_POST['min_date']) ? $_POST['min_date'].' 00:00:00' : '';
 $max_date_sended = isset($_POST['max_date']) ? $_POST['max_date'].' 23:59:59' : '';
 
+//get poll options
+$query = "SELECT * FROM `#__sexy_polls` WHERE `id` = '$polling_id'";
+$db->setQuery( $query );
+$poll_options = $db->loadAssoc();
+$stringdateformat = $poll_options["stringdateformat"];
+$ipcount = $poll_options["ipcount"];
+$voting_period = $poll_options["voting_period"];
+
+//check token
+if (!JRequest::checkToken() && $poll_options["checktoken"] == 1) {
+	echo '[{"invalid":"invalid_token"}]';
+	exit();
+}
+
+//check ipcount security
+$query = "SELECT COUNT( sv.ip ) 
+			FROM  `jos_sexy_answers` sa
+			JOIN  `jos_sexy_votes` sv ON sv.id_answer = sa.id
+			AND DATE_FORMAT(sv.date, '%Y-%m-%d') = '$datenow_sql' 
+			AND sv.ip = '$ip' 
+			WHERE sa.id_poll =  '$polling_id'
+		";
+$db->setQuery($query);
+$count_votes = $db->loadResult();
+$voting_enabled = true;
+if($ipcount != 0 && $count_votes >= $ipcount)
+	$voting_enabled = false;
+
+//make additional checkings
+if($poll_options["votechecks"] == 1) {
+	//check ACL to vote
+	function if_contain($array1,$array2) {
+		if(is_array($array2))
+			foreach($array1 as $val) {
+			if(in_array($val,$array2))
+				return true;
+		}
+		return false;
+	}
+	
+	$voting_permission_id = $poll_options["voting_permission"];
+	$query = "SELECT `rules` FROM #__viewlevels WHERE id = '$voting_permission_id'";
+	$db->setQuery($query);
+	$db->query();
+	$levels = explode(',',str_replace(array('[',']'),'',$db->loadResult()));
+	if(!if_contain($levels,$groups) && $poll_options["checkacl"] == 1)
+		$voting_enabled = false;
+	
+	$registration_to_vote_required = ( in_array(2,$levels) || in_array(3,$levels) || in_array(6,$levels) || in_array(8,$levels) ) ? true : false;
+	
+	//check start,end dates
+	if($poll_options["date_start"] != '0000-00-00' &&  $date_now < strtotime($poll_options["date_start"]))
+		$voting_enabled = false;
+	if($poll_options["date_end"] != '0000-00-00' &&  $date_now > strtotime($poll_options["date_end"]))
+		$voting_enabled = false;
+	
+	//check user_id
+	if($registration_to_vote_required) {
+		$query = "SELECT sv.`ip`,sv.`date` FROM #__sexy_votes sv JOIN #__sexy_answers sa ON sa.id_poll = '$polling_id' WHERE sv.id_answer = sa.id AND sv.id_user = '$user_id' ORDER BY sv.`date` DESC LIMIT 1";
+		$db->setQuery($query);
+		$db->query();
+		$num_rows = $db->getNumRows();
+		$row = $db->loadAssoc();
+		if($num_rows > 0) {
+			$datevoted = strtotime($row['date']);
+			$hours_diff = ($date_now - $datevoted) / 3600;
+			if($voting_period == 0 || ($hours_diff < $voting_period)) {
+				$voting_enabled = false;
+			}
+		}
+	}
+	else {
+		//check ip
+		$query = "SELECT sv.`ip`,sv.`date` FROM #__sexy_votes sv JOIN #__sexy_answers sa ON sa.id_poll = '$polling_id' WHERE sv.id_answer = sa.id AND sv.ip = '$ip' ORDER BY sv.`date` DESC LIMIT 1";
+		$db->setQuery($query);
+		$db->query();
+		$num_rows = $db->getNumRows();
+		$row = $db->loadAssoc();
+		if($num_rows > 0) {
+			$datevoted = strtotime($row['date']);
+			$hours_diff = ($date_now - $datevoted) / 3600;
+			if($voting_period == 0 || ($hours_diff < $voting_period)) {
+				$voting_enabled = false;
+			}
+		}
+			
+		//check cookie
+		if (isset($_COOKIE["sexy_poll_$polling_id"])) {
+			$voting_enabled = false;
+		}
+	}
+}
+
 $use_current = isset($_POST['curr_date']) ? $_POST['curr_date'] : '';
 if($use_current == 'yes') {
 	$max_date_sended = date('Y-m-d',strtotime("now")).' 23:59:59';
 }
 
-$voting_period = $_POST['voting_period'];
-
 $add_answers = array();
-if(is_array($adittional_answers)) {
+if(is_array($adittional_answers) && $voting_enabled) {
 	foreach ($adittional_answers as $answer) {
 		$answer = mysql_real_escape_string(strip_tags($answer));
 		$answer = preg_replace('/sexydoublequestionmark/','??',$answer);
 		
 		$published = 1;
-		mysql_query("INSERT INTO `".$config->dbprefix."sexy_answers` (`id_poll`,`name`,`published`,`created`) VALUES ('$polling_id','$answer','$published',NOW())");
-		$insert_id = mysql_insert_id();
+		$query = "INSERT INTO `#__sexy_answers` (`id_poll`,`name`,`published`,`created`) VALUES ('$polling_id','$answer','$published',NOW())";
+		$db->setQuery($query);
+		$db->query();
+		$insert_id = $db->insertid();
 		
 		$add_answers[] = $insert_id;
 		
-		mysql_query("INSERT INTO `".$config->dbprefix."sexy_votes` (`id_answer`,`ip`,`date`,`country`,`city`,`region`,`countrycode`) VALUES ('$insert_id','$ip','$datenow','$countryname','$cityname','$regionname','$countrycode')");
+		$query = "INSERT INTO `#__sexy_votes` (`id_answer`,`id_user`,`ip`,`date`,`country`,`city`,`region`,`countrycode`) VALUES ('$insert_id','$user_id',$ip','$datenow','$countryname','$cityname','$regionname','$countrycode')";
+		$db->setQuery($query);
+		$db->query();
 		
 		//set the cookie
 		if($voting_period == 0) {
@@ -93,10 +199,12 @@ if(is_array($adittional_answers)) {
 
 //check if not voted, save the voting
 
-if ($mode != 'view' && $mode != 'view_by_date' && is_array($answer_id_array)) {
+if ($mode != 'view' && $mode != 'view_by_date' && is_array($answer_id_array) && $voting_enabled) {
 		foreach ($answer_id_array as $answer_id) {
 			$answer_id = (int)$answer_id;
-			mysql_query("INSERT INTO `".$config->dbprefix."sexy_votes` (`id_answer`,`ip`,`date`,`country`,`city`,`region`,`countrycode`) VALUES ('$answer_id','$ip','$datenow','$countryname','$cityname','$regionname','$countrycode')");
+			$query = "INSERT INTO `#__sexy_votes` (`id_answer`,`id_user`,`ip`,`date`,`country`,`city`,`region`,`countrycode`) VALUES ('$answer_id','$user_id','$ip','$datenow','$countryname','$cityname','$regionname','$countrycode')";
+			$db->setQuery($query);
+			$db->query();
 		}
 		
 		//set the cookie
@@ -117,28 +225,30 @@ $query_toal = "SELECT
 				MAX(sv.`date`) max_date,
 				MIN(sv.`date`) min_date 
 			FROM 
-				`".$config->dbprefix."sexy_votes` sv
+				`#__sexy_votes` sv
 			JOIN
-				`".$config->dbprefix."sexy_answers` sa ON sa.id_poll =  '$polling_id' 
+				`#__sexy_answers` sa ON sa.id_poll =  '$polling_id' 
 			AND
 				sa.published = '1'
 			WHERE
 				sv.`id_answer` = sa.id";
 
 //if dates are sended, add them to query
-if ($mode == 'view_by_date')
+if ($min_date_sended != '' && $max_date_sended != '')
 	$query_toal .= " AND sv.`date` >= '$min_date_sended' AND sv.`date` <= '$max_date_sended' ";
 
-$res_toal = mysql_query($query_toal);
-$row_total = mysql_fetch_assoc($res_toal);
+$db->setQuery($query_toal);
+$db->query();
+$row_total = $db->loadAssoc();
+
 $count_total_votes = $row_total['total_count'];
 if ($count_total_votes > 0) {
-	$min_date = $date_format == 'str' ? date('F j, Y', strtotime($row_total['min_date'])) : date('d / m / Y',strtotime($row_total['min_date']));
-	$max_date = $date_format == 'str' ? date('F j, Y', strtotime($row_total['max_date'])) : date('d / m / Y',strtotime($row_total['max_date']));
+	$min_date = date($stringdateformat, strtotime($row_total['min_date']));
+	$max_date = date($stringdateformat, strtotime($row_total['max_date']));
 }
 elseif($min_date_sended != ''){
-	$min_date = $date_format == 'str' ? date('F j, Y', strtotime($min_date_sended)) : date('d / m / Y',strtotime($min_date_sended));
-	$max_date = $date_format == 'str' ? date('F j, Y', strtotime($max_date_sended)) : date('d / m / Y',strtotime($max_date_sended));
+	$min_date = date($stringdateformat, strtotime($min_date_sended));
+	$max_date = date($stringdateformat, strtotime($max_date_sended));
 }
 else {
 	$max_date = "";
@@ -150,9 +260,12 @@ $answer_ids = array();
 $voted_ids = array();
 $ans_names = array();
 $ans_orders_start = array();
-$res_all = mysql_query("SELECT `id`,`name` FROM `".$config->dbprefix."sexy_answers` WHERE `id_poll` = '$polling_id' AND  published = '1' ORDER BY `ordering` DESC,name");
+$query = "SELECT `id`,`name` FROM `#__sexy_answers` WHERE `id_poll` = '$polling_id' AND  published = '1' ORDER BY `ordering` DESC,name";
+$db->setQuery($query);
+$row_all_array = $db->loadAssocList();
 $a = 1;
-while ($row_all = mysql_fetch_assoc($res_all)) {
+if(is_array($row_all_array))
+foreach ($row_all_array as $row_all) {
 	$answer_ids[] = $row_all['id'];
 	$ans_names[$row_all['id']] = $row_all['name'];
 	$ans_orders_start[$row_all['id']] = $a;
@@ -167,19 +280,22 @@ $query_poll =
 						sa.name,
 						COUNT(sv.`id_answer`) count_votes
 					FROM
-						`".$config->dbprefix."sexy_votes` sv
+						`#__sexy_votes` sv
 					JOIN
-						`".$config->dbprefix."sexy_answers` sa ON sa.id_poll =  '$polling_id' 
+						`#__sexy_answers` sa ON sa.id_poll =  '$polling_id' 
 					AND
 						sa.published = '1'
 					WHERE
 						sv.`id_answer` = sa.id";
-if ($mode == 'view_by_date')
+if ($min_date_sended != '' && $max_date_sended != '')
 	$query_poll .= " AND sv.`date` >= '$min_date_sended' AND sv.`date` <= '$max_date_sended' ";				
 $query_poll .= " GROUP BY sv.`id_answer` ORDER BY count_votes DESC,sa.name";
-$res_poll = mysql_query($query_poll);
+$db->setQuery($query_poll);
+$row_poll_array = $db->loadAssocList();
+
 $poll_array = Array();
-while ($row_poll = mysql_fetch_assoc($res_poll)) {
+if(is_array($row_poll_array))
+foreach ($row_poll_array as $row_poll) {
 
 	$float_percent = (100 * $row_poll['count_votes'] / $count_total_votes);
 	$item_percent = number_format($float_percent, 1, '.', ''); 
@@ -276,7 +392,7 @@ foreach ($poll_array as $data)
 	echo '"min_date": "'.$data["min_date"].'", ';
 	echo '"order": "'.$ord_final_list[$data["answer_id"]].'", ';
 	echo '"order_start": "'.$ans_orders_start[$data["answer_id"]].'", ';
-	echo '"name": "'.str_replace('\\','', htmlspecialchars (stripslashes($data["name"]),ENT_QUOTES)).'", ';
+	//echo '"name": "'.str_replace('\\','', htmlspecialchars (stripslashes($data["name"]),ENT_QUOTES)).'", ';
 	echo '"max_date": "'.$data["max_date"].'"';
 	
 	if(sizeof($add_answers) > 0 && $a == 0) {
@@ -296,4 +412,5 @@ foreach ($poll_array as $data)
 	$a++;
 }
 echo ']';
+jexit();
 ?>

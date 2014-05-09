@@ -6,7 +6,7 @@
     <copyright>Copyright (©) 2008-2014 2GLux company. All rights reserved.</copyright>
     <authorEmail>info@2glux.com</authorEmail>
     <authorUrl>http://2glux.com</authorUrl>
-    <version>1.0.9 PRO</version>
+    <version>2.0.0</version>
     <license>GNU/GPL</license>
     <description>COM_SEXYPOLLING_DESCRIPTION</description>
 
@@ -36,21 +36,17 @@
         <folder>models</folder>
         <folder>views</folder>
         <folder>assets</folder>
+       	<folder>helpers</folder>
     </files>
     
     <languages folder="site">
 			<language tag="en-GB">language/en-GB/en-GB.com_sexypolling.ini</language>
-			<language tag="en-GB">language/en-GB/en-GB.com_sexypolling.sys.ini</language>
 			<language tag="fr-FR">language/fr-FR/fr-FR.com_sexypolling.ini</language>
-			<language tag="fr-FR">language/fr-FR/fr-FR.com_sexypolling.sys.ini</language>
 			<language tag="es-ES">language/es-ES/es-ES.com_sexypolling.ini</language>
-			<language tag="es-ES">language/es-ES/es-ES.com_sexypolling.sys.ini</language>
 			<language tag="de-DE">language/de-DE/de-DE.com_sexypolling.ini</language>
-			<language tag="de-DE">language/de-DE/de-DE.com_sexypolling.sys.ini</language>
 			<language tag="it-IT">language/it-IT/it-IT.com_sexypolling.ini</language>
-			<language tag="it-IT">language/it-IT/it-IT.com_sexypolling.sys.ini</language>
 			<language tag="ru-RU">language/ru-RU/ru-RU.com_sexypolling.ini</language>
-			<language tag="ru-RU">language/ru-RU/ru-RU.com_sexypolling.sys.ini</language>
+			<language tag="fa-IR">language/fa-IR/fa-IR.com_sexypolling.ini</language>
 	</languages>
 
     <!-- administration part -->
@@ -93,6 +89,8 @@
 			<language tag="it-IT">language/it-IT/it-IT.com_sexypolling.sys.ini</language>
 			<language tag="ru-RU">language/ru-RU/ru-RU.com_sexypolling.ini</language>
 			<language tag="ru-RU">language/ru-RU/ru-RU.com_sexypolling.sys.ini</language>
+			<language tag="fa-IR">language/fa-IR/fa-IR.com_sexypolling.ini</language>
+			<language tag="fa-IR">language/fa-IR/fa-IR.com_sexypolling.sys.ini</language>
 		</languages>
     </administration>
 </extension>

@@ -66,11 +66,11 @@ $saveOrder	= $listOrder == 'sp.ordering';
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_QUESTION', 'sp.question', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'sp.published', $listDirn, $listOrder); ?>
+				<th width="15%" class="nowrap hidden-phone center">
+						Shortcode
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JFEATURED', 'sp.featured', $listDirn, $listOrder, NULL, 'desc'); ?>
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'sp.published', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'category_title', $listDirn, $listOrder); ?>
@@ -83,10 +83,6 @@ $saveOrder	= $listOrder == 'sp.ordering';
 					<?php if ($saveOrder) :?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'sexypolls.saveorder'); ?>
 					<?php endif; ?>
-				</th>
-				
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'sp.access', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_NUM_ANSWERS', 'num_answers', $listDirn, $listOrder); ?>
@@ -124,11 +120,11 @@ $saveOrder	= $listOrder == 'sp.ordering';
 						<?php echo $this->escape($item->question); ?>
 					</a>
 				</td>
+				<td class="center hidden-phone">
+						<input class="creative_shortcode" value='[sexypolling id=&quot;<?php echo $item->id;?>&quot;]' onclick="this.select()" readonly="readonly" />
+					</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i,'sexypolls.', true, 'cb', $item->publish_up, $item->publish_down); ?>
-				</td>
-				<td class="center">
-					<?php echo JHtml::_('sexypoll.featured', $item->featured, $i, true); ?>
 				</td>
 				<td align="center">
 					<a href="<?php echo JRoute::_('index.php?option=com_sexypolling&task=sexycategory.edit&id='.(int) $item->category_id); ?>">
@@ -143,9 +139,6 @@ $saveOrder	= $listOrder == 'sp.ordering';
 				<td class="order">
 					<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
 					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled; ?> class="text-area-order" />
-				</td>
-				<td align="center">
-					<?php echo $item->access_level; ?>
 				</td>
 				<td align="center">
 					<?php echo $item->num_answers; ?>
@@ -268,17 +261,14 @@ $sortFields = $this->getSortFields();
 						<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_QUESTION', 'sp.question', $listDirn, $listOrder); ?>
 					</th>
 					
+					<th width="15%" class="nowrap hidden-phone center">
+						Shortcode
+					</th>
 					<th width="10%">
 						<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'category_title', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%">
 						<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_TEMPLATE', 'template_title', $listDirn, $listOrder); ?>
-					</th>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JFEATURED', 'sp.featured', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'sp.access', $listDirn, $listOrder); ?>
 					</th>
 					<th width="5%">
 						<?php echo JHtml::_('grid.sort', 'COM_SEXYPOLLING_NUM_ANSWERS', 'num_answers', $listDirn, $listOrder); ?>
@@ -329,6 +319,9 @@ $sortFields = $this->getSortFields();
 							</a>
 						</div>
 					</td>
+					<td class="center hidden-phone">
+						<input class="creative_shortcode" value='[sexypolling id=&quot;<?php echo $item->id;?>&quot;]' onclick="this.select()" readonly="readonly" />
+					</td>
 					<td align="small hidden-phone">
 						<a href="<?php echo JRoute::_('index.php?option=com_sexypolling&task=sexycategory.edit&id='.(int) $item->category_id); ?>">
 							<?php echo $item->category_title; ?>
@@ -338,12 +331,6 @@ $sortFields = $this->getSortFields();
 						<a href="<?php echo JRoute::_('index.php?option=com_sexypolling&task=sexytemplate.edit&id='.(int) $item->template_id); ?>">
 							<?php echo $item->template_title; ?>
 						</a>
-					</td>
-					<td class="center hidden-phone">
-						<?php echo JHtml::_('sexypoll.featured', $item->featured, $i, true); ?>
-					</td>
-					<td align="small hidden-phone">
-						<?php echo $item->access_level; ?>
 					</td>
 					<td align="center hidden-phone">
 						<?php echo $item->num_answers; ?>

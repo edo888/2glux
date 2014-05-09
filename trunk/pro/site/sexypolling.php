@@ -25,6 +25,8 @@ define( 'COM_SEXY_POLLING_DIR', 'images'.DS.'sexy_polling'.DS );
 define( 'COM_SEXY_POLLING_BASE', JPATH_ROOT.DS.COM_SEXY_POLLING_DIR );
 define( 'COM_SEXY_POLLING_BASEURL', JURI::root().str_replace( DS, '/', COM_SEXY_POLLING_DIR ));
 
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+
 $controller	= JControllerLegacy::getInstance('SexyPolling');
 // Perform the Request task
 if(JV == 'j2')

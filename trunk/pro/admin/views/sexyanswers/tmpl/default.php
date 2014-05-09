@@ -98,7 +98,7 @@ $saveOrder	= $listOrder == 'sa.ordering';
 				</td>
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_sexypolling&task=sexyanswer.edit&id='.(int) $item->id); ?>">
-						<?php echo $this->escape($item->name); ?>
+						<?php echo $this->escape(strip_tags($item->name)); ?>
 					</a>
 				</td>
 				<td>
@@ -271,7 +271,7 @@ $sortFields = $this->getSortFields();
 					<td class="nowrap has-context">
 						<div class="pull-left">
 							<a href="<?php echo JRoute::_('index.php?option=com_sexypolling&task=sexyanswer.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($item->name); ?>
+								<?php echo $this->escape(strip_tags($item->name)); ?>
 							</a>
 						</div>
 					</td>
