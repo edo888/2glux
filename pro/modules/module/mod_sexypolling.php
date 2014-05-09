@@ -18,7 +18,7 @@ $module_id = $module->id;
 $id_poll = $params->get('poll_id',1);
 $poll_type = $params->get('poll_type',0);
 $category_id = $params->get('category_id');
-$version = '1.0.7-pro';
+$version = '1.0.8-pro';
 
 //get ip
 $REMOTE_ADDR = null;
