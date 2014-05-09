@@ -58,8 +58,11 @@ class com_sexypollingInstallerScript {
      * @return void
      */
     function update($parent) {
-        // $parent is the class calling this method
-        //echo '<p>' . JText::_('COM_HELLOWORLD_UPDATE_TEXT') . '</p>';
+        $module_installer = new JInstaller;
+        if(@$module_installer->install(dirname(__FILE__).DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.'module'))
+            echo '<p>'.JText::_('COM_SEXYPOLLING_MODULE_INSTALL_SUCCESS').'</p>';
+        else
+           echo '<p>'.JText::_('COM_SEXYPOLLING_MODULE_INSTALL_FAILED').'</p>';
     }
 
     /**

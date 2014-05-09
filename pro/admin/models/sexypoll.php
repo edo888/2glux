@@ -73,6 +73,7 @@ class SexypollingModelSexypoll extends JModelAdmin
 		{
 			$data = $this->getItem();
 		}
+			$data = $this->getItem();
 		return $data;
 	}
 	

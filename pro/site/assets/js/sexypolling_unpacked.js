@@ -6,6 +6,11 @@ $(document).ready(function() {
 				sexyCity = '',
 				sexyRegion = '';
 			
+			var offset_padding = 2;
+			
+			function check_pro_version() {
+				return true;
+			};
 			
 			$.ajax
 			({
@@ -14,10 +19,12 @@ $(document).ready(function() {
 				dataType: "json",
 				success: function(data)
 				{
-					sexyCountry = data.countryName;
-					sexyCountryCode = data.countryCode;
-					sexyCity = data.cityName;
-					sexyRegion = data.regionName;
+					if(data != null) {
+						sexyCountry = data.countryName;
+						sexyCountryCode = data.countryCode;
+						sexyCity = data.cityName;
+						sexyRegion = data.regionName;
+					}
 				},
 				error: function()
 				{
@@ -33,18 +40,43 @@ $(document).ready(function() {
 				});
 			},100);
 			
-			
-			function doNotAllow(poll_id) {
-				//check if already voted
+			var estimated_seconds = new Array();
+			function create_seconds_timers() {
 				var onlyVotedIds = new Array();
 				for(t in votedIds) {
-					onlyVotedIds.push(votedIds[t][0]);
+					var poll_id = votedIds[t][0];
+					estimated_seconds[poll_id] = parseInt(votedIds[t][2] * 3600);
 				};
-				if($.inArray(poll_id,onlyVotedIds) != -1) {
-					make_alert(sexyPolling_words[9],'sexy_normal');
-					return false;
-				}
+				
+				setInterval(function() {
+					for(t in estimated_seconds) {
+						if(estimated_seconds[t] > 0)
+							estimated_seconds[t] -= 1;
+					};
+				},1000);
 			};
+			create_seconds_timers();
+			
+			var estimated_seconds_start_poll = new Array();
+			function create_start_poll_seconds_timers() {
+				
+				//check start dates
+				var s_length = startDisabledIds.length;
+				for(var i = 0;i <= s_length; i++) {
+					if(typeof startDisabledIds[i] !== 'undefined') {
+						var poll_id = startDisabledIds[i][0];
+						estimated_seconds_start_poll[poll_id] = parseInt(startDisabledIds[i][3] * 3600);
+					};
+				};
+					
+				setInterval(function() {
+					for(tt in estimated_seconds_start_poll) {
+						if(estimated_seconds_start_poll[tt] > 0)
+							estimated_seconds_start_poll[tt] -= 1;
+					};
+				},1000);
+			};
+			create_start_poll_seconds_timers();
 			
 			//alert box ////////////////////////////////////////////////////////////////////////////////////////
 			//function to create shadow
@@ -70,13 +102,12 @@ $(document).ready(function() {
 				create_shadow();
 				
 				//make alert
-				var $alert_body = '<div id="sexy_alert_wrapper"><div id="sexy_alert_body" class="' + type + '">' + txt + '</div><input type="button" id="close_sexy_alert" value="OK" /></div>';
+				var $alert_body = '<div id="sexy_alert_wrapper"><div id="sexy_alert_body" class="' + type + '">' + txt + '</div><input type="button" id="close_sexy_alert" value="' + sexyPolling_words[21] + '" /></div>';
 				$('body').append($alert_body);
 				var scollTop = $(window).scrollTop();
 				var w_width = $(window).width();
 				var w_height = $(window).height();
 				var s_height = $("#sexy_alert_wrapper").height();
-				
 				
 				var alert_left = (w_width - 420) / 2;
 				var alert_top = (w_height - s_height) / 2;
@@ -97,7 +128,7 @@ $(document).ready(function() {
 			function remove_alert_box() {
 				$("#sexy_shadow").stop().fadeTo(200,0,function() {$(this).remove();});
 				$("#sexy_alert_wrapper").stop().fadeTo(200,0,function() {$(this).remove();});
-			}
+			};
 			
 			function move_alert_box() {
 				var scollTop = $(window).scrollTop();
@@ -130,44 +161,84 @@ $(document).ready(function() {
 				move_alert_box();
 			});
 			
+			setTimeout(function() {
+				$(".polling_bottom_wrapper1").each(function() {
+					var h = $(this).height();
+					$(this).attr("h",h);
+				});
+				
+				$(".polling_loading").each(function() {
+					var h = $(this).height();
+					$(this).attr("h",h);
+				});
+				
+				$(".answer_input").each(function() {
+					var w = $(this).width();
+					$(this).attr("w",w);
+				});
+				
+				$(".polling_ul").each(function() {
+					var h = $(this).height();
+					$(this).attr("h",h);
+				});
+				
+				$(".polling_li").each(function() {
+					var h = $(this).height();
+					$(this).attr("h_start",h);
+				});
+				$(".answer_navigation").each(function() {
+					var b = parseInt($(this).css("borderWidth"));
+					$(this).attr("b",b);
+				});
+			},50);
 			
-			//function to prevent uncheck user added input boxes
-			$('.doNotUncheck').live('click',function() {
-				if(! $(this).is(':checked') ) {
-					$(this).parent('div').parent('li').remove();
-				}
-			});
-	
-			$(".polling_bottom_wrapper1").each(function() {
-				var h = $(this).height();
-				$(this).attr("h",h);
-			});
-			
-			$(".polling_loading").each(function() {
-				var h = $(this).height();
-				$(this).attr("h",h);
-			});
-			
-			$(".answer_input").each(function() {
-				var w = $(this).width();
-				$(this).attr("w",w);
-			});
-			
-			$(".polling_ul").each(function() {
-				var h = $(this).height();
-				$(this).attr("h",h);
-			});
-			
-			$(".polling_li").each(function() {
-				var h = $(this).height();
-				$(this).attr("h_start",h);
-			});
-			$(".answer_navigation").each(function() {
-				var b = parseInt($(this).css("borderWidth"));
-				$(this).attr("b",b);
-			});
+			function create_timer(seconds_diff, show_date) {
+				
+				var newdate = new Date();
+				newdate.setSeconds(newdate.getSeconds() + seconds_diff);
+				var dd = newdate.getDate();
+				var mm = newdate.getMonth()+1;
+				var hh = newdate.getHours();
+				var ii = newdate.getMinutes();
+				var ss = newdate.getSeconds();
+				var yyyy = newdate.getFullYear();
+		
+				if(dd<10) dd='0'+dd;
+				if(mm<10) mm='0'+mm;
+				if(hh<10) hh='0'+hh;
+				if(ii<10) ii='0'+ii;
+				if(ss<10) ss='0'+ss;
+				var time_text = yyyy+'/'+mm+'/'+dd + ' ' + hh + ':' + ii + ':' + ss;
+				
+				var timezone = new Date().getTimezoneOffset();
+				$("#sexy_timer").jCountdown({
+					timeText:time_text,
+					timeZone:0,
+					style:"slide",
+					color:"black",
+					width:350,
+					textGroupSpace:15,
+					textSpace:0,
+					reflection:true,
+					reflectionOpacity:20,
+					reflectionBlur:1,
+					dayTextNumber:2,
+					displayDay:show_date,
+					displayHour:true,
+					displayMinute:true,
+					displaySecond:true,
+					displayLabel:true,
+					onFinish:function(){
+						remove_alert_box();
+					};
+				});
+			};
 	
 			$('.polling_submit').click(function() {
+				if(!check_pro_version()) {
+					make_alert('To hide a backlink please purchase a Sexy Polling PRO version','sexy_error');
+					return false;
+				}
 				if($(this).hasClass('voted_button')) {
 					make_alert(sexyPolling_words[9],'sexy_error');
 					return;
@@ -178,22 +249,51 @@ $(document).ready(function() {
 				
 				//check if already voted
 				var onlyVotedIds = new Array();
+				var estimated_seconds_item = estimated_seconds[polling_id];
 				for(t in votedIds) {
-					onlyVotedIds.push(votedIds[t][0])
+					onlyVotedIds.push(votedIds[t][0]);
+					if(votedIds[t][0] == polling_id)
+						var estimated_ours = votedIds[t][2];
 				};
-				if($.inArray(polling_id,onlyVotedIds) != -1) {
-					make_alert(sexyPolling_words[9],'sexy_error');
-					return false;
-				}
+				if(estimated_seconds_item > 0 || estimated_ours == 'never') {
+					if($.inArray(polling_id,onlyVotedIds) != -1) {
+						if(estimated_ours == 'never') {
+							make_alert(sexyPolling_words[9],'sexy_error');
+							return false;
+						}
+						else {
+							var estimated_days = parseInt(estimated_ours / 24);
+							var show_date = estimated_days == 0 ? false : true;
+							var timer_htm = '<div id="sexy_timer"></div>';
+							make_alert(sexyPolling_words[9] + '<div id="estimated_time_message">' + sexyPolling_words[20] + '</div>' + timer_htm,'sexy_error');
+							create_timer(estimated_seconds_item, show_date);
+							return false;
+						}
+					}
+				};
 				
 				//check start dates
+				var estimated_seconds_start_poll_item = estimated_seconds_start_poll[polling_id];
 				s_length = startDisabledIds.length;
 				for(var i = 0;i <= s_length; i++) {
 					if(typeof startDisabledIds[i] !== 'undefined') {
 						var c_id = "poll_" + startDisabledIds[i][2] + "_" + startDisabledIds[i][0];
 						if(c_id == t_id) {
-							make_alert(startDisabledIds[i][1],'sexy_error');
-							return false;
+							var estimated_ours = startDisabledIds[i][3];
+							if(estimated_seconds_start_poll_item > 0 || estimated_ours == 'never') {
+								if(estimated_ours == 'never') {
+									make_alert(startDisabledIds[i][1],'sexy_error');
+									return false;
+								}
+								else {
+									var estimated_days = parseInt(estimated_ours / 24);
+									var show_date = estimated_days == 0 ? false : true;
+									var timer_htm = '<div id="sexy_timer"></div>';
+									make_alert(startDisabledIds[i][1] + '<div id="estimated_time_message">' + sexyPolling_words[22] + '</div>' + timer_htm,'sexy_error');
+									create_timer(estimated_seconds_start_poll_item, show_date);
+									return false;
+								}
+							}
 						}
 					}
 				};
@@ -220,6 +320,10 @@ $(document).ready(function() {
 				vote_polling($t);
 			});
 			$('.polling_result').click(function() {
+				if(!check_pro_version()) {
+					make_alert('To hide a backlink please purchase a Sexy Polling PRO version','sexy_error');
+					return false;
+				}
 				var $t = $(this);
 				show_polling($t);
 			});
@@ -227,13 +331,14 @@ $(document).ready(function() {
 				var $t = $(this).parents('.polling_container');
 				show_polling_by_date($t);
 			});
+			
 			function show_polling($t) {
 				var polling_id = $t.parent('span').parent('div').find('.poll_answer').attr('name');
 				var module_id = $t.parent('span').parent('div').parent('div').attr('roll');
 				$container = $t.parent('span').parent('div');
 				
-				//function to prevent uncheck user added input boxes
-				$container.find('.doNotUncheck').parent('div').parent('li').remove();
+				//function to remove user added input boxes
+				$container.find('.doNotUncheck').parent('div').parent('div').parent('li').remove();
 
 				//hide all radio buttons
 				$t.parent('span').parent('div').find('.answer_input').animate({
@@ -248,6 +353,7 @@ $(document).ready(function() {
 				
 
 				//show navigation bar
+				//TODO: when animating border, there is jquery issue with animation. Find the way to fix that!
 				var b = $t.parent('span').parent('div').find('.answer_navigation').attr("b");
 				$t.parent('span').parent('div').find('.answer_navigation').css("borderWidth","0").show().animate({
 					height:animation_styles[module_id+"_"+polling_id][9],
@@ -369,17 +475,14 @@ $(document).ready(function() {
 					curr_z_index = 1000;
 					$container.find('.polling_ul').css('height',$container.find('.polling_ul').height());
 					for(var b = 0; b < answers_array.length; b++) {
-						var li_item_height = $container.find("#answer_" + answers_array[b]).height() + 6;
+						var li_item_height = $container.find("#answer_" + answers_array[b]).height() + offset_padding;
 						curr_height = curr_height * 1 + li_item_height;
 						
 						$container.find("#answer_" + answers_array[b]).css({position:'absolute',top:offsets_array[b],'z-index':curr_z_index});
-
-						
 						
 						$container.find("#answer_" + answers_array[b]).stop(true,false).animate({
 							top: curr_top
 						},1200,sexyAnimationTypeContainerMove[module_id]);
-
 						
 						$container.find("#answer_" + answers_array[b] + " .animation_block")
 							.css({'display':'block','opacity' : '0'})
@@ -424,7 +527,6 @@ $(document).ready(function() {
 				},2700,function() {
 				});
 
-				
 				//show total votes, min and max dates
 				$container.find('.total_votes').html(total_votes);
 				$container.find('.total_votes_val').html(total_votes);
@@ -465,15 +567,12 @@ $(document).ready(function() {
 					$container.find('.scale_icon').animate({height:32},1000);
 				},1700);
 
-				if(autoOpenTimeline == 0) {
+				if(autoOpenTimeline == 1) {
 					setTimeout(function() {
 						$container.find('.timeline_icon').trigger("click");
 					},2700);
 				}
 			}
-			
-			
-			
 
 			//global variable, to store digit animations
 			$digit_int = new Array();
@@ -537,7 +636,6 @@ $(document).ready(function() {
 							
 							var max_percent = 'none';
 							$.each(data, function(i) {
-								
 							 	answer_id = this.answer_id;
 							 	percent = this.percent;
 							 	percent_formated = parseFloat(this.percent_formated);
@@ -559,7 +657,6 @@ $(document).ready(function() {
 							 	//sets the title of navigations
 							 	$container.find('#answer_navigation_' + answer_id).attr('title','Votes: ' + response_votes);
 				
-							 	
 							 	//start animating navigation bar
 							 	$current_width_rel = parseInt($nav_width * percent / 100 );
 								$current_width_rel = $current_width_rel == 0 ? '1' : $current_width_rel;
@@ -580,7 +677,6 @@ $(document).ready(function() {
 										width: new_w
 									},1000,sexyAnimationTypeBar[module_id]);
 				
-
 								//digit animation //remember min_count_of_votes / $steps_count_percent must have influance on tofixed(it's value) ...
 
 								//animate percents
@@ -618,7 +714,6 @@ $(document).ready(function() {
 									$t.find('.first_vote').html(min_date);
 									$t.find('.last_vote').html(max_date);
 									
-
 									function animate_total() {
 										if($step_sign_total != 0) {
 											
@@ -722,7 +817,6 @@ $(document).ready(function() {
 									}
 								};
 									
-
 								//set to absolute
 								if(i == data_length - 1) {
 									var offset_0_ = $t.find('.polling_ul').offset();
@@ -744,7 +838,7 @@ $(document).ready(function() {
 										curr_height = 0;
 										curr_z_index = 1000;
 										for(var b = 0; b < answers_array.length; b++) {
-											var li_item_height = $container.find("#answer_" + answers_array[b]).height() + 6;
+											var li_item_height = $container.find("#answer_" + answers_array[b]).height() + offset_padding;
 											curr_height = curr_height * 1 + li_item_height;
 				
 											$container.find("#answer_" + answers_array[b]).css({position:'absolute',top:offsets_array[b],'z-index':curr_z_index});
@@ -811,6 +905,8 @@ $(document).ready(function() {
 				var module_id = $t.parent('span').parent('div').parent('div').attr('roll');
 				$container = $t.parent('span').parent('div');
 				
+				var voting_period = voting_periods[module_id + '_' + polling_id];
+				
 				//close answer
 				$container.find('.answer_wrapper')
 				.css({'overflow':'hidden'})
@@ -828,9 +924,9 @@ $(document).ready(function() {
 				var additionalAnswers = '';
 				$container.find('.doNotUncheck').each(function(i) {
 					var htm = $(this).parents('li').find('label').html();
+					htm = htm.replace(/\?\?/g,'sexydoublequestionmark');
 					additionalAnswers += '&answers[]=' + htm;
 				});
-				
 
 				//hide all radio buttons
 				$container.find('.answer_input').animate({
@@ -851,8 +947,6 @@ $(document).ready(function() {
 					opacity:1
 				},1000);
 
-
-
 				//animate loading
 				var l_h = $t.parent('span').parent('div').find('.polling_loading').height();
 				$t.parent('span').parent('div').find('.polling_loading').attr("h",l_h).css({display:'block',opacity:0,height:0});
@@ -862,7 +956,6 @@ $(document).ready(function() {
 				},1000);
 
 				//send request
-
 				$nav_width = $container.find(".polling_li").width();
 				var h = $container.find('.answer_votes_data').height();
 				
@@ -875,7 +968,7 @@ $(document).ready(function() {
 					({
 						url: sexyPath + 'components/com_sexypolling/vote.php',
 						type: "post",
-						data: 'polling_id=' + polling_id +ch_data + '&dateformat=' + dateFormat + additionalAnswers  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion,
+						data: 'polling_id=' + polling_id +ch_data + '&dateformat=' + dateFormat + additionalAnswers  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion + '&voting_period='+voting_period,
 						dataType: "json",
 						success: function(data)
 						{
@@ -958,7 +1051,7 @@ $(document).ready(function() {
 										curr_z_index = 1000;
 										$container.find('.polling_ul').css('height',$container.find('.polling_ul').height());
 										for(var b = 0; b < answers_array.length; b++) {
-											var li_item_height = $container.find("#answer_" + answers_array[b]).height() + 6;
+											var li_item_height = $container.find("#answer_" + answers_array[b]).height() + offset_padding;
 											curr_height = curr_height * 1 + li_item_height;
 				
 											$container.find("#answer_" + answers_array[b]).css({position:'absolute',top:offsets_array[b],'z-index':curr_z_index});
@@ -967,7 +1060,6 @@ $(document).ready(function() {
 												top: curr_top
 											},1200,sexyAnimationTypeContainerMove[module_id]);
 
-											
 											$container.find("#answer_" + answers_array[b] + " .animation_block")
 												.css({'display':'block','opacity' : '0'})
 												.stop(true,false).animate({
@@ -1008,7 +1100,6 @@ $(document).ready(function() {
 										$container.find('.polling_ul').css('height',curr_height);
 										
 									},2700);
-
 									
 									//show total votes, min and max dates
 									total_votes = this.total_votes;
@@ -1052,7 +1143,7 @@ $(document).ready(function() {
 										$container.find('.scale_icon').animate({height:32},1000);
 									},1700);
 
-									if(autoOpenTimeline == 0) {
+									if(autoOpenTimeline == 1) {
 										setTimeout(function() {
 											$container.find('.timeline_icon').trigger("click");
 										},2700);
@@ -1104,7 +1195,10 @@ $(document).ready(function() {
 				.stop(true,true)
 				.animate({
 							height:0
-				},1000);
+				},1000,function() {
+					$(this).css({'overflow':'hidden'});
+				});
+				
 			});
 			
 			function make_relative($t) {
@@ -1132,6 +1226,10 @@ $(document).ready(function() {
 				
 				//uncheck all inpust
 				$container.find('.poll_answer').attr("checked",false);
+				$container.find('.twoglux_styled_element').removeClass("twoglux_checked");
+				$container.find('.checkbox_part1').css("height",0);
+				$container.find('.checkbox_part2').css("height",0);
+				$container.find('.radio_part1').css("opacity",0);
 				
 				//hide polling info
 				$container.find('.polling_info')
@@ -1163,7 +1261,9 @@ $(document).ready(function() {
 				$container.find('.polling_bottom_wrapper1')
 				.css({'display':'block'})
 				.stop()
-				.stop(true,true).animate({height:h},1000);
+				.stop(true,true).animate({height:h},1000,function() {
+					$(this).css('height','auto');
+				});
 				
 				var answer_w = $container.find('.answer_input').attr("w");
 				var ratio_h = $container.find('.answer_result').height();
@@ -1191,7 +1291,7 @@ $(document).ready(function() {
 				
 				var total_h = 0;
 				$container.find('.polling_li').each(function(k) {
-					var h = $(this).attr("h_start")*1 + 6*1;
+					var h = $(this).attr("h_start")*1;
 					
 					$(this).stop(true,true).animate({"top" :total_h},1000,function() {
 						$(this).removeAttr("style");
@@ -1302,16 +1402,86 @@ $(document).ready(function() {
 				}
 			});
 			
-			
 			//add new answer functions
 			$('.add_ans_submit').click(function() {
+				//check count allowed options
+				if(!check_allowed_answers_count($(this).parents('.polling_container_wrapper')))
+					return false;
 				
 				$this = $(this);
 				$ans_name = $.trim($this.parent('div').children('.add_ans_name').val());
+				$ans_name = $ans_name.replace(/\\/g, "");
 				if($ans_name == '')
 					return false;
 				$poll_id = $this.parent('div').children('.poll_id').val();
 				var module_id = $(this).parents('.polling_container_wrapper').attr('roll');
+				
+				var voting_period = voting_periods[module_id + '_' + $poll_id];
+				
+				//check if already voted
+				var onlyVotedIds = new Array();
+				var estimated_seconds_item = estimated_seconds[$poll_id];
+				for(t in votedIds) {
+					onlyVotedIds.push(votedIds[t][0]);
+					if(votedIds[t][0] == $poll_id)
+						var estimated_ours = votedIds[t][2];
+				};
+				if(estimated_seconds_item > 0 || estimated_ours == 'never') {
+					if($.inArray($poll_id,onlyVotedIds) != -1) {
+						if(estimated_ours == 'never') {
+							make_alert(sexyPolling_words[9],'sexy_error');
+							return false;
+						}
+						else {
+							var estimated_days = parseInt(estimated_ours / 24);
+							var show_date = estimated_days == 0 ? false : true;
+							var timer_htm = '<div id="sexy_timer"></div>';
+							make_alert(sexyPolling_words[9] + '<div id="estimated_time_message">' + sexyPolling_words[20] + '</div>' + timer_htm,'sexy_error');
+							create_timer(estimated_seconds_item, show_date);
+							return false;
+						}
+					}
+				};
+				
+				//check start dates
+				var t_id = $this.parents('.polling_container').find('.polling_submit').attr("id");
+				var estimated_seconds_start_poll_item = estimated_seconds_start_poll[$poll_id];
+				s_length = startDisabledIds.length;
+				for(var i = 0;i <= s_length; i++) {
+					if(typeof startDisabledIds[i] !== 'undefined') {
+						var c_id = "poll_" + startDisabledIds[i][2] + "_" + startDisabledIds[i][0];
+						if(c_id == t_id) {
+							var estimated_ours = startDisabledIds[i][3];
+							if(estimated_seconds_start_poll_item > 0 || estimated_ours == 'never') {
+								if(estimated_ours == 'never') {
+									make_alert(startDisabledIds[i][1],'sexy_error');
+									return false;
+								}
+								else {
+									var estimated_days = parseInt(estimated_ours / 24);
+									var show_date = estimated_days == 0 ? false : true;
+									var timer_htm = '<div id="sexy_timer"></div>';
+									make_alert(startDisabledIds[i][1] + '<div id="estimated_time_message">' + sexyPolling_words[22] + '</div>' + timer_htm,'sexy_error');
+									create_timer(estimated_seconds_start_poll_item, show_date);
+									return false;
+								}
+							}
+						}
+					}
+				};
+				
+				//check end dates
+				e_length = endDisabledIds.length;
+				for(var i = 0;i <= e_length; i++) {
+					if(typeof endDisabledIds[i] !== 'undefined') {
+						var c_id = "poll_" + endDisabledIds[i][2] + "_" + endDisabledIds[i][0];
+						if(c_id == t_id) {
+							make_alert(endDisabledIds[i][1],'sexy_normal');
+							return false;
+						}
+					}
+				};
+				
 				//check if opened
 				var cOpened = false;
 				var position = $this.parents('.polling_container').find('.polling_li').css('position');
@@ -1324,21 +1494,24 @@ $(document).ready(function() {
 				//if we have checkboxes and sexy poll is closed, then we do not write answer to database, untill user do not vote vor it
 				var writeInto = (buttonType == 'checkbox' && !cOpened) ? 0 : 1;
 				
+				var added_answer = $ans_name.replace(/\?\?/g,'sexydoublequestionmark');
 				$this.parent('div').children('.loading_small').fadeIn(400);
 				$this.fadeOut(400);
 				$.ajax
 				({
 					url: sexyPath + 'components/com_sexypolling/addanswer.php',
 					type: "post",
-					data: 'polling_id=' + $poll_id + '&answer=' + $ans_name + '&autopublish=' + sexyAutoPublish + '&writeinto=' + writeInto  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion,
+					data: 'polling_id=' + $poll_id + '&answer=' + added_answer + '&autopublish=' + sexyAutoPublish + '&writeinto=' + writeInto  + '&country_name=' + sexyCountry + '&country_code=' + sexyCountryCode + '&city_name=' + sexyCity + '&region_name=' + sexyRegion + '&voting_period='+voting_period,
 					dataType: "json",
 					success: function(data)
 					{
-						if(buttonType == 'radio' || (buttonType == 'checkbox' && cOpened))
+						if(buttonType == 'radio' || (buttonType == 'checkbox' && cOpened)) {
 							$this.parents('.polling_container').find('.add_answer_icon').addClass('voted_button');
+							$this.parents('.polling_container').find('.polling_submit').addClass('voted_button');
+						}
 						
 						$this.parent('div').children('.loading_small').fadeOut(400);
-						if(sexyAutoPublish == 0) {
+						if(sexyAutoPublish == 1) {
 
 							//disable icon clicking
 							$this.parents('.polling_container').find('.add_answer_icon').addClass('disabled');
@@ -1459,7 +1632,11 @@ $(document).ready(function() {
 					var h = $c.find('.answer_votes_data').height();
 					
 					var buttonType = multipleAnswersInfoArray[polling_id] == 1 ? 'checkbox' : 'radio';
-					var buttonType = multipleAnswersInfoArray[polling_id] == 1 ? 'checkbox' : 'radio';
+					var color = 'blue';
+					if(buttonType == 'radio')
+						 var inner_img_html = '<div class="radio_part1 ' + color + '_radio_part1 unselectable" style="opacity: 1;" >&nbsp;</div>';
+					else
+						 var inner_img_html = '<div class="checkbox_part1 ' + color + '_checkbox_part1 unselectable" style="height: 9px;" >&nbsp;</div><div class="checkbox_part2 ' + color + '_checkbox_part2 unselectable" style="height: 12px;">&nbsp;</div>';
 
 					//create new element html
 					if(cOpened) {
@@ -1468,14 +1645,16 @@ $(document).ready(function() {
 						$c.find('.total_votes_val').html(t_votes_new);
 						$c.find('.total_votes').html(t_votes_new);
 						var new_percent = parseFloat(100 / t_votes).toFixed(1);
-						$new_li = '<li id="answer_' + $id + '" class="polling_li"><div class="animation_block"></div><div class="answer_name"><label style="margin-left:0" for="' + $id + '">' + $answer + '</label></div><div class="answer_input" style="width: 0px; opacity: 0; "><input  id="' + $id + '" type="' + buttonType + '" checked="checked" class="poll_answer ' + $id + '" value="' + $id + '" /></div><div class="answer_result"><div class="answer_navigation polling_bar_' + newAnswerBarIndex + '" id="answer_navigation_' + $id + '" style=" opacity: 1; width: 1px;display:block;"><div class="grad"></div></div><div class="answer_votes_data" id="answer_votes_data_' + $id + '" style="height: ' + h + 'px;display:block; ">' + sexyPolling_words[0] + ': <span id="answer_votes_data_count_' + $id + '">1</span><span id="answer_votes_data_count_val_' + $id + '" style="display:none">1</span> (<span id="answer_votes_data_percent_' + $id + '">' + new_percent + '</span><span style="display:none" id="answer_votes_data_percent_val_' + $id + '">' + new_percent + '</span>%)</div><div class="sexy_clear"></div></div></li>';
+						$new_li = '<li id="answer_' + $id + '" class="polling_li"><div class="animation_block"></div><div class="answer_name"><label style="margin-left:0" uniq_index="' + $id + '"  class="twoglux_label">' + $answer + '</label></div><div class="answer_input" style="width: 0px; opacity: 0; "><div class="twoglux_styled_input_wrapper" ><input name="' + polling_id + '" id="' + $id + '" type="' + buttonType + '" checked="checked" class="poll_answer ' + $id + ' twoglux_styled" style="display:none" value="' + $id + '" /><a id="twoglux_styled_elem_' + $id + '_' + added_length + '" class="twoglux_styled_element twoglux_styled_' + color + ' twoglux_styled_' + buttonType + ' unselectable name_' + polling_id + ' twoglux_checked">' + inner_img_html + '</a></div></div><div class="sexy_clear"></div><div class="answer_result"><div class="answer_navigation polling_bar_' + newAnswerBarIndex + '" id="answer_navigation_' + $id + '" style=" opacity: 1; width: 1px;display:block;"><div class="grad"></div></div><div class="answer_votes_data" id="answer_votes_data_' + $id + '" style="height: ' + h + 'px;display:block; ">' + sexyPolling_words[0] + ': <span id="answer_votes_data_count_' + $id + '">1</span><span id="answer_votes_data_count_val_' + $id + '" style="display:none">1</span> (<span id="answer_votes_data_percent_' + $id + '">' + new_percent + '</span><span style="display:none" id="answer_votes_data_percent_val_' + $id + '">' + new_percent + '</span>%)</div><div class="sexy_clear"></div></div></li>';
+						
+						
 						//add html to DOM
 						$c.find("li").last().after($new_li);
 						
 						//set height
 						$("#answer_navigation_" + $id).css('height',animation_styles[module_id+"_"+polling_id][9]);
 						
-						$new_height = $("#answer_" + $id).height() + 6;
+						$new_height = $("#answer_" + $id).height() + offset_padding;
 						$ul_height = $c.children("ul").height();
 						
 						$("#answer_" + $id).css({"position":"absolute","top":$ul_height});
@@ -1488,7 +1667,7 @@ $(document).ready(function() {
 					else {
 						var user_class = buttonType == 'checkbox' ? 'doNotUncheck' : '';
 						var added_length = $c.find(".doNotUncheck").length;
-						$new_li = '<li id="answer_' + $id + '" class="polling_li"><div class="animation_block"></div><div class="answer_name"><label for="elem_' + $id + '_' + added_length + '">' + $answer + '</label></div><div class="answer_input"><input id="elem_' + $id + '_' + added_length + '" type="' + buttonType + '" checked="checked"  class="' + user_class + ' poll_answer ' + $id + '" value="' + $id + '" /></div><div class="answer_result"><div class="answer_navigation polling_bar_' + newAnswerBarIndex + '" id="answer_navigation_' + $id + '"><div class="grad"></div></div><div class="answer_votes_data" id="answer_votes_data_' + $id + '">' + sexyPolling_words[0] + ': <span id="answer_votes_data_count_' + $id + '"></span><span id="answer_votes_data_count_val_' + $id + '" style="display:none">0</span> (<span id="answer_votes_data_percent_' + $id + '">0</span><span style="display:none" id="answer_votes_data_percent_val_' + $id + '">0</span>%)</div><div class="sexy_clear"></div></div></li>';
+						$new_li = '<li id="answer_' + $id + '" class="polling_li"><div class="animation_block"></div><div class="answer_name"><label uniq_index="elem_' + $id + '_' + added_length + '"  class="twoglux_label">' + $answer + '</label></div><div class="answer_input"><div class="twoglux_styled_input_wrapper" ><input name="' + polling_id + '" id="elem_' + $id + '_' + added_length + '" type="' + buttonType + '" checked="checked"  class="poll_answer ' + $id + ' twoglux_styled" style="display:none" value="' + $id + '" /><a id="twoglux_styled_elem_' + $id + '_' + added_length + '" class="' + user_class + ' twoglux_styled_element twoglux_styled_' + color + ' twoglux_styled_' + buttonType + ' unselectable name_' + polling_id + ' twoglux_checked">' + inner_img_html + '</a></div></div><div class="sexy_clear"></div><div class="answer_result"><div class="answer_navigation polling_bar_' + newAnswerBarIndex + '" id="answer_navigation_' + $id + '"><div class="grad"></div></div><div class="answer_votes_data" id="answer_votes_data_' + $id + '">' + sexyPolling_words[0] + ': <span id="answer_votes_data_count_' + $id + '"></span><span id="answer_votes_data_count_val_' + $id + '" style="display:none">0</span> (<span id="answer_votes_data_percent_' + $id + '">0</span><span style="display:none" id="answer_votes_data_percent_val_' + $id + '">0</span>%)</div><div class="sexy_clear"></div></div></li>';
 						//add html to DOM
 						$c.find("li").last().after($new_li);
 						$ul_height = $c.children("ul").height();
@@ -1586,6 +1765,199 @@ $(document).ready(function() {
 					},time)
 				}
 			}
+///////////////////////////////////////////////////////////////Sexy Checkboxes/////////////////////////////////////////////////////////////////////////////////
+	$('.twoglux_styled').each(function() {
+		var $this = $(this);
+		var type = $this.attr("type");
+		var color = $this.attr("data-color");
+		var name = $this.attr("name");
+		var id = $this.attr("id");
+		$this.wrap('<div class="twoglux_styled_input_wrapper" />');
+		 
+		if(type == 'radio')
+			 var inner_img_html = '<div class="radio_part1 ' + color + '_radio_part1 unselectable" >&nbsp;</div>';
+		else
+			 var inner_img_html = '<div class="checkbox_part1 ' + color + '_checkbox_part1 unselectable" >&nbsp;</div><div class="checkbox_part2 ' + color + '_checkbox_part2 unselectable">&nbsp;</div>';
+			 
+		var twoglux_styled_html = '<a id="twoglux_styled_' + id + '" class="twoglux_styled_element twoglux_styled_' + color + ' twoglux_styled_' + type + ' unselectable name_' + name + '">' + inner_img_html + '</a>';
+			 
+		$this.after(twoglux_styled_html);
+		 
+		$this.hide();
+	  });
+	  
+	  $('.twoglux_styled_element').live('mouseenter', function() {
+		  make_mouseenter($(this));
+	  });
+	  
+	   $('.twoglux_styled_element').live('mouseleave', function() {
+		   make_mouseleave($(this))
+	  });
+	  
+	  function make_mouseenter($elem) {
+		  if($elem.hasClass('twoglux_styled_radio'))
+			  $elem.addClass('twoglux_styled_radio_hovered');
+		  else
+			  $elem.addClass('twoglux_styled_checkbox_hovered');
+	  };
+	  function make_mouseleave($elem) {
+		  if($elem.hasClass('twoglux_styled_radio'))
+			  $elem.removeClass('twoglux_styled_radio_hovered');
+		  else
+			  $elem.removeClass('twoglux_styled_checkbox_hovered');
+	  };
+	  
+	  var sexyanimatetime = 150;
+	  var last_event = 'up';
+	  var last_event_radio = 'up';
+	  var body_mouse_up_enabled = false;
+	  
+	  //////////////////////////////////////////////////////////////////////MOVE FUNCTIONS////////////////////////////////////////
+	  function animate_checkbox1_down($elem) {
+		  $elem.animate({height: 9},sexyanimatetime);
+	  };
+	  function animate_checkbox1_up($elem) {
+		  //uncheck element
+		  $elem.parent('a').removeClass('twoglux_checked');
+		  $elem.parent('a').prev('input').attr("checked",false);
+		  
+		  $elem.animate({height: 0},sexyanimatetime);
+		  
+	  };
+	  function animate_checkbox2_up($elem) {
+		  $elem.animate({height: 12},sexyanimatetime);
+		  
+		  //check element
+		  $elem.parent('a').addClass('twoglux_checked');
+		  $elem.parent('a').prev('input').attr("checked",true);
+	  };
+	  function animate_checkbox2_down($elem) {
+		  $elem.animate({height: 0},sexyanimatetime);
+	  };
+	  
+	  //////////////////////////////////////////////////////////////////////MOUSEDOWN////////////////////////////////////////
+	  $('.twoglux_styled_checkbox').live('mousedown',function() {
+		  //check if checkbox checked
+		  if($(this).hasClass('twoglux_checked'))
+		  	animate_checkbox2_down($(this).find('.checkbox_part2'));
+		  else
+		  	animate_checkbox1_down($(this).find('.checkbox_part1'));
+		  
+		  last_event = 'down';
+		  body_mouse_up_enabled = true;
+	  });
+	  //////////////////////////////////////////////////////////////////////MOUSEUP//////////////////////////////////////////
+	  $('.twoglux_styled_checkbox').live('mouseup',function() {
+		  if(!($(this).hasClass('twoglux_checked'))) {
+			  if(!check_allowed_answers_count($(this).parents('.polling_container'))) {
+				  last_event = 'up';
+				  body_mouse_up_enabled = false;
+				  animate_checkbox1_up($(this).find('.checkbox_part1'));
+				  return false;
+			  }
+		  }
+		  
+		  if(last_event == 'down') {
+			  //check if checkbox checked
+			  if($(this).hasClass('twoglux_checked'))
+			  	animate_checkbox1_up($(this).find('.checkbox_part1'));
+			  else
+			  	animate_checkbox2_up($(this).find('.checkbox_part2'));
+		  }
+		  
+		  last_event = 'up';
+		  body_mouse_up_enabled = false;
+		  
+	  });
+	  
+	  function check_allowed_answers_count($c) {
+		  var poll_id = $c.find('.poll_answer').attr('name');
+		  var alloewd_answers = allowedNumberAnswers[poll_id];
+		  if(alloewd_answers == 0)
+			  return true;
+		  
+		  var checked_options_count = $c.find('input[type="checkbox"]:checked').length;
+		  if(parseInt(checked_options_count) == alloewd_answers) {
+			  make_alert(sexyPolling_words[23] + ' <span class="max_allowed_checkox_limit">' + alloewd_answers + '</span>','sexy_normal');
+			  return false;
+		  }
+		  return true;
+	  }
+	  
+	  //////////////////////////////////////////////////////////RADIOBUTTONS//////////////////////////////////////////////////////////////
+	  $('.radio_part1').css('opacity','0');
+	  $('.twoglux_styled_radio').live('mousedown',function() {
+		  //check if checkbox checked
+		  if(!($(this).hasClass('twoglux_checked'))) {
+			  $(this).find('.radio_part1').fadeTo(sexyanimatetime, 0.5);
+		  }
+		  
+		  last_event_radio = 'down';
+		  body_mouse_up_enabled = true;
+	  });
+	  $('.twoglux_styled_radio').live('mouseup',function() {
+		  if(last_event_radio == 'down') {
+		  //check if checkbox checked
+			  if(!($(this).hasClass('twoglux_checked'))) {
+				  $(this).addClass('twoglux_checked');
+				  var name = $(this).prev('input').attr("name");
+				  $('input[name="' + name + '"]').attr("checked",false);
+				  $(this).prev('input').attr("checked",true);
+				  
+				  $('.name_' + name).removeClass('twoglux_checked');
+				  $(this).addClass('twoglux_checked');
+				  
+				  $('.name_' + name).not($(this)).find('.radio_part1').fadeTo(sexyanimatetime, 0);
+				  $(this).find('.radio_part1').fadeTo(sexyanimatetime, 1);
+			  }
+		  }
+		  
+		  last_event_radio = 'up';
+		  body_mouse_up_enabled = false;
+	  });
+	  //////////////////////////////////////////////////////////////OTHER////////////////////////////////////////////////////////////////////////////////
+	//fixing bug in firefox
+	  $('.twoglux_styled_input_wrapper').bind("dragstart", function() {
+		     return false;
+		});
+	  $("body").live('mouseup',function() {
+		  if(body_mouse_up_enabled) {
+			  //checkbox
+			  var $elems = $('.twoglux_styled_element').not('.twoglux_checked').find('.checkbox_part1');
+			  animate_checkbox1_up($elems);
+			  
+			  var $elems = $('.twoglux_styled_element.twoglux_checked').find('.checkbox_part2');
+			  animate_checkbox2_up($elems);
+			  
+			  var $elems = $('.twoglux_styled_element').not('.twoglux_checked').find('.radio_part1');
+			  $elems.fadeTo(sexyanimatetime, 0);
+		  }
+	  });
+	  
+	  //trigger events for label
+	  $('.twoglux_label').live('mouseenter', function() {
+		  var uniq_index = $(this).attr("uniq_index");
+		  make_mouseenter($("#twoglux_styled_" + uniq_index));
+	  });
+	  $('.twoglux_label').live('mouseleave',function() {
+		  var uniq_index = $(this).attr("uniq_index");
+		  make_mouseleave($("#twoglux_styled_" + uniq_index));
+	  });
+	  $('.twoglux_label').live('mousedown',function() {
+		  var uniq_index = $(this).attr("uniq_index");
+		  $("#twoglux_styled_" + uniq_index).trigger("mousedown");
+	  });
+	  $('.twoglux_label').live('mouseup',function() {
+		  var uniq_index = $(this).attr("uniq_index");
+		  $("#twoglux_styled_" + uniq_index).trigger("mouseup");
+	  });
+	  
+	  	//function to prevent uncheck user added input boxes
+		$('.doNotUncheck').live('mouseup',function() {
+			if(! $(this).hasClass('twoglux_checked') ) {
+				$(this).parent('div').parent('div').parent('li').remove();
+			};
+		});
 	
-})
+	})
 })(sexyJ);

@@ -47,11 +47,11 @@ $query = "
 				sv.date
 			FROM 
 				#__sexy_polls sp 
-			LEFT JOIN #__sexy_answers sa ON sa.id_poll = sp.id
-			LEFT JOIN #__sexy_votes sv ON sv.id_answer = sa.id
+			INNER JOIN #__sexy_answers sa ON sa.id_poll = sp.id AND sa.published <> '-2'
+			INNER JOIN #__sexy_votes sv ON sv.id_answer = sa.id
 			WHERE sp.id = '$poll_id' 
 			GROUP BY 
-				sv.date
+				DATE(sv.date)
 			ORDER BY 
 				sv.date
 		";
@@ -60,14 +60,15 @@ $statdata = $db->loadAssocList();
 
 $poll_name = $statdata[0]['name'];
 $poll_question = $statdata[0]['question'];
-$min_date = $statdata[0]['date'];
+$min_date = date('Y-m-d',strtotime($statdata[0]['date']));
 $size = sizeof($statdata) - 1;
-$max_date = $statdata[$size]['date'];
+$max_date = date('Y-m-d',strtotime($statdata[$size]['date']));
 
 
 $stat_array = array();
 foreach($statdata as $val) {
-	$stat_array["$val[date]"] = $val['votes'];
+	$only_date = date('Y-m-d',strtotime($val['date']));
+	$stat_array[$only_date] = $val['votes'];
 }
 
 
@@ -93,7 +94,7 @@ $query = "
 				sv.country
 			FROM
 				#__sexy_votes sv
-			LEFT JOIN #__sexy_answers sa ON sa.id_poll = '$poll_id'
+			LEFT JOIN #__sexy_answers sa ON sa.id_poll = '$poll_id' AND sa.published <> '-2'
 			WHERE sv.id_answer = sa.id
 			GROUP BY
 			sv.country
@@ -121,7 +122,7 @@ $query = "
 				sa.name
 			FROM
 				#__sexy_votes sv
-			JOIN #__sexy_answers sa ON sa.id_poll = '$poll_id'
+			JOIN #__sexy_answers sa ON sa.id_poll = '$poll_id' AND sa.published <> '-2'
 			WHERE sv.id_answer = sa.id
 			GROUP BY
 			sv.id_answer
@@ -152,18 +153,7 @@ $totalvotes = $db->loadResult();
 JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')' ,'manage.png' );
 
 
-//get demo question name
-$query = "
-SELECT
-sp.question
-FROM
-#__sexy_polls sp
-WHERE sp.id = '$poll_id'
-";
-$db->setQuery($query);
-$demo_question = $db->loadResult();
-
-if($totalvotes > 0 && $demo_question == 'Do You like Sexy Polling by 2GLux?') {
+if($totalvotes > 0) {
 ?>
 <script type="text/javascript">
 (function($) {
@@ -348,14 +338,15 @@ if($totalvotes > 0 && $demo_question == 'Do You like Sexy Polling by 2GLux?') {
 					            	
 				            		if($val['id'] == $max_ans_id) {
 					            		echo "{
-						                        name: '".htmlspecialchars_decode($val['name'])."',
+						                        name: '".$val['name']."',
 						                        y: $perc,
 						                        sliced: true,
 						                        selected: true
 						                    }";
 				            		}
 				            		else {
-					            		echo "['".str_replace(array('\'','"'),"",htmlspecialchars_decode($val['name']))."',".$perc."]";
+					            		//echo "['".str_replace(array('\'','"'),"",htmlspecialchars_decode($val['name']))."',".$perc."]";
+					            		echo "['".$val['name']."',".$perc."]";
 				            		}
 			            			if($k != sizeof($statanswersdata) - 1)
 			            				echo ',';	

@@ -6,7 +6,7 @@
     <copyright>Copyright (©) 2008-2013 2GLux company. All rights reserved.</copyright>
     <authorEmail>info@2glux.com</authorEmail>
     <authorUrl>http://2glux.com</authorUrl>
-    <version>1.0.2</version>
+    <version>1.0.5</version>
     <license>GNU/GPL</license>
     <description>COM_SEXYPOLLING_DESCRIPTION</description>
 
@@ -43,6 +43,14 @@
 			<language tag="en-GB">language/en-GB/en-GB.com_sexypolling.sys.ini</language>
 			<language tag="fr-FR">language/fr-FR/fr-FR.com_sexypolling.ini</language>
 			<language tag="fr-FR">language/fr-FR/fr-FR.com_sexypolling.sys.ini</language>
+			<language tag="es-ES">language/es-ES/es-ES.com_sexypolling.ini</language>
+			<language tag="es-ES">language/es-ES/es-ES.com_sexypolling.sys.ini</language>
+			<language tag="de-DE">language/de-DE/de-DE.com_sexypolling.ini</language>
+			<language tag="de-DE">language/de-DE/de-DE.com_sexypolling.sys.ini</language>
+			<language tag="it-IT">language/it-IT/it-IT.com_sexypolling.ini</language>
+			<language tag="it-IT">language/it-IT/it-IT.com_sexypolling.sys.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.com_sexypolling.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.com_sexypolling.sys.ini</language>
 	</languages>
 
     <!-- administration part -->
@@ -77,6 +85,14 @@
 			<language tag="en-GB">language/en-GB/en-GB.com_sexypolling.sys.ini</language>
 			<language tag="fr-FR">language/fr-FR/fr-FR.com_sexypolling.ini</language>
 			<language tag="fr-FR">language/fr-FR/fr-FR.com_sexypolling.sys.ini</language>
+			<language tag="es-ES">language/es-ES/es-ES.com_sexypolling.ini</language>
+			<language tag="es-ES">language/es-ES/es-ES.com_sexypolling.sys.ini</language>
+			<language tag="de-DE">language/de-DE/de-DE.com_sexypolling.ini</language>
+			<language tag="de-DE">language/de-DE/de-DE.com_sexypolling.sys.ini</language>
+			<language tag="it-IT">language/it-IT/it-IT.com_sexypolling.ini</language>
+			<language tag="it-IT">language/it-IT/it-IT.com_sexypolling.sys.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.com_sexypolling.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.com_sexypolling.sys.ini</language>
 		</languages>
     </administration>
 </extension>

@@ -121,4 +121,51 @@ class SexypollingModelSexyAnswer extends JModelAdmin
 	
 		return true;
 	}
+	
+	/**
+	 * Method to save answer
+	 */
+	function saveAnswer()
+	{
+		$date = new JDate();
+		$id = JRequest::getInt('id',0);
+	
+	
+		$req = new JObject();
+		$req->name =  str_replace('\\','', htmlspecialchars($_REQUEST['jform']['name'], ENT_QUOTES) );
+	
+		$req->id_poll = (int)$_REQUEST['jform']['id_poll'];
+		$req->published = (int)$_REQUEST['jform']['published'];
+	
+		if($req->id_poll == 0 || $req->name == "") {
+			return false;
+		}
+		elseif($id == 0) {//if id ==0, we add the record
+			$req->id = NULL;
+			if(JV == 'j2')
+				$req->created = $date->toMySQL();
+			else
+				$req->created = $date->toSql();
+	
+			if (!$this->_db->insertObject( '#__sexy_answers', $req, 'id' )) {
+				return false;
+			}
+		}
+		else { //else update the record
+			$req->id = $id;
+			$res = (int)$_REQUEST['jform']['reset_votes'];
+			if($res == 1) {
+				$sql = 'DELETE FROM `#__sexy_votes` '
+				. ' WHERE `id_answer` = '.$id;
+				$this->_db->setQuery($sql);
+				$this->_db->query();
+			}
+	
+			if (!$this->_db->updateObject( '#__sexy_answers', $req, 'id' )) {
+				return false;
+			}
+		}
+	
+		return true;
+	}
 }

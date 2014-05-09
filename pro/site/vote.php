@@ -21,6 +21,9 @@ error_reporting(0);
 header('Content-type: application/json');
 include '../../configuration.php';
 
+$date_now = strtotime("now");
+$datenow = date("Y-m-d H:i:s", $date_now);
+
 $config = new JConfig;
 
 //conects to datababse
@@ -32,15 +35,13 @@ mysql_query("SET NAMES utf8");
 $date_format = $_POST['dateformat'];
 
 //get ip address
-if (!empty($_SERVER['HTTP_CLIENT_IP'])) {   //check ip from share internet
-	$ip=$_SERVER['HTTP_CLIENT_IP'];
-}
-elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {   //to check ip is pass from proxy
-	$ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
-}
-else {
-	$ip=$_SERVER['REMOTE_ADDR'];
-}
+$REMOTE_ADDR = null;
+if(isset($_SERVER['REMOTE_ADDR'])) { $REMOTE_ADDR = $_SERVER['REMOTE_ADDR']; }
+elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) { $REMOTE_ADDR = $_SERVER['HTTP_X_FORWARDED_FOR']; }
+elseif(isset($_SERVER['HTTP_CLIENT_IP'])) { $REMOTE_ADDR = $_SERVER['HTTP_CLIENT_IP']; }
+elseif(isset($_SERVER['HTTP_VIA'])) { $REMOTE_ADDR = $_SERVER['HTTP_VIA']; }
+else { $REMOTE_ADDR = 'Unknown'; }
+$ip = $REMOTE_ADDR;
 
 $countryname = (!isset($_POST['country_name']) || $_POST['country_name'] == '' || $_POST['country_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['country_name']);
 $cityname = (!isset($_POST['city_name']) || $_POST['city_name'] == '' || $_POST['city_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['city_name']);
@@ -52,18 +53,21 @@ $adittional_answers = isset($_POST['answers']) ? $_POST['answers'] : 0;
 $polling_id = isset($_POST['polling_id']) ? (int)$_POST['polling_id'] : 0;
 $module_id = isset($_POST['module_id']) ? (int)$_POST['module_id'] : 0;
 $mode = isset($_POST['mode']) ? $_POST['mode'] : '';
-$min_date_sended = isset($_POST['min_date']) ? $_POST['min_date'] : '';
-$max_date_sended = isset($_POST['max_date']) ? $_POST['max_date'] : '';
+$min_date_sended = isset($_POST['min_date']) ? $_POST['min_date'].' 00:00:00' : '';
+$max_date_sended = isset($_POST['max_date']) ? $_POST['max_date'].' 23:59:59' : '';
 
 $use_current = isset($_POST['curr_date']) ? $_POST['curr_date'] : '';
 if($use_current == 'yes') {
-	$max_date_sended = date('Y-m-d',strtotime("now"));
+	$max_date_sended = date('Y-m-d',strtotime("now")).' 23:59:59';
 }
+
+$voting_period = $_POST['voting_period'];
 
 $add_answers = array();
 if(is_array($adittional_answers)) {
 	foreach ($adittional_answers as $answer) {
 		$answer = mysql_real_escape_string(strip_tags($answer));
+		$answer = preg_replace('/sexydoublequestionmark/','??',$answer);
 		
 		$published = 1;
 		mysql_query("INSERT INTO `".$config->dbprefix."sexy_answers` (`id_poll`,`name`,`published`,`created`) VALUES ('$polling_id','$answer','$published',NOW())");
@@ -71,10 +75,18 @@ if(is_array($adittional_answers)) {
 		
 		$add_answers[] = $insert_id;
 		
-		mysql_query("INSERT INTO `".$config->dbprefix."sexy_votes` (`id_answer`,`ip`,`date`,`country`,`city`,`region`,`countrycode`) VALUES ('$insert_id','$ip',NOW(),'$countryname','$cityname','$regionname','$countrycode')");
+		mysql_query("INSERT INTO `".$config->dbprefix."sexy_votes` (`id_answer`,`ip`,`date`,`country`,`city`,`region`,`countrycode`) VALUES ('$insert_id','$ip','$datenow','$countryname','$cityname','$regionname','$countrycode')");
+		
 		//set the cookie
-		$expire = time()+(60*60*24*365);//one year
-		setcookie("sexy_poll_$polling_id", 1, $expire, '/');
+		if($voting_period == 0) {
+			$expire = time()+(60*60*24*365*2);//2 years
+			setcookie("sexy_poll_$polling_id", $date_now, $expire, '/');
+		}
+		else {
+			$expire_time = (float)$voting_period*60*60;
+			$expire = (int)(time()+$expire_time);
+			setcookie("sexy_poll_$polling_id", $date_now, $expire, '/');
+		}
 	}
 }
 
@@ -82,11 +94,20 @@ if(is_array($adittional_answers)) {
 //check if not voted, save the voting
 
 if ($mode != 'view' && $mode != 'view_by_date' && is_array($answer_id_array)) {
-		foreach ($answer_id_array as $answer_id)
-			mysql_query("INSERT INTO `".$config->dbprefix."sexy_votes` (`id_answer`,`ip`,`date`,`country`,`city`,`region`,`countrycode`) VALUES ('$answer_id','$ip',NOW(),'$countryname','$cityname','$regionname','$countrycode')");
+		foreach ($answer_id_array as $answer_id) {
+			mysql_query("INSERT INTO `".$config->dbprefix."sexy_votes` (`id_answer`,`ip`,`date`,`country`,`city`,`region`,`countrycode`) VALUES ('$answer_id','$ip','$datenow','$countryname','$cityname','$regionname','$countrycode')");
+		}
+		
 		//set the cookie
-		$expire = time()+(60*60*24*365);//one year
-		setcookie("sexy_poll_$polling_id", 1, $expire, '/');
+		if($voting_period == 0) {
+			$expire = time()+(60*60*24*365*2);//2 years
+			setcookie("sexy_poll_$polling_id", $date_now, $expire, '/');
+		}
+		else {
+			$expire_time = (float)$voting_period*60*60;
+			$expire = (int)(time()+$expire_time);
+			setcookie("sexy_poll_$polling_id", $date_now, $expire, '/');
+		}
 }
 
 //get count of total votes, min and max dates of voting
@@ -254,7 +275,7 @@ foreach ($poll_array as $data)
 	echo '"min_date": "'.$data["min_date"].'", ';
 	echo '"order": "'.$ord_final_list[$data["answer_id"]].'", ';
 	echo '"order_start": "'.$ans_orders_start[$data["answer_id"]].'", ';
-	echo '"name": "'.$data["name"].'", ';
+	echo '"name": "'.htmlspecialchars ($data["name"],ENT_QUOTES).'", ';
 	echo '"max_date": "'.$data["max_date"].'"';
 	
 	if(sizeof($add_answers) > 0 && $a == 0) {
