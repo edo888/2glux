@@ -83,8 +83,8 @@ if (!JRequest::checkToken() && $poll_options["checktoken"] == 1) {
 
 //check ipcount security
 $query = "SELECT COUNT( sv.ip ) 
-			FROM  `jos_sexy_answers` sa
-			JOIN  `jos_sexy_votes` sv ON sv.id_answer = sa.id
+			FROM  `#__sexy_answers` sa
+			JOIN  `#__sexy_votes` sv ON sv.id_answer = sa.id
 			AND DATE_FORMAT(sv.date, '%Y-%m-%d') = '$datenow_sql' 
 			AND sv.ip = '$ip' 
 			WHERE sa.id_poll =  '$polling_id'
