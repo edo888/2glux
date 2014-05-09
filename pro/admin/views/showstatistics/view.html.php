@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restircted access');
 // Import Joomla! libraries
 jimport( 'joomla.application.component.view');
 
-class SexypollingViewShowStatistics extends JViewLegacy {
+class SexypollingViewShowstatistics extends JViewLegacy {
 	
 	function display($tpl = null) {
 		JToolBarHelper::cancel( 'showstatistics.cancel', 'Close' );

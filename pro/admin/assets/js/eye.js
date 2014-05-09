@@ -31,4 +31,4 @@
 		};
 	}();
 	$(EYE.init);
-})(jQuery);
+})(sexyJ);
