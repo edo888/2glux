@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD module 1.0//EN" "http://joomla.org/xml/dtd/1.5/module-install.dtd">
+<install type="module" version="1.5" method="upgrade" client="site">
+    <name>Sexy Polling</name>
+    <creationDate>22/Jun/2012</creationDate>
+    <author>Simon Poghosyan</author>
+    <copyright>This template is released under the GNU/GPL License</copyright>
+    <authorEmail>info@2glux.com</authorEmail>
+    <authorUrl>2glux.com</authorUrl>
+    <version>1.0</version>
+    <description></description>
+     <files>
+         <filename module="mod_sexypolling">mod_sexypolling.php</filename>
+     </files>
+     <params>
+     	<param name="poll_type" type="radio" default="0" label="Poll Type" description="">
+		  <option value="0">Single Poll</option>
+		  <option value="1">Polls</option>
+		</param>
+  		<param type="sql" name="poll_id" label="Select Sexy Poll" default="" description="" query="SELECT id AS value, name AS poll_id FROM #__sexy_polls WHERE `published` = '1'" />
+  		<param type="sql" name="category_id" label="Select a category" default="" description="" query="SELECT id AS value, name AS category_id FROM #__sexy_categories WHERE `published` = '1'" />
+     	<param type="spacer" />
+     	<param name="global_template" type="radio" default="1" label="Use global template" description="">
+		  <option value="1">Yes</option>
+		  <option value="0">No</option>
+		</param>
+  		<param type="sql" name="template_id" label="Select Sexy Template" description="" query="SELECT id AS value, name AS template_id FROM #__sexy_templates WHERE `published` = '1'" />
+  		
+  		<param type="spacer" />
+	
+		 <param name="barAnimationType" type="list" default="linear" label="Bar Animation Type" description="">
+		  <option value="linear">linear</option>
+		  <option value="swing">swing</option>
+		  <option value="easeInQuad">easeInQuad</option>
+		  <option value="easeOutQuad">easeOutQuad</option>
+		  <option value="easeInOutQuad">easeInOutQuad</option>
+		  <option value="easeInCubic">easeInCubic</option>
+		  <option value="easeOutCubic">easeOutCubic</option>
+		  <option value="easeInOutCubic">easeInOutCubic</option>
+		  <option value="easeInQuart">easeInQuart</option>
+		  <option value="easeOutQuart">easeOutQuart</option>
+		  <option value="easeInOutQuart">easeInOutQuart</option>
+		  <option value="easeInQuint">easeInQuint</option>
+		  <option value="easeOutQuint">easeOutQuint</option>
+		  <option value="easeInOutQuint">easeInOutQuint</option>
+		  <option value="easeInSine">easeInSine</option>
+		  <option value="easeOutSine">easeOutSine</option>
+		  <option value="easeInOutSine">easeInOutSine</option>
+		  <option value="easeInExpo">easeInExpo</option>
+		  <option value="easeOutExpo">easeOutExpo</option>
+		  <option value="easeInOutExpo">easeInOutExpo</option>
+		  <option value="easeInCirc">easeInCirc</option>
+		  <option value="easeOutCirc">easeOutCirc</option>
+		  <option value="easeInOutCirc">easeInOutCirc</option>
+		  <option value="easeInElastic">easeInElastic</option>
+		  <option value="easeOutElastic">easeOutElastic</option>
+		  <option value="easeInOutElastic">easeInOutElastic</option>
+		  <option value="easeInBack">easeInBack</option>
+		  <option value="easeOutBack">easeOutBack</option>
+		  <option value="easeInOutBack">easeInOutBack</option>
+		  <option value="easeInBounce">easeInBounce</option>
+		  <option value="easeOutBounce">easeOutBounce</option>
+		  <option value="easeInOutBounce">easeInOutBounce</option>
+		</param>
+		
+		 <param name="colorAnimationType" type="list" default="linear" label="Color Animation Type" description="">
+		  <option value="linear">linear</option>
+		  <option value="swing">swing</option>
+		  <option value="easeInQuad">easeInQuad</option>
+		  <option value="easeOutQuad">easeOutQuad</option>
+		  <option value="easeInOutQuad">easeInOutQuad</option>
+		  <option value="easeInCubic">easeInCubic</option>
+		  <option value="easeOutCubic">easeOutCubic</option>
+		  <option value="easeInOutCubic">easeInOutCubic</option>
+		  <option value="easeInQuart">easeInQuart</option>
+		  <option value="easeOutQuart">easeOutQuart</option>
+		  <option value="easeInOutQuart">easeInOutQuart</option>
+		  <option value="easeInQuint">easeInQuint</option>
+		  <option value="easeOutQuint">easeOutQuint</option>
+		  <option value="easeInOutQuint">easeInOutQuint</option>
+		  <option value="easeInSine">easeInSine</option>
+		  <option value="easeOutSine">easeOutSine</option>
+		  <option value="easeInOutSine">easeInOutSine</option>
+		  <option value="easeInExpo">easeInExpo</option>
+		  <option value="easeOutExpo">easeOutExpo</option>
+		  <option value="easeInOutExpo">easeInOutExpo</option>
+		  <option value="easeInCirc">easeInCirc</option>
+		  <option value="easeOutCirc">easeOutCirc</option>
+		  <option value="easeInOutCirc">easeInOutCirc</option>
+		  <option value="easeInElastic">easeInElastic</option>
+		  <option value="easeOutElastic">easeOutElastic</option>
+		  <option value="easeInOutElastic">easeInOutElastic</option>
+		  <option value="easeInBack">easeInBack</option>
+		  <option value="easeOutBack">easeOutBack</option>
+		  <option value="easeInOutBack">easeInOutBack</option>
+		  <option value="easeInBounce">easeInBounce</option>
+		  <option value="easeOutBounce">easeOutBounce</option>
+		  <option value="easeInOutBounce">easeInOutBounce</option>
+		</param>
+		
+		 <param name="reorderingAnimationType" type="list" default="linear" label="Reordering Animation Type" description="">
+		  <option value="linear">linear</option>
+		  <option value="swing">swing</option>
+		  <option value="easeInQuad">easeInQuad</option>
+		  <option value="easeOutQuad">easeOutQuad</option>
+		  <option value="easeInOutQuad">easeInOutQuad</option>
+		  <option value="easeInCubic">easeInCubic</option>
+		  <option value="easeOutCubic">easeOutCubic</option>
+		  <option value="easeInOutCubic">easeInOutCubic</option>
+		  <option value="easeInQuart">easeInQuart</option>
+		  <option value="easeOutQuart">easeOutQuart</option>
+		  <option value="easeInOutQuart">easeInOutQuart</option>
+		  <option value="easeInQuint">easeInQuint</option>
+		  <option value="easeOutQuint">easeOutQuint</option>
+		  <option value="easeInOutQuint">easeInOutQuint</option>
+		  <option value="easeInSine">easeInSine</option>
+		  <option value="easeOutSine">easeOutSine</option>
+		  <option value="easeInOutSine">easeInOutSine</option>
+		  <option value="easeInExpo">easeInExpo</option>
+		  <option value="easeOutExpo">easeOutExpo</option>
+		  <option value="easeInOutExpo">easeInOutExpo</option>
+		  <option value="easeInCirc">easeInCirc</option>
+		  <option value="easeOutCirc">easeOutCirc</option>
+		  <option value="easeInOutCirc">easeInOutCirc</option>
+		  <option value="easeInElastic">easeInElastic</option>
+		  <option value="easeOutElastic">easeOutElastic</option>
+		  <option value="easeInOutElastic">easeInOutElastic</option>
+		  <option value="easeInBack">easeInBack</option>
+		  <option value="easeOutBack">easeOutBack</option>
+		  <option value="easeInOutBack">easeInOutBack</option>
+		  <option value="easeInBounce">easeInBounce</option>
+		  <option value="easeOutBounce">easeOutBounce</option>
+		  <option value="easeInOutBounce">easeInOutBounce</option>
+		</param>
+     </params>
+      <config>
+		<!--Joomla 1.6-->
+	   	<fields name="params">
+	   		<fieldset name="basic">
+	   			<field name="poll_type" type="radio" default="0" label="Poll Type" description="">
+				  <option value="0">Single Poll</option>
+				  <option value="1">Polls</option>
+				</field>
+		  		<field type="sql" name="poll_id" label="Select Sexy Poll" default="" description="" query="SELECT id AS value, name AS poll_id FROM #__sexy_polls WHERE `published` = '1'" />
+		  		<field type="sql" name="category_id" label="Select a category" default="" description="" query="SELECT id AS value, name AS category_id FROM #__sexy_categories WHERE `published` = '1'" />
+		     	<field type="spacer" />
+		     	<field name="global_template" type="radio" default="1" label="Use global template" description="">
+				  <option value="1">Yes</option>
+				  <option value="0">No</option>
+				</field>
+		  		<field type="sql" name="template_id" label="Select Sexy Template" description="" query="SELECT id AS value, name AS template_id FROM #__sexy_templates WHERE `published` = '1'" />
+		  		
+		  		<field type="spacer" />
+			
+				 <field name="barAnimationType" type="list" default="linear" label="Bar Animation Type" description="">
+				  <option value="linear">linear</option>
+				  <option value="swing">swing</option>
+				  <option value="easeInQuad">easeInQuad</option>
+				  <option value="easeOutQuad">easeOutQuad</option>
+				  <option value="easeInOutQuad">easeInOutQuad</option>
+				  <option value="easeInCubic">easeInCubic</option>
+				  <option value="easeOutCubic">easeOutCubic</option>
+				  <option value="easeInOutCubic">easeInOutCubic</option>
+				  <option value="easeInQuart">easeInQuart</option>
+				  <option value="easeOutQuart">easeOutQuart</option>
+				  <option value="easeInOutQuart">easeInOutQuart</option>
+				  <option value="easeInQuint">easeInQuint</option>
+				  <option value="easeOutQuint">easeOutQuint</option>
+				  <option value="easeInOutQuint">easeInOutQuint</option>
+				  <option value="easeInSine">easeInSine</option>
+				  <option value="easeOutSine">easeOutSine</option>
+				  <option value="easeInOutSine">easeInOutSine</option>
+				  <option value="easeInExpo">easeInExpo</option>
+				  <option value="easeOutExpo">easeOutExpo</option>
+				  <option value="easeInOutExpo">easeInOutExpo</option>
+				  <option value="easeInCirc">easeInCirc</option>
+				  <option value="easeOutCirc">easeOutCirc</option>
+				  <option value="easeInOutCirc">easeInOutCirc</option>
+				  <option value="easeInElastic">easeInElastic</option>
+				  <option value="easeOutElastic">easeOutElastic</option>
+				  <option value="easeInOutElastic">easeInOutElastic</option>
+				  <option value="easeInBack">easeInBack</option>
+				  <option value="easeOutBack">easeOutBack</option>
+				  <option value="easeInOutBack">easeInOutBack</option>
+				  <option value="easeInBounce">easeInBounce</option>
+				  <option value="easeOutBounce">easeOutBounce</option>
+				  <option value="easeInOutBounce">easeInOutBounce</option>
+				</field>
+				
+				 <field name="colorAnimationType" type="list" default="linear" label="Color Animation Type" description="">
+				  <option value="linear">linear</option>
+				  <option value="swing">swing</option>
+				  <option value="easeInQuad">easeInQuad</option>
+				  <option value="easeOutQuad">easeOutQuad</option>
+				  <option value="easeInOutQuad">easeInOutQuad</option>
+				  <option value="easeInCubic">easeInCubic</option>
+				  <option value="easeOutCubic">easeOutCubic</option>
+				  <option value="easeInOutCubic">easeInOutCubic</option>
+				  <option value="easeInQuart">easeInQuart</option>
+				  <option value="easeOutQuart">easeOutQuart</option>
+				  <option value="easeInOutQuart">easeInOutQuart</option>
+				  <option value="easeInQuint">easeInQuint</option>
+				  <option value="easeOutQuint">easeOutQuint</option>
+				  <option value="easeInOutQuint">easeInOutQuint</option>
+				  <option value="easeInSine">easeInSine</option>
+				  <option value="easeOutSine">easeOutSine</option>
+				  <option value="easeInOutSine">easeInOutSine</option>
+				  <option value="easeInExpo">easeInExpo</option>
+				  <option value="easeOutExpo">easeOutExpo</option>
+				  <option value="easeInOutExpo">easeInOutExpo</option>
+				  <option value="easeInCirc">easeInCirc</option>
+				  <option value="easeOutCirc">easeOutCirc</option>
+				  <option value="easeInOutCirc">easeInOutCirc</option>
+				  <option value="easeInElastic">easeInElastic</option>
+				  <option value="easeOutElastic">easeOutElastic</option>
+				  <option value="easeInOutElastic">easeInOutElastic</option>
+				  <option value="easeInBack">easeInBack</option>
+				  <option value="easeOutBack">easeOutBack</option>
+				  <option value="easeInOutBack">easeInOutBack</option>
+				  <option value="easeInBounce">easeInBounce</option>
+				  <option value="easeOutBounce">easeOutBounce</option>
+				  <option value="easeInOutBounce">easeInOutBounce</option>
+				</field>
+				
+				 <field name="reorderingAnimationType" type="list" default="linear" label="Reordering Animation Type" description="">
+				  <option value="linear">linear</option>
+				  <option value="swing">swing</option>
+				  <option value="easeInQuad">easeInQuad</option>
+				  <option value="easeOutQuad">easeOutQuad</option>
+				  <option value="easeInOutQuad">easeInOutQuad</option>
+				  <option value="easeInCubic">easeInCubic</option>
+				  <option value="easeOutCubic">easeOutCubic</option>
+				  <option value="easeInOutCubic">easeInOutCubic</option>
+				  <option value="easeInQuart">easeInQuart</option>
+				  <option value="easeOutQuart">easeOutQuart</option>
+				  <option value="easeInOutQuart">easeInOutQuart</option>
+				  <option value="easeInQuint">easeInQuint</option>
+				  <option value="easeOutQuint">easeOutQuint</option>
+				  <option value="easeInOutQuint">easeInOutQuint</option>
+				  <option value="easeInSine">easeInSine</option>
+				  <option value="easeOutSine">easeOutSine</option>
+				  <option value="easeInOutSine">easeInOutSine</option>
+				  <option value="easeInExpo">easeInExpo</option>
+				  <option value="easeOutExpo">easeOutExpo</option>
+				  <option value="easeInOutExpo">easeInOutExpo</option>
+				  <option value="easeInCirc">easeInCirc</option>
+				  <option value="easeOutCirc">easeOutCirc</option>
+				  <option value="easeInOutCirc">easeInOutCirc</option>
+				  <option value="easeInElastic">easeInElastic</option>
+				  <option value="easeOutElastic">easeOutElastic</option>
+				  <option value="easeInOutElastic">easeInOutElastic</option>
+				  <option value="easeInBack">easeInBack</option>
+				  <option value="easeOutBack">easeOutBack</option>
+				  <option value="easeInOutBack">easeInOutBack</option>
+				  <option value="easeInBounce">easeInBounce</option>
+				  <option value="easeOutBounce">easeOutBounce</option>
+				  <option value="easeInOutBounce">easeInOutBounce</option>
+				</field>
+	   		</fieldset>
+	   	</fields>
+	   	</config>
+</install>
