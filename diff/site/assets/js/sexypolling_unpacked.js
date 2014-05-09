@@ -42,6 +42,8 @@ $(document).ready(function() {
 			
 			function check_pro_version($elem) {
 				
+				return true;
+				
 				$elem_1 = $elem.find('.powered_by');
 				$elem_2 = $elem.find('.powered_by a');
 				

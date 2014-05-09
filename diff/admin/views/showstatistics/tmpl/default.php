@@ -59,7 +59,7 @@ function show_buy_pro_link() {
 }
 
 $db = JFactory::getDBO();
-$poll_id = 1;
+$poll_id = (int)$_GET['id'];
 $query = "
 			SELECT 
 				sp.name,
@@ -174,7 +174,7 @@ $totalvotes = $db->loadResult();
 JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')' ,'manage.png' );
 
 
-if($totalvotes > 0 && $poll_question == 'Which is your favorite phone?') {
+if($totalvotes > 0) {
 ?>
 <div>
 <script type="text/javascript">
@@ -389,7 +389,6 @@ if($totalvotes > 0 && $poll_question == 'Which is your favorite phone?') {
 })
 })(jQuery);
 </script>
-<?php show_buy_pro_link();?>
 <div style="color: rgb(21, 90, 177);font-size: 20px;font-weight: bold;clear: both;text-align: center;margin: 5px 0 5px 0;"><?php echo JText::_('COM_SEXYPOLLING_STATISTICS_DEMO')?></div>
 			
 <div style="position: relative;float: left; width: 48%;padding: 8px;border: 1px solid #ccc;border-radius: 6px;box-shadow: inset 0 0 28px -3px #bbb;margin: 15px 0;">
@@ -407,11 +406,8 @@ if($totalvotes > 0 && $poll_question == 'Which is your favorite phone?') {
 </div>
 </div>
 <?php }
-elseif($totalvotes == 0) {
-	echo 'No Data';
-}
 else {
-	show_buy_pro_link();
+	echo 'No Data';
 }?>
 
 

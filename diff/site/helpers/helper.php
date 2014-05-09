@@ -20,7 +20,7 @@ class SexypollingHelper
 		//add scripts, styles
 		$document = JFactory::getDocument();
 		
-		$version = '2.0.1';
+		$version = '2.0.1-pro';
 		
 		$cssFile = JURI::base(true).'/components/com_sexypolling/assets/css/main.css?version='.$version;
 		$document->addStyleSheet($cssFile, 'text/css', null, array());
@@ -546,7 +546,6 @@ class SexypollingHelper
 				echo '</select></div>';
 				echo '</div>';
 				echo '</div>';
-				echo '<div class="sexy_clear">&nbsp;</div><div class="powered_by powered_by_'.$polling_array[0] -> id_template.'">'.JText::_("COM_SEXYPOLLING_POWERED_BY").' <a href="http://2glux.com/projects/sexypolling" target="_blank">Sexy Polling</a></div><div class="sexy_clear">&nbsp;</div>';
 				echo '</div></div>';
 			}
 		

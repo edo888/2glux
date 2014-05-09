@@ -40,7 +40,7 @@ Joomla.submitbutton = function(task) {
 </script>
 <?php if(JV == 'j2') {//////////////////////////////////////////////////////////////////////////////////////Joomla2.x/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////?>
 <form action="<?php echo JRoute::_('index.php?option=com_sexypolling&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="helloworld-form">
-<?php if(($this->max_id < 5) || ($this->item->id != 0)) {?>
+<?php if(true) {?>
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'COM_SEXYPOLLING_DETAILS' ); ?></legend>
 		<ul class="adminformlist">
@@ -65,7 +65,7 @@ Joomla.submitbutton = function(task) {
 							</a>
 						</div>
 					</div>
-					<div style="font-style: italic;font-size: 12px;color: #949494;clear: both;">Updrading to PRO is easy, and will take only <u style="color: rgb(44, 66, 231);font-weight: bold;">5 minutes!</u></div>
+					<div style="font-style: italic;font-size: 12px;color: #949494;clear: both;">If you've deleted answers, but still see this message, please clear the answers trash.</div>
 			<?php }?>
 	<div>
 		<input type="hidden" name="task" value="sexyanswer.edit" />
@@ -83,7 +83,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	<div class="row-fluid">
 		<!-- Begin Newsfeed -->
 		<div class="span10 form-horizontal">
-			<?php if(($this->max_id < 5) || ($this->item->id != 0)) {?>
+			<?php if(true) {?>
 			<fieldset>
 				<div class="tab-content">
 					<div class="tab-pane active" id="details">
@@ -113,7 +113,7 @@ JHtml::_('formbehavior.chosen', 'select');
 							</a>
 						</div>
 					</div>
-					<div style="font-style: italic;font-size: 12px;color: #949494;clear: both;">Updrading to PRO is easy, and will take only <u style="color: rgb(44, 66, 231);font-weight: bold;">5 minutes!</u></div>
+					<div style="font-style: italic;font-size: 12px;color: #949494;clear: both;">If you've deleted answers, but still see this message, please clear the answers trash.</div>
 			<?php }?>
 		</div>
 	</div>
