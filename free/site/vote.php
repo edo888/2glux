@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restircted access');
 error_reporting(0);
 
 define( 'DS', DIRECTORY_SEPARATOR );
-define('JPATH_BASE', dirname(__FILE__).DS.'..'.DS.'..' );
+define('JPATH_BASE', dirname(dirname(dirname(__FILE__))));
 
 session_start();
 header('Content-type: application/json');
@@ -53,10 +53,10 @@ elseif(isset($_SERVER['REMOTE_ADDR'])) { $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
 else { $REMOTE_ADDR = 'Unknown'; }
 $ip = $REMOTE_ADDR;
 
-$countryname = (!isset($_POST['country_name']) || $_POST['country_name'] == '' || $_POST['country_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['country_name']);
-$cityname = (!isset($_POST['city_name']) || $_POST['city_name'] == '' || $_POST['city_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['city_name']);
-$regionname = (!isset($_POST['region_name']) || $_POST['region_name'] == '' || $_POST['region_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['region_name']);
-$countrycode = (!isset($_POST['country_code']) || $_POST['country_code'] == '' || $_POST['country_code'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['country_code']);
+$countryname = (!isset($_POST['country_name']) || $_POST['country_name'] == '' || $_POST['country_name'] == '-' ) ? 'Unknown' : JRequest::getVar('country_name', 'Unknown', 'POST');
+$cityname = (!isset($_POST['city_name']) || $_POST['city_name'] == '' || $_POST['city_name'] == '-' ) ? 'Unknown' : JRequest::getVar('city_name', 'Unknown', 'POST');
+$regionname = (!isset($_POST['region_name']) || $_POST['region_name'] == '' || $_POST['region_name'] == '-' ) ? 'Unknown' : JRequest::getVar('region_name', 'Unknown', 'POST');
+$countrycode = (!isset($_POST['country_code']) || $_POST['country_code'] == '' || $_POST['country_code'] == '-' ) ? 'Unknown' : JRequest::getVar('country_code', 'Unknown', 'POST');
 
 $answer_id_array = isset($_POST['answer_id']) ? $_POST['answer_id'] : 0;
 $adittional_answers = isset($_POST['answers']) ? $_POST['answers'] : 0;
@@ -167,7 +167,7 @@ if($use_current == 'yes') {
 $add_answers = array();
 if(is_array($adittional_answers) && $voting_enabled) {
     foreach ($adittional_answers as $answer) {
-        $answer = mysql_real_escape_string(strip_tags($answer));
+        $answer = $db->escape(strip_tags($answer));
         $answer = preg_replace('/sexydoublequestionmark/','??',$answer);
 
         $published = 1;
