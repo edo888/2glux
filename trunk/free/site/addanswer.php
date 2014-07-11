@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restircted access');
 error_reporting(0);
 
 define( 'DS', DIRECTORY_SEPARATOR );
-define('JPATH_BASE', dirname(__FILE__).DS.'..'.DS.'..' );
+define('JPATH_BASE', dirname(dirname(dirname(__FILE__))));
 
 session_start();
 
@@ -59,7 +59,7 @@ $ip = $REMOTE_ADDR;
 $polling_id = (int)$_POST['polling_id'];
 $autopublish = (int)$_POST['autopublish'];
 $writeinto = (int)$_POST['writeinto'];
-$answer = mysql_real_escape_string(strip_tags($_POST['answer']));
+$answer = $db->escape(strip_tags($_POST['answer']));
 $answer = preg_replace('/sexydoublequestionmark/','??',$answer);
 
 //get poll options
@@ -75,10 +75,10 @@ if (!JRequest::checkToken() && $poll_options["checktoken"] == 1) {
     exit();
 }
 
-$countryname = (!isset($_POST['country_name']) || $_POST['country_name'] == '' || $_POST['country_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['country_name']);
-$cityname = (!isset($_POST['city_name']) || $_POST['city_name'] == '' || $_POST['city_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['city_name']);
-$regionname = (!isset($_POST['region_name']) || $_POST['region_name'] == '' || $_POST['region_name'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['region_name']);
-$countrycode = (!isset($_POST['country_code']) || $_POST['country_code'] == '' || $_POST['country_code'] == '-' ) ? 'Unknown' : mysql_real_escape_string($_POST['country_code']);
+$countryname = (!isset($_POST['country_name']) || $_POST['country_name'] == '' || $_POST['country_name'] == '-' ) ? 'Unknown' : JRequest::getVar('country_name', 'Unknown', 'POST');
+$cityname = (!isset($_POST['city_name']) || $_POST['city_name'] == '' || $_POST['city_name'] == '-' ) ? 'Unknown' : JRequest::getVar('city_name', 'Unknown', 'POST');
+$regionname = (!isset($_POST['region_name']) || $_POST['region_name'] == '' || $_POST['region_name'] == '-' ) ? 'Unknown' : JRequest::getVar('region_name', 'Unknown', 'POST');
+$countrycode = (!isset($_POST['country_code']) || $_POST['country_code'] == '' || $_POST['country_code'] == '-' ) ? 'Unknown' : JRequest::getVar('country_code', 'Unknown', 'POST');
 
 //check ipcount security
 $query = "SELECT COUNT( sv.ip )
@@ -196,8 +196,6 @@ else {
     $insert_id = 0;
 }
 
-$ans = str_replace('\\','',htmlspecialchars(stripslashes($answer),ENT_QUOTES));
-echo '[{"answer": "'.$ans.'", "id" : "'.$insert_id.'"}]';
-//echo $answer;
+echo json_encode(array(array('answer' => $answer, 'id' => $insert_id)));
 jexit();
 ?>
