@@ -653,10 +653,10 @@ class SexypollingHelper
                 $jsInclude .= 'sexyAutoPublish["'.$poll_id.'"]="'.$v.'";';
             }
 
-            $jsInclude .= 'if (typeof dateFormat === \'undefined\') { var dateFormat = new Array();};';
+            $jsInclude .= 'if (typeof sexy_dateFormat === \'undefined\') { var sexy_dateFormat = new Array();};';
             foreach ($dateFormat as $poll_id => $v) {
-                $jsInclude .= 'dateFormat.push("'.$poll_id.'");';
-                $jsInclude .= 'dateFormat["'.$poll_id.'"]="'.$v.'";';
+                $jsInclude .= 'sexy_dateFormat.push("'.$poll_id.'");';
+                $jsInclude .= 'sexy_dateFormat["'.$poll_id.'"]="'.$v.'";';
             }
 
             $jsInclude .= 'if (typeof sexyAnimationTypeBar === \'undefined\') { var sexyAnimationTypeBar = new Array();};';
