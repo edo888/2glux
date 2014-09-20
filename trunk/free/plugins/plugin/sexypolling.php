@@ -69,7 +69,7 @@ class plgSystemSexypolling extends JPlugin {
             return $content;
         }
 
-        $version = '2.0.1';
+        $version = '2.0.2';
 
         $cssFile = JURI::base(true).'/components/com_sexypolling/assets/css/main.css?version='.$version;
         $scripts = '<link rel="stylesheet" href="'.$cssFile.'" type="text/css" />'."\n";
