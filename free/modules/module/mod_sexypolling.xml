@@ -27,7 +27,7 @@
 	   	<fields name="params">
 	   		<fieldset name="basic">
 	   			<field name="poll_type" type="radio" default="0" label="MOD_SEXYPOLLING_POLL_TYPE_LABEL" description="MOD_SEXYPOLLING_POLL_TYPE_DESCRIPTION" class="btn-group">
-				  <option value="0">MOD_SEXYPOLLING__SINGLE_POLL</option>
+				  <option value="0">MOD_SEXYPOLLING_SINGLE_POLL</option>
 				  <option value="1">MOD_SEXYPOLLING_POLLS</option>
 				</field>
 		  		<field type="sql" name="poll_id" label="MOD_SEXYPOLLING_SELECT_SEXY_POLL_LABEL" default="" description="MOD_SEXYPOLLING_SELECT_SEXY_POLL_DESCRIPTION" query="SELECT id AS value, name AS poll_id FROM #__sexy_polls WHERE `published` = '1'" />
