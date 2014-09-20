@@ -21,6 +21,7 @@
 			<language tag="it-IT">language/it-IT/it-IT.mod_sexypolling.ini</language>
 			<language tag="ru-RU">language/ru-RU/ru-RU.mod_sexypolling.ini</language>
 			<language tag="fa-IR">language/fa-IR/fa-IR.mod_sexypolling.ini</language>
+			<language tag="sl-SL">language/sl-SL/sl-SL.mod_sexypolling.ini</language>
 	</languages>
 	<config>
 	   	<fields name="params">
