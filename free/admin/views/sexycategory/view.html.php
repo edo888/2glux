@@ -53,8 +53,8 @@ class SexypollingViewSexycategory extends JViewLegacy
 		$isNew		= ($this->item->id == 0);
 		// Since we don't track these assets at the item level, use the category id.
 
-		$text = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' );
-		JToolBarHelper::title(   JText::_( 'Sexy Category' ).': <small><small>[ ' . $text.' ]</small></small>','manage.png' );
+		$text = $isNew ? JText::_( 'New' ) : JText::_( 'JTOOLBAR_EDIT' );
+		JToolBarHelper::title(   JText::_( 'COM_SEXYPOLLING_CATEGORY' ).': <small><small>[ ' . $text.' ]</small></small>','manage.png' );
 
 		// Build the actions for new and existing records.
 		if ($isNew)  {
@@ -67,7 +67,7 @@ class SexypollingViewSexycategory extends JViewLegacy
 			JToolBarHelper::apply('sexycategory.apply');
 			JToolBarHelper::save('sexycategory.save');
 			
-			JToolBarHelper::cancel('sexycategory.cancel','close');
+			JToolBarHelper::cancel('sexycategory.cancel','JTOOLBAR_CLOSE');
 		}
 	}
 }

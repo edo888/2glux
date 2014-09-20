@@ -36,12 +36,12 @@ class SexypollingController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Load the submenu.
-		SexypollingHelper::addSubmenu( 'Overview', 'sexypolling');
-		SexypollingHelper::addSubmenu( 'Polls', 'sexypolls');
-		SexypollingHelper::addSubmenu( 'Answers', 'sexyanswers');
-		SexypollingHelper::addSubmenu( 'Categories', 'sexycategories');
-		SexypollingHelper::addSubmenu( 'Templates', 'sexytemplates');
-		SexypollingHelper::addSubmenu( 'Statistics', 'sexystatistics');
+		SexypollingHelper::addSubmenu( 'COM_SEXYPOLLING_OVERVIEW', 'sexypolling');
+		SexypollingHelper::addSubmenu( 'COM_SEXYPOLLING_POLLS', 'sexypolls');
+		SexypollingHelper::addSubmenu( 'COM_SEXYPOLLING_ANSWERS', 'sexyanswers');
+		SexypollingHelper::addSubmenu( 'COM_SEXYPOLLING_CATEGORIES', 'sexycategories');
+		SexypollingHelper::addSubmenu( 'COM_SEXYPOLLING_TEMPLATES', 'sexytemplates');
+		SexypollingHelper::addSubmenu( 'COM_SEXYPOLLING_STATISTICS', 'sexystatistics');
 
 		parent::display();
 
