@@ -58,8 +58,8 @@ class SexypollingViewSexypoll extends JViewLegacy
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 		// Since we don't track these assets at the item level, use the category id.
 
-		$text = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' );
-		JToolBarHelper::title(   JText::_( 'Sexy Poll' ).': <small><small>[ ' . $text.' ]</small></small>','manage.png' );
+		$text = $isNew ? JText::_( 'New' ) : JText::_( 'JTOOLBAR_EDIT' );
+		JToolBarHelper::title(   JText::_( 'COM_SEXYPOLLING_POLL' ).': <small><small>[ ' . $text.' ]</small></small>','manage.png' );
 	
 		JToolBarHelper::apply('sexypoll.apply');
 		JToolBarHelper::save('sexypoll.save');
@@ -69,7 +69,7 @@ class SexypollingViewSexypoll extends JViewLegacy
 			JToolBarHelper::cancel('sexypoll.cancel');
 		}
 		else {
-			JToolBarHelper::cancel('sexypoll.cancel','close');
+			JToolBarHelper::cancel('sexypoll.cancel','JTOOLBAR_CLOSE');
 		}
 	}
 }

@@ -19,7 +19,7 @@ jimport( 'joomla.application.component.view');
 class SexypollingViewShowstatistics extends JViewLegacy {
 	
 	function display($tpl = null) {
-		JToolBarHelper::cancel( 'showstatistics.cancel', 'Close' );
+		JToolBarHelper::cancel( 'showstatistics.cancel', 'JTOOLBAR_CLOSE' );
 		parent::display($tpl);
 	}
 }

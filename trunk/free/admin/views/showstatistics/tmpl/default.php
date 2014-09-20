@@ -171,7 +171,7 @@ $query = "
 $db->setQuery($query);
 $totalvotes = $db->loadResult();
 
-JToolBarHelper::title(   JText::_( 'Statistics' ).' - ('.$poll_name.')' ,'manage.png' );
+JToolBarHelper::title(   JText::_( 'COM_SEXYPOLLING_STATISTICS' ).' - ('.$poll_name.')' ,'manage.png' );
 
 
 if($totalvotes > 0 && $poll_question == 'Which is your favorite phone?') {
@@ -193,7 +193,7 @@ if($totalvotes > 0 && $poll_question == 'Which is your favorite phone?') {
 			},
 
 			title : {
-				text : '<?php echo JText::_("Votes Statistics")." - ($poll_name)";?>'
+				text : '<?php echo JText::_("COM_SEXYPOLLING_VOTES_STATISTICS")." - ($poll_name)";?>'
 			},
 
 			scrollbar: {
@@ -267,7 +267,7 @@ if($totalvotes > 0 && $poll_question == 'Which is your favorite phone?') {
 		                plotShadow: false
 		            },
 		            title: {
-		                text: '<?php echo JText::_("Country Statistics");?>'
+		                text: '<?php echo JText::_("COM_SEXYPOLLING_COUNTRY_STATISTICS");?>'
 		            },
 		            tooltip: {
 		                formatter: function() {
@@ -328,7 +328,7 @@ if($totalvotes > 0 && $poll_question == 'Which is your favorite phone?') {
 		                plotShadow: false
 		            },
 		            title: {
-		                text: '<?php echo JText::_("Answers Statistics");?>'
+		                text: '<?php echo JText::_("COM_SEXYPOLLING_ANSWERS_STATISTICS");?>'
 		            },
 		            tooltip: {
 		                formatter: function() {
