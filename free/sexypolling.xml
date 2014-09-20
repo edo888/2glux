@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
-    <name>Sexy Polling</name>
+    <name>COM_SEXYPOLLING</name>
     <creationDate>June 2012</creationDate>
     <author>2GLux Company</author>
-    <copyright>Copyright (©) 2008-2014 2GLux company. All rights reserved.</copyright>
+    <copyright>Copyright (c) 2010 - 2014 2GLux company. All rights reserved.</copyright>
     <authorEmail>info@2glux.com</authorEmail>
     <authorUrl>http://2glux.com</authorUrl>
     <version>2.0.2</version>

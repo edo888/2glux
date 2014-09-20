@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" group="system" version="2.5" method="upgrade">
-    <name>Sexy Polling</name>
+    <name>PLG_SEXYPOLLING_NAME</name>
 	<creationDate>June 2012</creationDate>
     <author>2GLux Company</author>
     <copyright>Copyright (c) 2010 - 2014 2GLux company. All rights reserved.</copyright>
